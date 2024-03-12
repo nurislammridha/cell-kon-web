@@ -314,6 +314,40 @@ function App() {
               </div>
 
             </div>
+            <div className='home_all_products'>
+              <div className='all_title'>
+                <h2 className='title'>All Products</h2>
+                <a className='view_all' href=''>View All</a>
+              </div>
+              <div className='products'>
+
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                  <div className="product_cart">
+                    <div>
+                      <div className='product_img'>
+                        <img
+                          src={pro2}
+                          alt="product"
+                        />
+                      </div>
+                      <div className='product_name'>
+                        hello bike dff fer tes fgr dfdsf df ... ... ..
+                      </div>
+                    </div>
+                    <div>
+                      <div className='del_price'>
+                        &#2547;9,9990
+                      </div>
+                      <div className='product_price'>
+                        &#2547;8,990
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+              </div>
+
+            </div>
             <div className='home_shops'></div>
             <div className='home_all_products'></div>
           </div>
