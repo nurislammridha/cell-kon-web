@@ -60,21 +60,10 @@ function App() {
                 </div>
               </div>
               <div className='header_top_icon'>
-                <div className='top_icon'>
-                  <img src={cartIcon} alt='icon' />
-                  {/* <span>10</span> */}
-                </div>
-                <div className='top_icon'>
-                  <img src={loveIcon} alt='icon' />
-                  {/* <span>1</span> */}
-                </div>
-                <div className='top_icon'>
-                  <img src={notificationIcon} alt='icon' />
-                  <span>1</span>
-                </div>
-                <div className='top_icon'>
-                  <img src={userIcon} alt='icon' />
-                </div>
+                <img className='top_icon' src={cartIcon} />
+                <img className='top_icon' src={loveIcon} />
+                <img className='top_icon' src={notificationIcon} />
+                <img className='top_icon' src={userIcon} />
               </div>
             </div>
             <div className='header_bottom'>
@@ -130,168 +119,206 @@ function App() {
             <div className='home_products'>
               <h2 className='title'>Sellkon Mall</h2>
               <div className='products'>
-                {[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                  <div className="product_cart">
-                    <div>
-                      <div className='product_img'>
-                        <img
-                          src={pro3}
-                          alt="product"
-                        />
+                <OwlCarousel
+                  className="owl-theme "
+                  loop
+                  margin={7}
+                  // itemElement={{ width: "192px" }}
+                  items={6}
+                  autoWidth={false}
+                  autoplay={false}
+                  nav={true}
+                  navText={["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"]}
+                  dots={false}
+                // {...option}
+                >
+                  {[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                    <div className="product_cart">
+                      <div>
+                        <div className='product_img'>
+                          <img
+                            src={pro3}
+                            alt="product"
+                          />
+                        </div>
+                        <div className='product_name'>
+                          hello bike dff fer tes fgr dfdsf df ... ... ..
+                        </div>
                       </div>
-                      <div className='product_name'>
-                        hello bike dff fer tes fgr dfdsf df ... ... ..
+                      <div>
+                        <div className='del_price'>
+                          &#2547;9,9990
+                        </div>
+                        <div className='product_price'>
+                          &#2547;8,990
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div className='del_price'>
-                        &#2547;9,9990
-                      </div>
-                      <div className='product_price'>
-                        &#2547;8,990
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+
+                </OwlCarousel>
               </div>
-              <div className='arrow'>
-                <div className='left_arrow'>
-                  <i class='fas fa-chevron-left'></i>
-                </div>
-                <div className='right_arrow'>
-                  <i class='fas fa-chevron-right'></i>
-                </div>
-              </div>
+
             </div>
             <div className='home_products'>
               <h2 className='title'>Trending Products</h2>
               <div className='products'>
-                {[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                  <div className="product_cart">
-                    <div>
-                      <div className='product_img'>
-                        <img
-                          src={pro3}
-                          alt="product"
-                        />
+                <OwlCarousel
+                  className="owl-theme "
+                  loop
+                  margin={7}
+                  // itemElement={{ width: "192px" }}
+                  items={6}
+                  autoWidth={false}
+                  autoplay={false}
+                  nav={true}
+                  navText={["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"]}
+                  dots={false}
+                // {...option}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                    <div className="product_cart">
+                      <div>
+                        <div className='product_img'>
+                          <img
+                            src={pro2}
+                            alt="product"
+                          />
+                        </div>
+                        <div className='product_name'>
+                          hello bike dff fer tes fgr dfdsf df ... ... ..
+                        </div>
                       </div>
-                      <div className='product_name'>
-                        hello bike dff fer tes fgr dfdsf df ... ... ..
+                      <div>
+                        <div className='del_price'>
+                          &#2547;9,9990
+                        </div>
+                        <div className='product_price'>
+                          &#2547;8,990
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div className='del_price'>
-                        &#2547;9,9990
-                      </div>
-                      <div className='product_price'>
-                        &#2547;8,990
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+
+                </OwlCarousel>
               </div>
-              <div className='arrow'>
-                <div className='left_arrow'>
-                  <i class='fas fa-chevron-left'></i>
-                </div>
-                <div className='right_arrow'>
-                  <i class='fas fa-chevron-right'></i>
-                </div>
-              </div>
+
             </div>
             <div className='home_products'>
-              <h2 className='title'>Popular Products</h2>
+              <h2 className='title'>Popular products</h2>
               <div className='products'>
-                {[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                  <div className="product_cart">
-                    <div>
-                      <div className='product_img'>
-                        <img
-                          src={pro3}
-                          alt="product"
-                        />
+                <OwlCarousel
+                  className="owl-theme "
+                  loop
+                  margin={7}
+                  // itemElement={{ width: "192px" }}
+                  items={6}
+                  autoWidth={false}
+                  autoplay={false}
+                  nav={true}
+                  navText={["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"]}
+                  dots={false}
+                // {...option}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                    <div className="product_cart">
+                      <div>
+                        <div className='product_img'>
+                          <img
+                            src={pro2}
+                            alt="product"
+                          />
+                        </div>
+                        <div className='product_name'>
+                          hello bike dff fer tes fgr dfdsf df ... ... ..
+                        </div>
                       </div>
-                      <div className='product_name'>
-                        hello bike dff fer tes fgr dfdsf df ... ... ..
+                      <div>
+                        <div className='del_price'>
+                          &#2547;9,9990
+                        </div>
+                        <div className='product_price'>
+                          &#2547;8,990
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div className='del_price'>
-                        &#2547;9,9990
-                      </div>
-                      <div className='product_price'>
-                        &#2547;8,990
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+
+                </OwlCarousel>
               </div>
-              <div className='arrow'>
-                <div className='left_arrow'>
-                  <i class='fas fa-chevron-left'></i>
-                </div>
-                <div className='right_arrow'>
-                  <i class='fas fa-chevron-right'></i>
-                </div>
-              </div>
+
             </div>
             <div className='home_products'>
               <h2 className='title'>Our Shops</h2>
               <div className='products shops'>
-
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                  <div className="product_cart">
-                    <div>
-                      <div className='product_img'>
-                        <img
-                          src={pro3}
-                          alt="product"
-                        />
-                      </div>
-                      <div className='product_name'>
-                        Bike Bazar BD ddd ddd
+                <OwlCarousel
+                  className="owl-theme "
+                  loop
+                  margin={10}
+                  // itemElement={{ width: "192px" }}
+                  items={8}
+                  autoWidth={false}
+                  autoplay={false}
+                  nav={true}
+                  navText={["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"]}
+                  dots={false}
+                // {...option}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                    <div className="product_cart">
+                      <div>
+                        <div className='product_img'>
+                          <img
+                            src={pro2}
+                            alt="product"
+                          />
+                        </div>
+                        <div className='product_name'>
+                          Bike Bazar BD
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+
+                </OwlCarousel>
               </div>
-              <div className='arrow shop_arrow'>
-                <div className='left_arrow'>
-                  <i class='fas fa-chevron-left'></i>
-                </div>
-                <div className='right_arrow'>
-                  <i class='fas fa-chevron-right'></i>
-                </div>
-              </div>
+
             </div>
             <div className='home_products'>
               <h2 className='title'>Categories</h2>
               <div className='products shops'>
-
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                  <div className="product_cart">
-                    <div>
-                      <div className='product_img'>
-                        <img
-                          src={pro3}
-                          alt="product"
-                        />
-                      </div>
-                      <div className='product_name'>
-                        Bike Bazar BD ddd ddd
+                <OwlCarousel
+                  className="owl-theme "
+                  loop
+                  margin={10}
+                  // itemElement={{ width: "192px" }}
+                  items={8}
+                  autoWidth={false}
+                  autoplay={false}
+                  nav={true}
+                  navText={["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"]}
+                  dots={false}
+                // {...option}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
+                    <div className="product_cart">
+                      <div>
+                        <div className='product_img'>
+                          <img
+                            src={pro2}
+                            alt="product"
+                          />
+                        </div>
+                        <div className='product_name'>
+                          Bike Bazar BD
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+
+                </OwlCarousel>
               </div>
-              <div className='arrow shop_arrow'>
-                <div className='left_arrow'>
-                  <i class='fas fa-chevron-left'></i>
-                </div>
-                <div className='right_arrow'>
-                  <i class='fas fa-chevron-right'></i>
-                </div>
-              </div>
+
             </div>
             <div className='home_all_products'>
               <div className='all_title'>
@@ -305,12 +332,12 @@ function App() {
                     <div>
                       <div className='product_img'>
                         <img
-                          src={pro3}
+                          src={pro2}
                           alt="product"
                         />
                       </div>
                       <div className='product_name'>
-                        he llo bi ke dff fe r te s fg rd f d sf df ... ... ..
+                        hello bike dff fer tes fgr dfdsf df ... ... ..
                       </div>
                     </div>
                     <div>
