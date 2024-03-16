@@ -13,6 +13,7 @@ import categoryIcon from './assets/images/icons/category.png'
 import campaignIcon from './assets/images/icons/campaign.png'
 import notificationIcon from './assets/images/icons/notification.png'
 import sellConIconBlack from './assets/images/other/SellkonBlack.png'
+import visa from './assets/images/icons/visa.png'
 import sellConWhite from './assets/images/other/SellKonWhite.png'
 import appStore from './assets/images/other/appstore.png'
 import playStore from './assets/images/other/playstore.png'
@@ -463,7 +464,7 @@ function App() {
               </div>
             </div> */}
             {/* Product page */}
-            <div className='product_page'>
+            {/* <div className='product_page'>
               <div className='order_section'>
                 <div className='showing'>Showing 250 Product</div>
                 <div className='select'>
@@ -582,10 +583,232 @@ function App() {
 
                 </div>
               </div>
+            </div> */}
+            {/* cart page */}
+            {/* <div className='cart_page'>
+              <div className='cart_products'>
+                <div className='cart_top'>
+                  <span>5 Products</span>
+                  <a href><i class="fas fa-trash-alt"></i></a>
+                </div>
+                <div className='cart_bottom'>
+                  {[1, 2, 3, 4].map((item) => (
+                    <div className='cart_item'>
+                      <div className='cart_check'>
+                        <input type='checkbox' />
+                      </div>
+                      <div className='cart_img'>
+                        <img src={pro3} alt='product' />
+                      </div>
+                      <div className='cart_right'>
+                        <div className='cart_title'>
+                          Origine Starde Revolutio red sd sd we wer we er wew
+                          we we we qw  we efr we er wer er we r er er erwe
+                          w2 w3 we2 we2 we2 ewe2 ewe2 we we we we we we we
+                        </div>
+                        <div className='cart_amount'>
+                          <div className='cart_taka'>
+                            <div className='cart_taka_1'>&#2547;3,24,000X1</div>
+                            <div className='cart_taka_2'>&#2547;3,24,000</div>
+                          </div>
+                          <div className='quantity_button'>
+                            <div className='btn minus'><i class="fa fa-minus"></i></div>
+                            <div className='btn number'>1</div>
+                            <div className='btn plus'><i class="fa fa-plus"></i></div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className='cart_summery'>
+                  <div className='order_summery'>
+                    Order Summary
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Subtotal (1 items)</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Shipping Fee</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='cart_total'>
+                    <span>Total</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='cart_checkout'>
+                    Checkout
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            {/* checkout page */}
+            {/* <div className='cart_page checkout_page'>
+              <div>
+                <div className='checkout_address_section'>
+                  <div className='checkout_title'>
+                    <span>Sellkon.com</span>
+                    <a href><i class="fas fa-edit-alt"></i></a>
+                  </div>
+                  <div className='item checkout_phone'>01784528799</div>
+                  <div className='item checkout_address'>
+                    House -237/1, Road, W4, Eastern housing,
+                    Pollobi, dhaka-1216
+                  </div>
+                </div>
+                <div className='cart_products'>
+                  <div className='cart_top'>
+                    <span>5 Products</span>
+                    <span>Variation</span>
+                  </div>
+                  <div className='cart_bottom'>
+                    {[1, 4].map((item) => (
+                      <div className='cart_item'>
+                        <div className='cart_img'>
+                          <img src={pro3} alt='product' />
+                        </div>
+                        <div className='cart_right'>
+                          <div className='cart_title'>
+                            Origine Starde Revolutio red
+                            we we we qw  we er we r er er erwe 123
+                          </div>
+                          <div className='cart_taka_3 taka_q'>
+                            <span>&#2547;3,24,000X1</span>
+                            <span>Color: Blue</span>
+                          </div>
+                          <div className='cart_taka_3 taka_r'>
+                            <span>&#2547;3,24,000X1</span>
+                            <span>Size: 0</span>
+                          </div>
+
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className='cart_summery'>
+                  <div className='order_summery'>
+                    Order Summary
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Subtotal (2 items)</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Shipping Fee</span>
+                    <span>&#2547;500</span>
+                  </div>
+                  <div className='promo_code'>
+                    <input type="text" />
+                    <a href>Apply</a>
+                  </div>
+                  <div className='cart_total'>
+                    <span>Total</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='order_policy'>
+                    *Order Delivery Policy for this order can be found <a href>here</a>
+                  </div>
+                  <div className='cart_checkout'>
+                    Please Order
+                  </div>
+                </div>
+              </div>
+            </div> */}
+            {/* payment page */}
+            <div className='cart_page payment_page'>
+              <div>
+                <div className='pay_title'>Recommended Method(s)</div>
+                <div className='payment_section'>
+                  <div className='cr_de'>
+                    <img src={visa} />
+                    <span className='pb_txt'>Credit/Debit Card</span>
+                  </div>
+                  <div className='bank_icon'>
+                    <img src={visa} />
+                    <img src={visa} />
+                    <img src={visa} />
+                  </div>
+                  <i class='fas fa-chevron-right'></i>
+                </div>
+                <div className='pay_title'>Saved Account(s)</div>
+                <div className='saved_accounts'>
+                  {[1, 2, 3].map((item) => (
+                    <div className='item'>
+                      <div className='saved_item'>
+                        <img src={visa} />
+                        <div >
+                          <div className='pg_14'>Sellkon</div>
+                          <div className='pg_18 mt12'>XXX XXX 3450</div>
+                        </div>
+                      </div>
+                      <div className='radio'>
+                        <input type='radio' />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className='pay_title'>Payment Method(s)</div>
+                <div className='saved_accounts'>
+                  <div className='item'>
+                    <div className='saved_item'>
+                      <img src={visa} />
+                      <div>
+                        <span className='pb_txt'>Rocket</span>
+                      </div>
+                    </div>
+                    <i class='fas fa-chevron-right'></i>
+                  </div>
+                  <div className='item'>
+                    <div className='saved_item'>
+                      <img src={visa} />
+                      <div>
+                        <span className='pb_txt'>DBBL NEXUS CARD</span>
+                      </div>
+                    </div>
+                    <i class='fas fa-chevron-right'></i>
+                  </div>
+                  <div className='item'>
+                    <div className='saved_item'>
+                      <img src={visa} />
+                      <div>
+                        <span className='pb_txt'>Cash On Delivery</span>
+                      </div>
+                    </div>
+                    <div>
+                      <i class='fas fa-chevron-right'></i>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div>
+                <div className='cart_summery'>
+                  <div className='order_summery'>
+                    Order Summary
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Subtotal (1 items & Delivery Fee)</span>
+                    <span>&#2547;324000</span>
+                  </div>
+
+                  <div className='cart_total'>
+                    <span>Total</span>
+                    <span>&#2547;324000</span>
+                  </div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className='footer'>
+        {/* <div className='footer'>
           <div className='w-1176'>
             <div className='footer_in'>
               <div className='footer_left'>
@@ -628,8 +851,8 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      </div >
     </>
   );
 }
