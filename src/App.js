@@ -14,6 +14,13 @@ import campaignIcon from './assets/images/icons/campaign.png'
 import notificationIcon from './assets/images/icons/notification.png'
 import sellConIconBlack from './assets/images/other/SellkonBlack.png'
 import visa from './assets/images/icons/visa.png'
+import aeIcon from './assets/images/icons/american_express.png'
+import nexusIcon from './assets/images/icons/nexus.png'
+import rocketIcon from './assets/images/icons/rocket.png'
+import bKashIcon from './assets/images/icons/bKash.png'
+import codIcon from './assets/images/icons/cod.png'
+import cardIcon from './assets/images/icons/card.png'
+import moneyIcon from './assets/images/icons/money.png'
 import sellConWhite from './assets/images/other/SellKonWhite.png'
 import appStore from './assets/images/other/appstore.png'
 import playStore from './assets/images/other/playstore.png'
@@ -727,12 +734,12 @@ function App() {
                 <div className='pay_title'>Recommended Method(s)</div>
                 <div className='payment_section'>
                   <div className='cr_de'>
-                    <img src={visa} />
+                    <img src={cardIcon} />
                     <span className='pb_txt'>Credit/Debit Card</span>
                   </div>
                   <div className='bank_icon'>
-                    <img src={visa} />
-                    <img src={visa} />
+                    <img src={aeIcon} />
+                    <img src={moneyIcon} />
                     <img src={visa} />
                   </div>
                   <i class='fas fa-chevron-right'></i>
@@ -742,7 +749,7 @@ function App() {
                   {[1, 2, 3].map((item) => (
                     <div className='item'>
                       <div className='saved_item'>
-                        <img src={visa} />
+                        <img src={bKashIcon} />
                         <div >
                           <div className='pg_14'>Sellkon</div>
                           <div className='pg_18 mt12'>XXX XXX 3450</div>
@@ -758,7 +765,7 @@ function App() {
                 <div className='saved_accounts'>
                   <div className='item'>
                     <div className='saved_item'>
-                      <img src={visa} />
+                      <img src={rocketIcon} />
                       <div>
                         <span className='pb_txt'>Rocket</span>
                       </div>
@@ -767,7 +774,7 @@ function App() {
                   </div>
                   <div className='item'>
                     <div className='saved_item'>
-                      <img src={visa} />
+                      <img src={nexusIcon} />
                       <div>
                         <span className='pb_txt'>DBBL NEXUS CARD</span>
                       </div>
@@ -776,7 +783,7 @@ function App() {
                   </div>
                   <div className='item'>
                     <div className='saved_item'>
-                      <img src={visa} />
+                      <img src={codIcon} />
                       <div>
                         <span className='pb_txt'>Cash On Delivery</span>
                       </div>
@@ -806,9 +813,68 @@ function App() {
                 </div>
               </div>
             </div>
+            {/* Add new card */}
+            {/* <div className='cart_page add_card'>
+              <div>
+                <div className='pay_title'>Add a New Card</div>
+                <div className='card_section'>
+                  <div className='bank_icon card_icon'>
+                    <img src={aeIcon} />
+                    <img src={moneyIcon} />
+                    <img src={visa} />
+                  </div>
+                  <input
+                    className='card_field card_name'
+                    type='text'
+                    name=''
+                    placeholder='enter card name'
+                  />
+                  <input
+                    className='card_field card_number'
+                    type='text'
+                    placeholder='enter card number'
+                    name=''
+                  />
+                  <div className='mm_cvv'>
+                    <input
+                      className='card_field mm'
+                      type='text'
+                      name=''
+                      placeholder='MM/DD'
+                    />
+                    <input
+                      className='card_field cvv'
+                      type='text'
+                      name=''
+                      placeholder='enter cvv'
+                    />
+                  </div>
+                </div>
+
+              </div>
+              <div>
+                <div className='cart_summery'>
+                  <div className='order_summery'>
+                    Order Summary
+                  </div>
+                  <div className='cart_subtotal'>
+                    <span>Subtotal (1 items & Delivery Fee)</span>
+                    <span>&#2547;324000</span>
+                  </div>
+
+                  <div className='cart_total'>
+                    <span>Total</span>
+                    <span>&#2547;324000</span>
+                  </div>
+                  <div className='cart_checkout'>
+                    Please Order
+                  </div>
+                </div>
+              </div>
+            </div> */}
           </div>
         </div>
-        {/* <div className='footer'>
+        <div className='footer'>
           <div className='w-1176'>
             <div className='footer_in'>
               <div className='footer_left'>
@@ -851,7 +917,7 @@ function App() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div >
     </>
   );

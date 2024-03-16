@@ -1306,9 +1306,14 @@ body {
     color: #505050;
 }
 
+.cr_de {
+    display: flex;
+    align-items: center;
+}
+
 .cr_de img {
     width: 32px;
-    height: 16px;
+    height: 26px;
     margin-right: 18px;
 }
 
@@ -1353,4 +1358,42 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 50%;
+}
+
+.card_section {
+    background-color: #FFF;
+    border-radius: 15px;
+    padding: 16px 24px;
+}
+
+.card_icon {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.card_field {
+    margin-top: 24px;
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0px 21px;
+    font-size: 16px;
+    color: #6C6C6C;
+    border-radius: 10px;
+    border: 1px solid #F5F5F5;
+}
+
+.card_field:focus {
+    border: 1px solid #9A9A9A;
+}
+
+.mm_cvv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mm,
+.cvv {
+    width: 330px;
 }
