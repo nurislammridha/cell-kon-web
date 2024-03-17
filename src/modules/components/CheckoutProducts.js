@@ -6,7 +6,7 @@ const CheckoutProducts = () => {
             <div className='checkout_address_section'>
                 <div className='checkout_title'>
                     <span>Sellkon.com</span>
-                    <a href><i class="fas fa-edit-alt"></i></a>
+                    <a href><i class="fas fa-edit"></i></a>
                 </div>
                 <div className='item checkout_phone'>01784528799</div>
                 <div className='item checkout_address'>

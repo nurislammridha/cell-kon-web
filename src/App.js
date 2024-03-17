@@ -16,6 +16,7 @@ import AddCardPage from './modules/pages/AddCardPage';
 import Footer from './modules/components/Footer';
 import Header from './modules/components/Header';
 import OrderListPage from './modules/pages/OrderListPage';
+import OrderDetailsPage from './modules/pages/OrderDetailsPage';
 function App() {
 
   return (
@@ -57,6 +58,10 @@ function App() {
                 {/* Order List */}
                 <Route exact path="/order-list">
                   <OrderListPage />
+                </Route>
+                {/* Order Details */}
+                <Route exact path="/order-details">
+                  <OrderDetailsPage />
                 </Route>
                 <Route path="*">
                   <div>No page found</div>
