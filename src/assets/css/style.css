@@ -1397,3 +1397,121 @@ body {
 .cvv {
     width: 330px;
 }
+
+.order_list_container {
+    padding-top: 24px;
+    margin-bottom: 24px;
+}
+
+.order_list_container .container {
+    width: 680px;
+    margin: auto;
+    background-color: #FFF;
+    border-radius: 16px;
+    padding: 32px 24px;
+}
+
+.my_nav {
+    display: flex;
+}
+
+.nav_item {
+    margin-right: 24px;
+}
+
+.nav_item span {
+    font-size: 14px;
+    color: #212121;
+}
+
+.nav_item .up_icon {
+    margin-top: 7px;
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.nav_item .active {
+    visibility: visible;
+}
+
+.nav_item .up_icon img {
+    width: 16px;
+    height: 8px;
+}
+
+.order_list_container .products {
+    padding-top: 16px;
+    border-top: 1px solid #F5F5F5;
+    /* border-top: 1px solid red; */
+}
+
+.order_list_container .products_list {
+    /* margin-top: 24px; */
+}
+
+.order_list_container .products {
+    margin-bottom: 32px;
+}
+
+.order_list_container .order_id {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.order_list_container .order_id span {
+    font-weight: bold;
+}
+
+.order_list_container .order_id a {
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #FFF;
+    border-radius: 6px;
+}
+
+.created_bg {
+    background-color: #B0B2B0;
+}
+
+.confirm_bg {
+    background-color: #3598DA;
+}
+
+.cancelled_bg {
+    background-color: #CC0000;
+}
+
+.picked_bg {
+    background-color: #266894;
+}
+
+.shipped_bg {
+    background-color: #FFCC00;
+}
+
+.delivered_bg {
+    background-color: #4CCC60;
+}
+
+.processing_bg {
+    background-color: #CEB037;
+}
+
+.order_list_container .taka_section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.order_list_container .taka {
+    font-size: 18px;
+    font-weight: bold;
+    color: #F54C54;
+}
+
+.order_list_container .date {
+    font-size: 14px;
+    color: #212121;
+}
