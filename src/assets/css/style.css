@@ -30,12 +30,80 @@ body {
     margin-left: 8px;
 }
 
+.mt1 {
+    margin-top: 1px;
+}
+
+.mt2 {
+    margin-top: 2px;
+}
+
+.mt3 {
+    margin-top: 3px;
+}
+
+.mt4 {
+    margin-top: 4px;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt6 {
+    margin-top: 6px;
+}
+
+.mt7 {
+    margin-top: 7px;
+}
+
+.mt8 {
+    margin-top: 8px;
+}
+
+.mt9 {
+    margin-top: 9px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt11 {
+    margin-top: 11px;
+}
+
 .mt12 {
     margin-top: 12px;
 }
 
-.mt16 {
-    margin-top: 16px;
+.mt13 {
+    margin-top: 13px;
+}
+
+.mt14 {
+    margin-top: 14px;
+}
+
+.mt19 {
+    margin-top: 19px;
+}
+
+.mt21 {
+    margin-top: 21px;
+}
+
+.mt24 {
+    margin-top: 24px;
+}
+
+.mt32 {
+    margin-top: 32px;
+}
+
+.mt40 {
+    margin-top: 40px;
 }
 
 /* padding */
@@ -1655,4 +1723,16 @@ body {
     color: #FFF;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.sign_up_container {
+    padding-top: 24px;
+}
+
+.sign_up {
+    width: 686px;
+    border-radius: 16px;
+    background-color: #000;
+    margin-bottom: 24px;
+    padding: 40px 48px;
 }
