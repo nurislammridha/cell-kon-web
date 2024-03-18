@@ -1024,7 +1024,7 @@ body {
 }
 
 .product_page .filter_left {
-    background-color: #FAFAFA;
+    background-color: #FFF;
     border-radius: 15px;
     padding: 16px;
 }
@@ -2125,4 +2125,71 @@ body {
 .address_list .address_item .phone {
     font-size: 20px;
     color: #797979;
+}
+
+.add_address .right {
+    width: 1176px;
+}
+
+.add_address .input_left {
+    width: 534px;
+}
+
+.add_address .input_right {
+    width: 534px;
+}
+
+.add_address .radio_btn {
+    display: flex;
+    color: #212121;
+    font-size: 14px;
+}
+
+.add_address .radio_btn input {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.add_address .radio_btn div {
+    display: flex;
+}
+
+.add_address .radio_btn div:first-child {
+    margin-right: 25px;
+}
+
+.shop {
+    margin-bottom: 28px;
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 12px 15px;
+    height: 240;
+    display: flex;
+    align-items: center;
+}
+
+.shop img {
+    width: 200px;
+    height: 200px;
+    margin-right: 35px;
+}
+
+.shop .shop_info {
+    /* background-color: yellow; */
+}
+
+.shop .shop_info .star {
+    display: flex;
+}
+
+.shop .shop_info img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.shop .shop_info span {
+    font-size: 10px;
 }

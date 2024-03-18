@@ -21,6 +21,9 @@ import SignUpPage from './modules/pages/SignUpPage';
 import LoginPage from './modules/pages/LoginPage';
 import UserInfoPage from './modules/pages/UserInfoPage';
 import UserAddressPage from './modules/pages/UserAddressPage';
+import AddAddressPage from './modules/pages/AddAddressPage';
+import EditAddressPage from './modules/pages/EditAddressPage';
+import ShopProductsPage from './modules/pages/ShopProductsPage';
 function App() {
 
   return (
@@ -82,6 +85,18 @@ function App() {
                 {/* User Address */}
                 <Route exact path="/user-address">
                   <UserAddressPage />
+                </Route>
+                {/* Add Address */}
+                <Route exact path="/add-address">
+                  <AddAddressPage />
+                </Route>
+                {/* Edit Address */}
+                <Route exact path="/edit-address">
+                  <EditAddressPage />
+                </Route>
+                {/* Shop products */}
+                <Route exact path="/shop">
+                  <ShopProductsPage />
                 </Route>
                 <Route path="*">
                   <div>No page found</div>
