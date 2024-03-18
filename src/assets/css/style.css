@@ -106,6 +106,10 @@ body {
     margin-top: 32px;
 }
 
+.mt34 {
+    margin-top: 34px;
+}
+
 .mt40 {
     margin-top: 40px;
 }
@@ -1843,4 +1847,209 @@ body {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+}
+
+.user_info {
+    padding-top: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user_info .left {
+    width: 288px;
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 32px 0 40px 0;
+    position: relative;
+}
+
+.user_info .left .img_container {
+    display: flex;
+    justify-content: center;
+}
+
+.user_info .left .img {
+    width: 130px;
+    height: 130px;
+    position: relative;
+}
+
+.user_info .left .img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user_info .left .img a {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user_info .menu_container {
+    margin-left: 83px;
+    margin-top: 32px;
+
+}
+
+.user_info .menu_container .menu {
+    display: flex;
+}
+
+.user_info .menu_container .menu {
+    display: flex;
+}
+
+.user_info .menu_container .menu img {
+    margin-right: 11px;
+    width: 24px;
+    height: 24px;
+}
+
+.user_info .menu_container .menu p {
+    color: #878787;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.user_info .menu_container .menu:first-child p {
+    color: #130F26;
+}
+
+.user_info .logout {
+    margin-left: 83px;
+    width: fit-content;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 40px;
+    display: flex;
+}
+
+.user_info .logout img {
+    margin-right: 11px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.user_info .logout p {
+    color: #130F26;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.user_info .right {
+    width: 871px;
+    border-radius: 16px;
+    background-color: #FFF;
+    padding: 24px 32px;
+}
+
+.user_info .user_txt {
+    font-size: 32px;
+    font-weight: 500;
+
+}
+
+.user_info .user_input {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user_info .input_left {
+    width: 388px;
+}
+
+.user_info .input_right {
+    width: 388px;
+}
+
+.user_info .birth_select {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 24px;
+}
+
+.user_info input {
+    font-size: 16px;
+    width: 100%;
+    height: 48px;
+    padding-left: 24px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #959595;
+}
+
+.user_info input:focus {
+    outline: none;
+    border: 1px solid #FF2C7A;
+}
+
+.user_info .user_select {
+    height: 48px !important;
+}
+
+.user_info .save_changes {
+    width: 100%;
+    height: 56px;
+    color: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    border-radius: 5px;
+}
+
+.user_info .css-13cymwt-control {
+    /* background-color: red; */
+    margin: 0px !important;
+    padding: 0px 10px 0px 0px !important;
+    border-radius: 5px !important;
+    border: 1px solid #959595 !important;
+    height: 48px !important;
+}
+
+.user_info .css-13cymwt-control:focus {
+    padding: 0px 10px 0px 0px !important;
+}
+
+.user_info .css-1fdsijx-ValueContainer {
+    padding: 0 0px 0 24px !important;
+    margin: 0 !important;
+    height: 48px !important;
+    /* display: flex;
+    align-items: center !important; */
+}
+
+.user_info .css-1hb7zxy-IndicatorsContainer {
+    padding: 0 0px 0 0 !important;
+    margin: 0 !important;
+    width: 16px !important;
+    height: 48px !important;
+    /* display: flex;
+    align-items: center !important; */
+}
+
+.user_info .css-1xc3v61-indicatorContainer {
+    padding: 0 0px 0 0 !important;
+    margin: 0 !important;
+    /* display: flex;
+    align-items: center !important; */
+}
+
+.user_info .css-1jqq78o-placeholder {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-top: -13px !important;
 }

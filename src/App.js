@@ -19,6 +19,7 @@ import OrderListPage from './modules/pages/OrderListPage';
 import OrderDetailsPage from './modules/pages/OrderDetailsPage';
 import SignUpPage from './modules/pages/SignUpPage';
 import LoginPage from './modules/pages/LoginPage';
+import UserInfoPage from './modules/pages/UserInfoPage';
 function App() {
 
   return (
@@ -72,6 +73,10 @@ function App() {
                 {/* Login Page */}
                 <Route exact path="/login">
                   <LoginPage />
+                </Route>
+                {/* User Info */}
+                <Route exact path="/user-info">
+                  <UserInfoPage />
                 </Route>
                 <Route path="*">
                   <div>No page found</div>
