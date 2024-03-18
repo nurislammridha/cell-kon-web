@@ -2193,3 +2193,7 @@ body {
 .shop .shop_info span {
     font-size: 10px;
 }
+
+.shop_container {
+    padding-top: 24px;
+}
