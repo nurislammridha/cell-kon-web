@@ -1,21 +1,11 @@
 import React from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
-const SignUpPage = () => {
+const LoginPage = () => {
     return (
         <div className='sign_up_container'>
             <div className='sign_up'>
-                <p className='fs20 fm'>Create your Sellkon account</p>
-                <div className='mt40'>
-                    <p className='clr959595 fs16 fm'>Full Name</p>
-                    <input
-                        className='mt12'
-                        type='text'
-                        placeholder='enter full name'
-                        name='full_name'
-                        value={""}
-                    />
-                </div>
+                <p className='fs20 fm'>Welcome back, we missed you!</p>
                 <div className='mt24'>
                     <p className='clr959595 fs16 fm'>Mail Or Phone</p>
                     <input
@@ -35,17 +25,9 @@ const SignUpPage = () => {
                         name='full_name'
                         value={""}
                     />
+                    <p className='forgot_pass'>Forgot Password</p>
                 </div>
-                <div className='mt24'>
-                    <p className='clr959595 fs16 fm'>Confirm Password</p>
-                    <input
-                        className='mt12'
-                        type='password'
-                        placeholder='enter confirm password'
-                        name='full_name'
-                        value={""}
-                    />
-                </div>
+
                 <div className='mt40 sign_up_btn cp'>
                     <a href>Sign Up</a>
                 </div>
@@ -60,11 +42,11 @@ const SignUpPage = () => {
                     </div>
                 </div>
                 <div className='mt32'>
-                    <span>Already have an account? </span><a href>Sign In</a>
+                    <span>Don't have an account? </span><a href>Sign Sign Up</a>
                 </div>
             </div>
         </div>
     )
 }
 
-export default SignUpPage
+export default LoginPage
