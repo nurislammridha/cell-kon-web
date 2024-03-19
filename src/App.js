@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
 import 'font-awesome/css/font-awesome.css'
 // Owl Carousel....
 import "owl.carousel/dist/assets/owl.theme.default.css";
@@ -29,84 +29,32 @@ function App() {
   return (
     <>
       <div className='full_content'>
-        <Router>
-          <Header />
-          <div className='content'>
-            <div className='w-1176'>
-              <Switch>
-                {/* home page  */}
-                <Route exact path="/">
-                  <HomePage />
-                </Route>
-                {/* details page */}
-                <Route exact path="/product-details">
-                  <ProductDetailsPage />
-                </Route>
-                {/* Product page */}
-                <Route exact path="/all-products">
-                  <AllProductsPage />
-                </Route>
-                {/* cart page */}
-                <Route exact path="/cart">
-                  <CartPage />
-                </Route>
-                {/* checkout page */}
-                <Route exact path="/checkout">
-                  <CheckoutPage />
-                </Route>
-                {/* payment page */}
-                <Route exact path="/payment">
-                  <PaymentPage />
-                </Route>
-                {/* Add new card */}
-                <Route exact path="/add-card">
-                  <AddCardPage />
-                </Route>
-                {/* Order List */}
-                <Route exact path="/order-list">
-                  <OrderListPage />
-                </Route>
-                {/* Order Details */}
-                <Route exact path="/order-details">
-                  <OrderDetailsPage />
-                </Route>
-                {/* Sign Up Page */}
-                <Route exact path="/sign-up">
-                  <SignUpPage />
-                </Route>
-                {/* Login Page */}
-                <Route exact path="/login">
-                  <LoginPage />
-                </Route>
-                {/* User Info */}
-                <Route exact path="/user-info">
-                  <UserInfoPage />
-                </Route>
-                {/* User Address */}
-                <Route exact path="/user-address">
-                  <UserAddressPage />
-                </Route>
-                {/* Add Address */}
-                <Route exact path="/add-address">
-                  <AddAddressPage />
-                </Route>
-                {/* Edit Address */}
-                <Route exact path="/edit-address">
-                  <EditAddressPage />
-                </Route>
-                {/* Shop products */}
-                <Route exact path="/shop">
-                  <ShopProductsPage />
-                </Route>
-                <Route path="*">
-                  <div>No page found</div>
-                </Route>
-              </Switch>
-            </div>
+        <Header />
+        <div className='content'>
+          <div className='w-1176'>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/product-details" element={<ProductDetailsPage />} />
+              <Route path="/all-products" element={<AllProductsPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/add-card" element={<AddCardPage />} />
+              <Route path="/order-list" element={<OrderListPage />} />
+              <Route path="/order-details" element={<OrderDetailsPage />} />
+              <Route path="/sign-up" element={<SignUpPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/user-info" element={<UserInfoPage />} />
+              <Route path="/user-address" element={<UserAddressPage />} />
+              <Route path="/add-address" element={<AddAddressPage />} />
+              <Route path="/edit-address" element={<EditAddressPage />} />
+              <Route path="/shop" element={<ShopProductsPage />} />
+              <Route path="/*" element={<div>No page found</div>} />
+            </Routes>
           </div>
-          {/* //footer */}
-          <Footer />
-        </Router>
+        </div>
+        {/* //footer */}
+        <Footer />
 
       </div>
     </>
