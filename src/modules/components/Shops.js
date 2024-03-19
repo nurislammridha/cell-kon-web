@@ -1,32 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-const Shops = () => {
+import { initialVal } from '../../assets/function/globalFunction'
+const Shops = ({ arr = [] }) => {
+    const [page, setPage] = useState(1)
+    // console.log('arr', arr)
     return (
         <div className='home_products'>
             <h2 className='title'>Our Shops</h2>
             <div className='products shops'>
-
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((item, index) => (
-                    <div className="product_cart">
+                {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
+                    <div key={index} className="product_cart">
                         <div>
                             <div className='product_img'>
                                 <img
-                                    src={pro3}
+                                    src={item?.shopLogoUrl}
                                     alt="product"
                                 />
                             </div>
                             <div className='product_name'>
-                                Bike Bazar BD ddd ddd
+                                {item?.shopName}
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
             <div className='arrow shop_arrow'>
-                <div className='left_arrow'>
+                <div
+                    className={page == 1 ? 'left_arrow vih' : "left_arrow"}
+                    onClick={() => setPage(page - 1)}
+                >
                     <i class='fas fa-chevron-left'></i>
                 </div>
-                <div className='right_arrow'>
+                <div
+                    className={arr.length / 5 >= page ? "right_arrow" : "right_arrow vih"}
+                    onClick={() => setPage(page + 1)}
+                >
                     <i class='fas fa-chevron-right'></i>
                 </div>
             </div>

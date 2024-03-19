@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-const HomeAllProducts = () => {
+import { initialVal } from '../../assets/function/globalFunction'
+const HomeAllProducts = ({ arr = [] }) => {
+    const [page, setPage] = useState(1)
     return (
         <div className='home_all_products'>
             <div className='all_title'>
@@ -9,25 +11,25 @@ const HomeAllProducts = () => {
             </div>
             <div className='products'>
 
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16, 17].map((item, index) => (
-                    <div className="product_cart">
+                {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
+                    <div key={index} className="product_cart">
                         <div>
                             <div className='product_img'>
                                 <img
-                                    src={pro3}
+                                    src={item?.productIcon?.url}
                                     alt="product"
                                 />
                             </div>
                             <div className='product_name'>
-                                he llo bi ke dff fe r te s fg rd f d sf df ... ... ..
+                                {item?.productName}
                             </div>
                         </div>
                         <div>
                             <div className='del_price'>
-                                &#2547;9,9990
+                                &#2547;{item?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;8,990
+                                &#2547;{Math.floor(item.mrp - item?.mrp * item?.regularDiscount * 0.01)}
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,12 @@
 import * as Types from "./Types";
 
 const initialState = {
-  homeData: "fsfsf",
+  homeData: null,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
   switch (action.type) {
     case Types.HOME_PAGE:
-      // console.log('action.payload', action.payload)
       return {
         ...state,
         homeData: action.payload,
@@ -15,7 +14,6 @@ const CommonReducer = (state = initialState, action) => {
     default:
       break;
   }
-  console.log('newState', newState)
   return newState;
 };
 export default CommonReducer;

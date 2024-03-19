@@ -6,35 +6,34 @@ import Popular from '../components/Popular'
 import Shops from '../components/Shops'
 import Categories from '../components/Categories'
 import HomeAllProducts from '../components/HomeAllProducts'
-import { GetHomePageData, GetHomePageData1 } from '../_redux/CommonAction'
+import { GetHomePageData } from '../_redux/CommonAction'
 import { useDispatch, useSelector } from 'react-redux'
 
 const HomePage = () => {
     const dispatch = useDispatch();
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
+    const { categoriesList, data, popularProducts,
+        sellKonMallProducts, shopsList, trendingProducts } = homeDataList || {}
     console.log('homeDataList', homeDataList)
     useEffect(() => {
         dispatch(GetHomePageData());
-        // let x = GetHomePageData1()vv
-        //  // console.log('GetHomePageData()', x)
     }, [])
-
     return (
         <>
             {/* hero */}
             <Hero />
             {/* Mall Products */}
-            <Mall />
+            <Mall arr={sellKonMallProducts} />
             {/* Trending */}
-            <Trending />
+            <Trending arr={trendingProducts} />
             {/* Popular */}
-            <Popular />
+            <Popular arr={popularProducts} />
             {/* Shops */}
-            <Shops />
+            <Shops arr={shopsList} />
             {/* Categories */}
-            <Categories />
+            <Categories arr={categoriesList} />
             {/* Home All Products */}
-            <HomeAllProducts />
+            <HomeAllProducts arr={data} />
         </>
     )
 }
