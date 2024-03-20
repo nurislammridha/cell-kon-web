@@ -73,8 +73,8 @@ const ProductDetails = ({ data }) => {
                     </div>
                 </div>
                 <div className='btn_buy'>
-                    <a href className='btn cart'>Add to Cart</a>
-                    <a href className='btn buy'>Buy Now</a>
+                    <a href className='btn cart cp'>Add to Cart</a>
+                    <a href className='btn buy cp'>Buy Now</a>
                 </div>
                 <div className='have_question'>Have questions about this product</div>
                 <div className='call'>
