@@ -1,18 +1,13 @@
 import React from 'react'
 
-const ShortDetails = () => {
+const ShortDetails = ({ data }) => {
     return (
         <div className='short_details'>
             <h2>Short Details</h2>
             <div className='txt'>
-                lorem ipsum lorem ipsum lorem ipsum
-                lorem ipsum lorem ipsum lorem ipsum
-                lorem ipsum lorem ipsum lorem ipsum
-                lorem ipsum lorem ipsum lorem ipsum
-                lorem ipsum lorem ipsum lorem ipsum
-                lorem ipsum lorem ipsum lorem ipsum
+                {data}
             </div>
-            <a className='view_more'>View More</a>
+            {/* <a className='view_more'>View More</a> */}
         </div>
     )
 }

@@ -2,6 +2,7 @@ import * as Types from "./Types";
 
 const initialState = {
   homeData: null,
+  productDetails: null,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -10,6 +11,11 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         homeData: action.payload,
+      };
+    case Types.PRODUCT_DETAILS:
+      return {
+        ...state,
+        productDetails: action.payload,
       };
     default:
       break;

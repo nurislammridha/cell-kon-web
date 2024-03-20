@@ -34,7 +34,7 @@ function App() {
           <div className='w-1176'>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/product-details" element={<ProductDetailsPage />} />
+              <Route path="/product-details/:id" element={<ProductDetailsPage />} />
               <Route path="/all-products" element={<AllProductsPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
@@ -48,7 +48,7 @@ function App() {
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/edit-address" element={<EditAddressPage />} />
-              <Route path="/shop" element={<ShopProductsPage />} />
+              <Route path="/shop/:id" element={<ShopProductsPage />} />
               <Route path="/*" element={<div>No page found</div>} />
             </Routes>
           </div>

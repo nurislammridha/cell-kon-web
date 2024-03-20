@@ -14,7 +14,7 @@ const HomePage = () => {
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
         sellKonMallProducts, shopsList, trendingProducts } = homeDataList || {}
-    console.log('homeDataList', homeDataList)
+    // console.log('homeDataList', homeDataList)
     useEffect(() => {
         dispatch(GetHomePageData());
     }, [])

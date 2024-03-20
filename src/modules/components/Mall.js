@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { initialVal } from '../../assets/function/globalFunction'
+import { useNavigate } from 'react-router-dom'
 // import { initialVal } from 'src/assets/function/globalFunction'
 const Mall = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
+    const navigate = useNavigate();
     // let arr = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13"]
 
     return (
@@ -11,7 +13,11 @@ const Mall = ({ arr = [] }) => {
             <h2 className='title'>Sellkon Mall</h2>
             <div className='products'>
                 {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
-                    <div key={index} className="product_cart">
+                    <div
+                        key={index}
+                        className="product_cart"
+                        onClick={() => navigate(`/product-details/${item?._id}`)}
+                    >
                         <div>
                             <div className='product_img'>
                                 <img

@@ -1,40 +1,38 @@
 import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-const RelatedProducts = () => {
+const RelatedProducts = ({ arr = [] }) => {
+    console.log('arr', arr)
     return (
         <div className='home_all_products'>
             <div className='all_title'>
                 <h2 className='title'>Related Products</h2>
-                <a className='view_all' href=''>View All</a>
+                <a className='view_all' href>View All</a>
             </div>
             <div className='products'>
-
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15, 16, 17].map((item, index) => (
-                    <div className="product_cart">
+                {arr?.length > 0 && arr.map(({ value }, index) => (
+                    <div key={index} className="product_cart">
                         <div>
                             <div className='product_img'>
                                 <img
-                                    src={pro3}
+                                    src={value?.productIcon?.url}
                                     alt="product"
                                 />
                             </div>
                             <div className='product_name'>
-                                he llo bi ke dff fe r te s fg rd f d sf df ... ... ..
+                                {value?.productName}
                             </div>
                         </div>
                         <div>
                             <div className='del_price'>
-                                &#2547;9,9990
+                                &#2547;{value?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;8,990
+                                &#2547;{Math.floor(value.mrp - value?.mrp * value?.regularDiscount * 0.01)}
                             </div>
                         </div>
                     </div>
                 ))}
-
             </div>
-
         </div>
     )
 }
