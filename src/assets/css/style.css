@@ -42,6 +42,14 @@ body {
     margin-left: 13px;
 }
 
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
 .mt1 {
     margin-top: 1px;
 }
@@ -172,6 +180,25 @@ body {
 
 .tac {
     text-align: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.fsb {
+    display: flex;
+    justify-content: space-between;
+}
+
+.c_border {
+    border-radius: 5px !important;
+    border: 1px solid #959595 !important;
+}
+
+.active_border {
+    border-radius: 5px !important;
+    border: 1px solid #F54C54 !important;
 }
 
 .content {

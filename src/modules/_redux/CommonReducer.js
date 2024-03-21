@@ -17,6 +17,10 @@ const initialState = {
   },
   isLoginLoading: false,
   isLoginComplete: false,
+  isCartAdded: false,
+  isCartLoading: false,
+  cartList: null,
+  isQuantityLoading: null,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -78,6 +82,26 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoginComplete: action.payload,
+      };
+    case Types.IS_CART_ADDED:
+      return {
+        ...state,
+        isCartAdded: action.payload,
+      };
+    case Types.IS_CART_LOADING:
+      return {
+        ...state,
+        isCartLoading: action.payload,
+      };
+    case Types.CART_LIST:
+      return {
+        ...state,
+        cartList: action.payload,
+      };
+    case Types.IS_QUANTITY_LOADING:
+      return {
+        ...state,
+        isQuantityLoading: action.payload,
       };
     default:
       break;

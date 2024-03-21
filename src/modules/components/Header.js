@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import sellConIconBlack from '../../assets/images/other/SellkonBlack.png'
 import userIcon from '../../assets/images/icons/user.png'
 import cartIcon from '../../assets/images/icons/cart.png'
@@ -7,12 +7,27 @@ import homeIcon from '../../assets/images/icons/home.png'
 import categoryIcon from '../../assets/images/icons/category.png'
 import campaignIcon from '../../assets/images/icons/campaign.png'
 import notificationIcon from '../../assets/images/icons/notification.png'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 const Header = () => {
+    const navigate = useNavigate()
+    const cartApiList = useSelector((state) => state.homeInfo.cartList);
+    const [cartList, setCartList] = useState([])
+    useEffect(() => {
+        setCartList(JSON.parse(localStorage.getItem("cartList")).productInfo)
+    }, [])
+    useEffect(() => {
+        setCartList(JSON.parse(localStorage.getItem("cartList")).productInfo)
+    }, [cartApiList])
+
     return (
         <div className='header'>
             <div className='w-1176'>
                 <div className='header_top'>
-                    <div className='header_top_img'>
+                    <div
+                        className='header_top_img'
+                        onClick={() => navigate("/")}
+                    >
                         <img src={sellConIconBlack} alt='cell kon icon' />
                     </div>
                     <div className='header_top_search'>
@@ -29,9 +44,12 @@ const Header = () => {
                         </div>
                     </div>
                     <div className='header_top_icon'>
-                        <div className='top_icon'>
+                        <div
+                            className='top_icon'
+                            onClick={() => navigate('/cart')}
+                        >
                             <img src={cartIcon} alt='icon' />
-                            {/* <span>10</span> */}
+                            {cartList?.length > 0 && (<span>{cartList?.length}</span>)}
                         </div>
                         <div className='top_icon'>
                             <img src={loveIcon} alt='icon' />

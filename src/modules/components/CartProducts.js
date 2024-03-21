@@ -1,36 +1,49 @@
 import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-const CartProducts = () => {
+import { useDispatch } from 'react-redux'
+import { CartProductQuantity } from '../_redux/CommonAction'
+const CartProducts = ({ obj = {} }) => {
+    const dispatch = useDispatch()
+    const { productInfo: arr, _id: cartId, buyerId } = obj || []
+    const handleQuantity = (number, productInfoId) => {
+        dispatch(CartProductQuantity(number, productInfoId, cartId, buyerId))
+    }
     return (
         <div className='cart_products'>
             <div className='cart_top'>
-                <span>5 Products</span>
+                <span>{arr?.length} Products</span>
                 <a href><i class="fas fa-trash-alt"></i></a>
             </div>
             <div className='cart_bottom'>
-                {[1, 2, 3, 4].map((item) => (
-                    <div className='cart_item'>
+                {arr?.length > 0 && arr.map((item, index) => (
+                    <div key={index} className='cart_item'>
                         <div className='cart_check'>
                             <input type='checkbox' />
                         </div>
                         <div className='cart_img'>
-                            <img src={pro3} alt='product' />
+                            <img src={item.productImgUrl} alt='product' />
                         </div>
                         <div className='cart_right'>
                             <div className='cart_title'>
-                                Origine Starde Revolutio red sd sd we wer we er wew
-                                we we we qw  we efr we er wer er we r er er erwe
-                                w2 w3 we2 we2 we2 ewe2 ewe2 we we we we we we we
+                                {item?.productDetails?.productName}
                             </div>
                             <div className='cart_amount'>
                                 <div className='cart_taka'>
-                                    <div className='cart_taka_1'>&#2547;3,24,000X1</div>
-                                    <div className='cart_taka_2'>&#2547;3,24,000</div>
+                                    <div className='cart_taka_1'>&#2547;{item?.productDetails?.mrp}</div>
+                                    <div className='cart_taka_2'>&#2547;{Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01)}</div>
                                 </div>
                                 <div className='quantity_button'>
-                                    <div className='btn minus'><i class="fa fa-minus"></i></div>
-                                    <div className='btn number'>1</div>
-                                    <div className='btn plus'><i class="fa fa-plus"></i></div>
+                                    <div
+                                        className='btn minus'
+                                        onClick={() => item?.quantity > 1 ? handleQuantity(item?.quantity - 1, item._id) : {}}
+                                    >
+                                        <i class="fa fa-minus"></i>
+                                    </div>
+                                    <div className='btn number'>{item?.quantity}</div>
+                                    <div
+                                        className='btn plus'
+                                        onClick={() => item?.quantity < 5 ? handleQuantity(item?.quantity + 1, item._id) : {}}
+                                    ><i class="fa fa-plus"></i></div>
                                 </div>
 
                             </div>

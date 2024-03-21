@@ -111,6 +111,7 @@ export const LoginSubmit = (data) => (dispatch) => {
         if (res.data.isLogin) {
           localStorage.setItem("isLogin", true)
           localStorage.setItem("buyerData", JSON.stringify(res.data.result))
+          dispatch(GetCartListByBuyer(res.data.result._id))
           dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: true });
         } else {
           localStorage.setItem("isLogin", false)
@@ -122,6 +123,64 @@ export const LoginSubmit = (data) => (dispatch) => {
     });
   } catch (error) {
     dispatch({ type: Types.IS_LOGIN_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+export const GetCartListByBuyer = (id) => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}cart/buyer/${id}`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.CART_LIST, payload: res.data.result })
+        localStorage.setItem("cartList", JSON.stringify(res.data.result))
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+};
+export const AddToCart = (data) => (dispatch) => {
+  const { buyerId, productId, quantity, colorName, colorHexCode, sizeName, fullImg } = data
+  const postData = {
+    buyerId, buyerInfo: buyerId, productInfo: [{ productDetails: productId, productId, quantity, colorName, colorHexCode, sizeName, productImgUrl: fullImg }]
+  }
+  const url = `${process.env.REACT_APP_API_URL}cart`;
+  dispatch({ type: Types.IS_CART_LOADING, payload: true })
+  try {
+    Axios.post(url, postData).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_CART_LOADING, payload: false })
+        dispatch({ type: Types.IS_CART_ADDED, payload: true })
+        dispatch(GetCartListByBuyer(buyerId))
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_CART_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+export const FalseCartAdded = () => (dispatch) => {
+  dispatch({ type: Types.IS_CART_ADDED, payload: false })
+}
+export const CartProductQuantity = (number, productInfoId, cartId, buyerId) => (dispatch) => {
+  const postData = { number, productInfoId, cartId }
+  const url = `${process.env.REACT_APP_API_URL}cart/quantity`;
+  dispatch({ type: Types.IS_QUANTITY_LOADING, payload: true })
+  try {
+    Axios.post(url, postData).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_QUANTITY_LOADING, payload: false })
+        dispatch(GetCartListByBuyer(buyerId))
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_QUANTITY_LOADING, payload: false });
     showToast("error", "Something went wrong");
   }
 };
