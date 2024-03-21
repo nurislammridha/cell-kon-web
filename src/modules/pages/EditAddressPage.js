@@ -5,7 +5,9 @@ import userIcon from "../../assets/images/icons/user.png"
 import orderIcon from "../../assets/images/icons/order.png"
 import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
+import { useNavigate } from 'react-router-dom'
 function EditAddressPage() {
+    const navigate = useNavigate()
     return (
         <div className='user_info add_address'>
             <div className='right'>
@@ -106,7 +108,7 @@ function EditAddressPage() {
                                 value={""}
                             />
                         </div>
-                        <div className='mt40 save_changes cp'>
+                        <div className='mt40 save_changes cp' onClick={() => navigate('/user-address')}>
                             <a href>Update</a>
                         </div>
                     </div>

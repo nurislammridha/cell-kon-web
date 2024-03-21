@@ -9,7 +9,7 @@ const PaymentPage = () => {
         <>
             <div className='cart_page payment_page'>
                 <div>
-                    recommended method
+                    {/* recommended method */}
                     <RecomendedMethods />
                     {/* saved account */}
                     <SavedAccounts />

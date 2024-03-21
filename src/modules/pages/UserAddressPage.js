@@ -1,18 +1,23 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const UserAddressPage = () => {
+    const navigate = useNavigate()
     return (
         <div className='address_list_container'>
             <div className='address_list'>
                 <div className='add'>
                     <p>Delivery Address</p>
-                    <a href>Add Address</a>
+                    <a href
+                        className='cp'
+                        onClick={() => navigate('/add-address')}
+                    >Add Address</a>
                 </div>
                 {[1, 2, 3].map((item) => (
                     <div className='address_item'>
                         <div className='title'>
                             <p>SellKon.com</p>
-                            <a><i class="fas fa-edit"></i></a>
+                            <a onClick={() => navigate('/edit-address')}><i class="fas fa-edit"></i></a>
                         </div>
                         <div className='phone mt8'>01785434344</div>
                         <div className='phone mt16'>Plot 1757, Road 3, BLog A</div>

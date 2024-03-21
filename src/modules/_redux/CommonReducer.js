@@ -21,6 +21,24 @@ const initialState = {
   isCartLoading: false,
   cartList: null,
   isQuantityLoading: null,
+  addressInput: {
+    buyerName: "",
+    buyerPhone: "",
+    isMetropolitan: true,
+    division: "",
+    divisionId: "",
+    district: "",
+    districtId: "",
+    upazilla: "",
+    upazillaId: "",
+    union: "",
+    unionId: "",
+    nearestArea: "",
+    nearestAreaId: "",
+    detailsAddress: "",
+    postalCode: "",
+  },
+  isAddressLoading: false
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -102,6 +120,25 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isQuantityLoading: action.payload,
+      };
+    case Types.IS_ADDRESS_LOADING:
+      return {
+        ...state,
+        isAddressLoading: action.payload,
+      };
+    case Types.GET_ADDRESS_INPUT:
+      const { name: nameA, value: valueA } = action.payload
+      const addressInput = { ...state.addressInput };
+      addressInput[nameA] = valueA;
+      return {
+        ...state,
+        addressInput: addressInput,
+      };
+    case Types.ADDRESS_CREATED:
+      const addressCreated = initialState.addressInput;
+      return {
+        ...state,
+        addressInput: addressCreated,
       };
     default:
       break;

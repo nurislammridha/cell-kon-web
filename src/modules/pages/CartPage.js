@@ -7,6 +7,7 @@ import { GetCartListByBuyer } from '../_redux/CommonAction'
 const CartPage = () => {
     const dispatch = useDispatch()
     const cartApiList = useSelector((state) => state.homeInfo.cartList);
+    const isQuantityLoading = useSelector((state) => state.homeInfo.isQuantityLoading);
     useEffect(() => {
         const buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
         dispatch(GetCartListByBuyer(buyerId))
@@ -15,7 +16,7 @@ const CartPage = () => {
         <>
             <div className='cart_page'>
                 {/* Cart products */}
-                <CartProducts obj={cartApiList} />
+                <CartProducts obj={cartApiList} isQuantityLoading={isQuantityLoading} />
                 {/* cart Summery */}
                 <CartSummery />
             </div>

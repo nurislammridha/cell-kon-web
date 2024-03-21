@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const CheckoutOrderSummery = () => {
+    const navigate = useNavigate()
     return (
         <div>
             <div className='cart_summery'>
@@ -26,7 +28,7 @@ const CheckoutOrderSummery = () => {
                 <div className='order_policy'>
                     *Order Delivery Policy for this order can be found <a href>here</a>
                 </div>
-                <div className='cart_checkout'>
+                <div className='cp cart_checkout' onClick={() => navigate("/payment")}>
                     Please Order
                 </div>
             </div>

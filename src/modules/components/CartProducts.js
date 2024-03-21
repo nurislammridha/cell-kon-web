@@ -2,7 +2,7 @@ import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { useDispatch } from 'react-redux'
 import { CartProductQuantity } from '../_redux/CommonAction'
-const CartProducts = ({ obj = {} }) => {
+const CartProducts = ({ obj = {}, isQuantityLoading }) => {
     const dispatch = useDispatch()
     const { productInfo: arr, _id: cartId, buyerId } = obj || []
     const handleQuantity = (number, productInfoId) => {
@@ -35,14 +35,14 @@ const CartProducts = ({ obj = {} }) => {
                                 <div className='quantity_button'>
                                     <div
                                         className='btn minus'
-                                        onClick={() => item?.quantity > 1 ? handleQuantity(item?.quantity - 1, item._id) : {}}
+                                        onClick={() => !isQuantityLoading && item?.quantity > 1 ? handleQuantity(item?.quantity - 1, item._id) : {}}
                                     >
                                         <i class="fa fa-minus"></i>
                                     </div>
                                     <div className='btn number'>{item?.quantity}</div>
                                     <div
                                         className='btn plus'
-                                        onClick={() => item?.quantity < 5 ? handleQuantity(item?.quantity + 1, item._id) : {}}
+                                        onClick={() => !isQuantityLoading && item?.quantity < 5 ? handleQuantity(item?.quantity + 1, item._id) : {}}
                                     ><i class="fa fa-plus"></i></div>
                                 </div>
 

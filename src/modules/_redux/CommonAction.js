@@ -184,3 +184,64 @@ export const CartProductQuantity = (number, productInfoId, cartId, buyerId) => (
     showToast("error", "Something went wrong");
   }
 };
+
+export const GetAddressInput = (name, value) => (dispatch) => {
+  const postData = { name, value }
+  dispatch({ type: Types.GET_ADDRESS_INPUT, payload: postData });
+}
+export const SubmitBuyerAddress = (data) => (dispatch) => {
+  const { buyerName, buyerPhone, isMetropolitan, division, divisionId, district, districtId, upazilla, upazillaId, union, unionId, nearestArea, nearestAreaId, detailsAddress, postalCode } = data
+  let buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
+  if (!buyerId) {
+    showToast("error", "Please Login!")
+    return 0
+  } else if (buyerName.length === 0) {
+    showToast("error", "Full name should n't be empty!")
+    return 0
+  } else if (buyerPhone.length === 0) {
+    showToast("error", "Buyer phone should n't be empty!")
+    return 0
+  } else if (division.length === 0) {
+    showToast("error", "Please select a division!")
+    return 0
+  } else if (district.length === 0) {
+    showToast("error", "Please select a district!")
+    return 0
+  } else if (upazilla.length === 0) {
+    showToast("error", "Please select a upazilla!")
+    return 0
+  } else if (!isMetropolitan && union.length === 0) {
+    showToast("error", "Please select a union!")
+    return 0
+  } else if (nearestArea.length === 0) {
+    showToast("error", "Nearest area should n't be empty!")
+    return 0
+  } else if (detailsAddress.length === 0) {
+    showToast("error", "house/holding, plot, road/para, block/Avenue should n't be empty!")
+    return 0
+  }
+
+  dispatch({ type: Types.IS_ADDRESS_LOADING, payload: true });
+  const url = `${process.env.REACT_APP_API_URL}buyer/delivery-address`;
+  const postData = {
+    buyerId,
+    addressInfo: { buyerName, buyerPhone, division, district, upazilla, nearestArea, union, postalCode, detailsAddress, isMetropolitan }
+  }
+  try {
+    Axios.post(url, postData).then((res) => {
+      dispatch({ type: Types.IS_ADDRESS_LOADING, payload: false })
+      if (res.data.status) {
+
+        dispatch({ type: Types.ADDRESS_CREATED, payload: false })
+        showToast("success", res.data.message)
+      } else {
+        showToast("error", res.data.message)
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_ADDRESS_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+}

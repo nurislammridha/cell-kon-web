@@ -8,3 +8,25 @@ export const initialVal = (arr, page) => {
     }
     return val
 }
+
+export const locationOption = (list) => {
+    let arr = []
+    if (list?.length > 0) {
+        list?.forEach(item => {
+            let obj = { value: item.id, label: item.name }
+            arr.push(obj)
+        });
+    }
+    return arr
+}
+// export const districtOption = (list) => {
+//     console.log('list', list)
+//     let arr = []
+//     if (list?.length > 0) {
+//         list?.forEach(item => {
+//             let obj = { value: item.id, label: item.name }
+//             arr.push(obj)
+//         });
+//     }
+//     return arr
+// }

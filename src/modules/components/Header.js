@@ -14,10 +14,10 @@ const Header = () => {
     const cartApiList = useSelector((state) => state.homeInfo.cartList);
     const [cartList, setCartList] = useState([])
     useEffect(() => {
-        setCartList(JSON.parse(localStorage.getItem("cartList")).productInfo)
+        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
     }, [])
     useEffect(() => {
-        setCartList(JSON.parse(localStorage.getItem("cartList")).productInfo)
+        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
     }, [cartApiList])
 
     return (
@@ -57,9 +57,9 @@ const Header = () => {
                         </div>
                         <div className='top_icon'>
                             <img src={notificationIcon} alt='icon' />
-                            <span>1</span>
+                            {/* <span>1</span> */}
                         </div>
-                        <div className='top_icon'>
+                        <div className='top_icon' onClick={() => navigate('/user-info')}>
                             <img src={userIcon} alt='icon' />
                         </div>
                     </div>

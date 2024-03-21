@@ -1,6 +1,8 @@
 import React from 'react'
 import upIcon from '../../assets/images/icons/up.png'
+import { useNavigate } from 'react-router-dom'
 const OrderListPage = () => {
+    const navigate = useNavigate()
     const getBg = (item) => {
         let bg = ""
         if (item === "Created") {
@@ -59,7 +61,7 @@ const OrderListPage = () => {
                 </div>
                 <div className='products_list'>
                     {["Created", "Confirm", "Cancelled", "Picked", "Shipped", "Delivered", "Processing"].map((item) => (
-                        <div className='products'>
+                        <div className='cp products' onClick={() => navigate('/order-details')}>
                             <div className='order_id'>
                                 <div>Order ID:<span>GBO9712906</span></div>
                                 <a className={getBg(item)}>{item}</a>

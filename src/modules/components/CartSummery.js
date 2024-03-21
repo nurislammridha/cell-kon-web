@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const CartSummery = () => {
+    const navigate = useNavigate()
     return (
         <div>
             <div className='cart_summery'>
@@ -19,7 +21,7 @@ const CartSummery = () => {
                     <span>Total</span>
                     <span>&#2547;324000</span>
                 </div>
-                <div className='cart_checkout'>
+                <div className='cp cart_checkout' onClick={() => navigate('/checkout')}>
                     Checkout
                 </div>
             </div>
