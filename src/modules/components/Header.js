@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import sellConIconBlack from '../../assets/images/other/SellkonBlack.png'
 import userIcon from '../../assets/images/icons/user.png'
+import userLogo from "../../assets/images/icons/userIcon.png"
 import cartIcon from '../../assets/images/icons/cart.png'
 import loveIcon from '../../assets/images/icons/love.png'
 import homeIcon from '../../assets/images/icons/home.png'
@@ -9,17 +10,26 @@ import campaignIcon from '../../assets/images/icons/campaign.png'
 import notificationIcon from '../../assets/images/icons/notification.png'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-const Header = () => {
+const Header = ({ isLogin }) => {
     const navigate = useNavigate()
     const cartApiList = useSelector((state) => state.homeInfo.cartList);
+    const userUpdted = useSelector((state) => state.homeInfo.userUpdted);
     const [cartList, setCartList] = useState([])
+    const [userImgUrl, setUserImgUrl] = useState("")
     useEffect(() => {
         setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
     }, [])
     useEffect(() => {
         setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
     }, [cartApiList])
-
+    useEffect(() => {
+        if (userUpdted) {
+            setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
+        }
+    }, [userUpdted])
+    useEffect(() => {
+        setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
+    }, [])
     return (
         <div className='header'>
             <div className='w-1176'>
@@ -60,7 +70,8 @@ const Header = () => {
                             {/* <span>1</span> */}
                         </div>
                         <div className='top_icon' onClick={() => navigate('/user-info')}>
-                            <img src={userIcon} alt='icon' />
+                            <img src={isLogin ? userImgUrl.length > 0 ? userImgUrl : userLogo : userIcon} alt='icon' />
+
                         </div>
                     </div>
                 </div>

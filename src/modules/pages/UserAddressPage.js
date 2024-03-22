@@ -14,6 +14,7 @@ const UserAddressPage = () => {
         dispatch(GetBuyerDetailsByBuyerId())
     }, [])
 
+
     return (
         <div className='address_list_container'>
             <div className='address_list'>

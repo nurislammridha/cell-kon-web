@@ -44,6 +44,17 @@ const initialState = {
   isOrderCreated: false,
   isCartListCalled: false,
   isRemovedFromCart: false,
+  userInput: {
+    buyerName: "",
+    buyerEmail: "",
+    buyerPhone: "",
+    buyerGender: "",
+    birthDays: "",
+    birthMonth: "",
+    birthYear: "",
+  },
+  isBuyerUpdateLoading: false,
+  userUpdted: 0
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -169,6 +180,33 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isRemovedFromCart: action.payload,
+      };
+    case Types.GET_USER_INPUT:
+      const { name: name3, value: value3 } = action.payload
+      const userInput = { ...state.userInput };
+      userInput[name3] = value3;
+      return {
+        ...state,
+        userInput: userInput,
+      };
+    case Types.SET_USER_INPUT:
+      const { buyerName, buyerEmail, buyerPhone, buyerGender, birthDays, birthMonth, birthYear } = action.payload
+      let userInputSet = { ...state.userInput };
+      userInputSet.buyerName = buyerName;
+      userInputSet.buyerEmail = buyerEmail;
+      userInputSet.buyerPhone = buyerPhone;
+      userInputSet.buyerGender = buyerGender;
+      userInputSet.birthDays = birthDays;
+      userInputSet.birthMonth = birthMonth;
+      userInputSet.birthYear = birthYear;
+      return {
+        ...state,
+        userInput: userInputSet,
+      };
+    case Types.IS_BUYER_UPDATE_LOADING:
+      return {
+        ...state,
+        isBuyerUpdateLoading: action.payload,
       };
     default:
       break;

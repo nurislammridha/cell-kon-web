@@ -336,11 +336,63 @@ export const GetBuyerDetailsByBuyerId = () => (dispatch) => {
     Axios.get(url).then((res) => {
       if (res.data.status) {
         dispatch({ type: Types.BUYER_DETAILS, payload: res.data.result })
+        localStorage.setItem("buyerData", JSON.stringify(res.data.result))
       }
     }).catch((err) => {
       showToast("error", err);
     });
   } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+};
+export const GetUserInput = (name, value) => (dispatch) => {
+  const postData = { name, value }
+  dispatch({ type: Types.GET_USER_INPUT, payload: postData })
+}
+export const SetUserInput = (val) => (dispatch) => {
+  dispatch({ type: Types.SET_USER_INPUT, payload: val })
+}
+export const submitUserInput = (input, x) => (dispatch) => {
+  const { buyerName, buyerEmail, buyerPhone, buyerGender, birthDays, birthMonth, birthYear } = input
+  if (buyerName.length === 0) {
+    showToast('error', "Full name should n't be empty")
+    return 0
+  } else if (buyerEmail.length === 0) {
+    showToast('error', "Email should n't be empty")
+    return 0
+  } else if (buyerPhone.length === 0) {
+    showToast('error', "Phone should n't be empty")
+    return 0
+  } else if (buyerGender.length === 0) {
+    showToast('error', "Please select your gender")
+    return 0
+  } else if (birthDays.length === 0) {
+    showToast('error', "Birth days should n'n be empty")
+    return 0
+  } else if (birthMonth.length === 0) {
+    showToast('error', "Birth month should n'n be empty")
+    return 0
+  } else if (birthYear.length === 0) {
+    showToast('error', "Birth year should n'n be empty")
+    return 0
+  }
+  const buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
+  const url = `${process.env.REACT_APP_API_URL}buyer/${buyerId}`;
+  dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: true })
+
+  try {
+    Axios.put(url, input).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
+        dispatch({ type: Types.USER_UPDATED, payload: ++x })
+        dispatch(GetBuyerDetailsByBuyerId())
+      }
+    }).catch((err) => {
+      dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
+      showToast("error", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
     showToast("error", "Something went wrong");
   }
 };

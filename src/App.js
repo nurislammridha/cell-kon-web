@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
 import 'font-awesome/css/font-awesome.css'
 // Owl Carousel....
@@ -25,11 +25,16 @@ import AddAddressPage from './modules/pages/AddAddressPage';
 import EditAddressPage from './modules/pages/EditAddressPage';
 import ShopProductsPage from './modules/pages/ShopProductsPage';
 function App() {
+  const [isLogin, setIsLogin] = useState(false)
+  useEffect(() => {
+    const val = localStorage.getItem("isLogin")
+    val === "true" ? setIsLogin(true) : setIsLogin(false)
+  }, [])
 
   return (
     <>
       <div className='full_content'>
-        <Header />
+        <Header isLogin={isLogin} />
         <div className='content'>
           <div className='w-1176'>
             <Routes>
