@@ -1,3 +1,4 @@
+import { getSubTotal } from "../../assets/function/globalFunction";
 import { showToast } from "../../utils/ToastHelper";
 import * as Types from "./Types";
 import Axios from "axios";
@@ -131,6 +132,7 @@ export const GetCartListByBuyer = (id) => (dispatch) => {
   try {
     Axios.get(url).then((res) => {
       if (res.data.status) {
+        dispatch({ type: Types.IS_CART_LIST_CALLED, payload: true })
         dispatch({ type: Types.CART_LIST, payload: res.data.result })
         localStorage.setItem("cartList", JSON.stringify(res.data.result))
       }
@@ -141,6 +143,9 @@ export const GetCartListByBuyer = (id) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+export const FalseCartCalled = () => (dispatch) => {
+  dispatch({ type: Types.IS_CART_LIST_CALLED, payload: false });
+}
 export const AddToCart = (data) => (dispatch) => {
   const { buyerId, productId, quantity, colorName, colorHexCode, sizeName, fullImg } = data
   const postData = {
@@ -265,16 +270,42 @@ const makeProductList = (list) => {
   }
   return arr
 }
+export const DeleteFromCart = (productInfo) => (dispatch) => {
+  const cartList = JSON.parse(localStorage.getItem("cartList"))
+  const { _id: cartId, buyerId } = cartList
+  const productsArrId = productInfo.map((item) => item['_id'])
+  const postData = { cartId, productsArrId }
+  // console.log('postData', postData)
+  // return 0
+  const url = `${process.env.REACT_APP_API_URL}cart/delete-many`;
+  try {
+    Axios.post(url, postData).then((res) => {
+      if (res.data.status) {
+        dispatch(GetCartListByBuyer(buyerId))
+        dispatch({ type: Types.IS_REMOVE_FROM_CART, payload: true })
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+};
+export const FalseRemoveFromCart = () => (dispatch) => {
+  dispatch({ type: Types.IS_REMOVE_FROM_CART, payload: false })
+}
 export const SubmitOrder = (list, address) => (dispatch) => {
   const date = new Date()
   const buyerData = JSON.parse(localStorage.getItem("buyerData"))
   const { buyerName, _id: buyerId } = buyerData
   delete address._id
+  const subTotal = getSubTotal(list)
+  const shippingFee = address?.upazilla === "Dhaka" ? 50 : 100
   const postData = {
     buyerName, buyerId, buyerInfo: buyerId, productInfo: makeProductList(list), orderStatus: "Created",
-    deliveryAddressInfo: address, isCreated: true, createdAt: date, paymentMethodName: "COD"
+    deliveryAddressInfo: address, isCreated: true, createdAt: date, paymentMethodName: "COD", subTotal, shippingFee
   }
-  // console.log('postdata', postData)
+  // console.log('postdata', subTotal, shippingFee)
   // return 0
   const url = `${process.env.REACT_APP_API_URL}order`;
   dispatch({ type: Types.IS_ORDER_LOADING, payload: true })
@@ -283,6 +314,7 @@ export const SubmitOrder = (list, address) => (dispatch) => {
       if (res.data.status) {
         dispatch({ type: Types.IS_ORDER_LOADING, payload: false })
         dispatch({ type: Types.IS_ORDER_CREATED, payload: true })
+        dispatch(DeleteFromCart(list))
       }
     }).catch((err) => {
       dispatch({ type: Types.IS_ORDER_CREATED, payload: false })

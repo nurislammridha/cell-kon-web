@@ -1,19 +1,35 @@
 import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { useDispatch } from 'react-redux'
-import { CartProductQuantity } from '../_redux/CommonAction'
-const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect }) => {
+import { CartProductQuantity, DeleteFromCart } from '../_redux/CommonAction'
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect, selected }) => {
     const dispatch = useDispatch()
     const { productInfo: arr, _id: cartId, buyerId } = obj || []
     const handleQuantity = (number, productInfoId) => {
         dispatch(CartProductQuantity(number, productInfoId, cartId, buyerId))
     }
-
+    const handleDelete = () => {
+        confirmAlert({
+            title: "Confirm To Delete",
+            message: `Are you sure to delete product from cart?`,
+            buttons: [
+                {
+                    label: "Yes",
+                    onClick: () => { dispatch(DeleteFromCart(selected)) },
+                },
+                {
+                    label: "No",
+                },
+            ],
+        });
+    };
     return (
         <div className='cart_products'>
             <div className='cart_top'>
                 <span>{arr?.length} Products</span>
-                <a href><i class="fas fa-trash-alt"></i></a>
+                <a href onClick={() => handleDelete()} ><i class="fas fa-trash-alt"></i></a>
             </div>
             <div className='cart_bottom'>
                 {arr?.length > 0 ? arr.map((item, index) => (
@@ -21,6 +37,7 @@ const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect }) => {
                         <div className='cart_check'>
                             <input
                                 type='checkbox'
+                                checked={selected.find(v => v._id === item._id)}
                                 onChange={() => handleSelect(item)}
                             />
                         </div>

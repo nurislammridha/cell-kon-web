@@ -1,7 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getSubTotal } from '../../assets/function/globalFunction'
 
 const CheckoutOrderSummery = ({ list, addressList }) => {
+    const { district } = addressList || {}
     const navigate = useNavigate()
     return (
         <div>
@@ -10,12 +12,12 @@ const CheckoutOrderSummery = ({ list, addressList }) => {
                     Order Summary
                 </div>
                 <div className='cart_subtotal'>
-                    <span>Subtotal (2 items)</span>
-                    <span>&#2547;324000</span>
+                    <span>Subtotal ({list?.length} items)</span>
+                    <span>&#2547;{getSubTotal(list)}</span>
                 </div>
                 <div className='cart_subtotal'>
                     <span>Shipping Fee</span>
-                    <span>&#2547;500</span>
+                    <span>&#2547;{district === "Dhaka" ? 50 : 100}</span>
                 </div>
                 <div className='promo_code'>
                     <input type="text" />
@@ -23,7 +25,7 @@ const CheckoutOrderSummery = ({ list, addressList }) => {
                 </div>
                 <div className='cart_total'>
                     <span>Total</span>
-                    <span>&#2547;324000</span>
+                    <span>&#2547;{getSubTotal(list) + (district === "Dhaka" ? 50 : 100)}</span>
                 </div>
                 <div className='order_policy'>
                     *Order Delivery Policy for this order can be found <a href>here</a>

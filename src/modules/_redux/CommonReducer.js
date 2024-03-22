@@ -42,6 +42,8 @@ const initialState = {
   buyerDetails: null,
   isOrderLoading: false,
   isOrderCreated: false,
+  isCartListCalled: false,
+  isRemovedFromCart: false,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -157,6 +159,16 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isOrderLoading: action.payload,
+      };
+    case Types.IS_CART_LIST_CALLED:
+      return {
+        ...state,
+        isCartListCalled: action.payload,
+      };
+    case Types.IS_REMOVE_FROM_CART:
+      return {
+        ...state,
+        isRemovedFromCart: action.payload,
       };
     default:
       break;

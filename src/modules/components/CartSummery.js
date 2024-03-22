@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { showToast } from '../../utils/ToastHelper'
 
-const CartSummery = ({ selected }) => {
+const CartSummery = ({ selected, subTotal }) => {
     const navigate = useNavigate()
     const handleCheckout = () => {
         if (selected.length === 0) {
@@ -19,15 +19,15 @@ const CartSummery = ({ selected }) => {
                 </div>
                 <div className='cart_subtotal'>
                     <span>Subtotal (1 items)</span>
-                    <span>&#2547;324000</span>
+                    <span>&#2547;{subTotal}</span>
                 </div>
                 <div className='cart_subtotal'>
                     <span>Shipping Fee</span>
-                    <span>&#2547;324000</span>
+                    <span>&#2547;0</span>
                 </div>
                 <div className='cart_total'>
                     <span>Total</span>
-                    <span>&#2547;324000</span>
+                    <span>&#2547;{subTotal}</span>
                 </div>
                 <div
                     className='cp cart_checkout'

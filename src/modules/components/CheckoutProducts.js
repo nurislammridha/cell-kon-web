@@ -18,7 +18,7 @@ const CheckoutProducts = ({ list, addressList, addressInfo }) => {
                         <span>{buyerName}</span>
                         <a href
                             className='cp'
-                            onClick={() => navigate('/user-address', { state: { isFromChackout: true } })}
+                            onClick={() => navigate('/user-address', { state: { isFromChackout: true, selected: list } })}
                         >
                             <i class="fas fa-edit"></i>
                         </a>

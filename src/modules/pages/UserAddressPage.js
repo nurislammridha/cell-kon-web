@@ -28,7 +28,7 @@ const UserAddressPage = () => {
                     <div
                         key={index}
                         className={location?.state?.isFromChackout ? 'cp address_item' : 'address_item'}
-                        onClick={() => location?.state?.isFromChackout ? navigate('/checkout', { state: { isFromAddress: true, data: item } }) : {}}
+                        onClick={() => location?.state?.isFromChackout ? navigate('/checkout', { state: { isFromAddress: true, data: item, selected: location?.state?.selected } }) : {}}
                     >
                         <div className='title'>
                             <p>{item?.buyerName}</p>
