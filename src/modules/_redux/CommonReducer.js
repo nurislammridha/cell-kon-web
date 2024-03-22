@@ -40,6 +40,8 @@ const initialState = {
   },
   isAddressLoading: false,
   buyerDetails: null,
+  isOrderLoading: false,
+  isOrderCreated: false,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -145,6 +147,16 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         buyerDetails: action.payload,
+      };
+    case Types.IS_ORDER_CREATED:
+      return {
+        ...state,
+        isOrderCreated: action.payload,
+      };
+    case Types.IS_ORDER_LOADING:
+      return {
+        ...state,
+        isOrderLoading: action.payload,
       };
     default:
       break;

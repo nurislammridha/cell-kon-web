@@ -245,6 +245,58 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 }
+const makeProductList = (list) => {
+  let arr = []
+  if (list.length > 0) {
+    // console.log('list', list)
+    list.forEach(item => {
+      const obj = {
+        products: item.productId,
+        productId: item.productId,
+        quantity: item.quantity,
+        colorHexCodesize: item.colorHexCode,
+        sellPrice: Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01),
+        pastRp: item?.productDetails?.rp,
+        colorName: item.colorName,
+        sizeName: item.sizeName
+      }
+      arr.push(obj)
+    });
+  }
+  return arr
+}
+export const SubmitOrder = (list, address) => (dispatch) => {
+  const date = new Date()
+  const buyerData = JSON.parse(localStorage.getItem("buyerData"))
+  const { buyerName, _id: buyerId } = buyerData
+  delete address._id
+  const postData = {
+    buyerName, buyerId, buyerInfo: buyerId, productInfo: makeProductList(list), orderStatus: "Created",
+    deliveryAddressInfo: address, isCreated: true, createdAt: date, paymentMethodName: "COD"
+  }
+  // console.log('postdata', postData)
+  // return 0
+  const url = `${process.env.REACT_APP_API_URL}order`;
+  dispatch({ type: Types.IS_ORDER_LOADING, payload: true })
+  try {
+    Axios.post(url, postData).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_ORDER_LOADING, payload: false })
+        dispatch({ type: Types.IS_ORDER_CREATED, payload: true })
+      }
+    }).catch((err) => {
+      dispatch({ type: Types.IS_ORDER_CREATED, payload: false })
+      dispatch({ type: Types.IS_ORDER_LOADING, payload: false })
+      showToast("error", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_ORDER_LOADING, payload: false })
+    showToast("error", "Something went wrong");
+  }
+};
+export const FalseOrderCreated = () => (dispatch) => {
+  dispatch({ type: Types.IS_ORDER_CREATED, payload: false })
+}
 export const GetBuyerDetailsByBuyerId = () => (dispatch) => {
   const buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
   const url = `${process.env.REACT_APP_API_URL}buyer/${buyerId}`;

@@ -1,8 +1,16 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { showToast } from '../../utils/ToastHelper'
 
-const CartSummery = () => {
+const CartSummery = ({ selected }) => {
     const navigate = useNavigate()
+    const handleCheckout = () => {
+        if (selected.length === 0) {
+            showToast("error", "Please select at least one product")
+        } else {
+            navigate('/checkout', { state: { selected } })
+        }
+    }
     return (
         <div>
             <div className='cart_summery'>
@@ -21,7 +29,9 @@ const CartSummery = () => {
                     <span>Total</span>
                     <span>&#2547;324000</span>
                 </div>
-                <div className='cp cart_checkout' onClick={() => navigate('/checkout')}>
+                <div
+                    className='cp cart_checkout'
+                    onClick={() => handleCheckout()}>
                     Checkout
                 </div>
             </div>

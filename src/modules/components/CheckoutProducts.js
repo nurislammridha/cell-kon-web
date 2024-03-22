@@ -4,30 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetBuyerDetailsByBuyerId } from '../_redux/CommonAction'
 import { useEffect } from 'react'
-const CheckoutProducts = () => {
-    const dispatch = useDispatch()
+const CheckoutProducts = ({ list, addressList, addressInfo }) => {
     const navigate = useNavigate()
-    const location = useLocation();
-    const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
-    const { addressInfo } = buyerDetails || { addressInfo: [] }
-    const [addressList, setAddressList] = useState({})
-    const { buyerName, buyerPhone, detailsAddress, division, district, upazilla, union } = addressList || {}
-    useEffect(() => {
-        dispatch(GetBuyerDetailsByBuyerId())
-    }, [])
-    useEffect(() => {
-        if (!location?.state?.isFromAddress) {
-            setAddressList(addressInfo[0])
-        }
 
-    }, [buyerDetails])
-    useEffect(() => {
-        if (location?.state?.isFromAddress) {
-            setAddressList(location?.state?.data)
-        }
-    }, [location])
-    console.log('buyerDetails', buyerDetails)
-    console.log('addressInfo', addressInfo)
+    const { buyerName, buyerPhone, detailsAddress, division, district, upazilla, union } = addressList || {}
+
+    console.log('list', list)
     return (
         <div>
             <div className='checkout_address_section'>
@@ -60,27 +42,26 @@ const CheckoutProducts = () => {
             </div>
             <div className='cart_products'>
                 <div className='cart_top'>
-                    <span>5 Products</span>
+                    <span>{list?.length} Products</span>
                     <span>Variation</span>
                 </div>
                 <div className='cart_bottom'>
-                    {[1, 4].map((item) => (
-                        <div className='cart_item'>
+                    {list?.length > 0 && list?.map((item, index) => (
+                        <div key={index} className='cart_item'>
                             <div className='cart_img'>
-                                <img src={pro3} alt='product' />
+                                <img src={item.productImgUrl} alt='product' />
                             </div>
                             <div className='cart_right'>
                                 <div className='cart_title'>
-                                    Origine Starde Revolutio red
-                                    we we we qw  we er we r er er erwe 123
+                                    {item?.productDetails?.productName}
                                 </div>
                                 <div className='cart_taka_3 taka_q'>
-                                    <span>&#2547;3,24,000X1</span>
-                                    <span>Color: Blue</span>
+                                    <span>&#2547;{item?.productDetails?.mrp}</span>
+                                    <span>Color: {item.colorName}</span>
                                 </div>
                                 <div className='cart_taka_3 taka_r'>
-                                    <span>&#2547;3,24,000X1</span>
-                                    <span>Size: 0</span>
+                                    <span>&#2547;{Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01)}</span>
+                                    <span>Size: {item.sizeName}</span>
                                 </div>
 
                             </div>

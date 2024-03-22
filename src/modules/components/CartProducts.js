@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { useDispatch } from 'react-redux'
 import { CartProductQuantity } from '../_redux/CommonAction'
-const CartProducts = ({ obj = {}, isQuantityLoading }) => {
+const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect }) => {
     const dispatch = useDispatch()
     const { productInfo: arr, _id: cartId, buyerId } = obj || []
     const handleQuantity = (number, productInfoId) => {
         dispatch(CartProductQuantity(number, productInfoId, cartId, buyerId))
     }
+
     return (
         <div className='cart_products'>
             <div className='cart_top'>
@@ -18,7 +19,10 @@ const CartProducts = ({ obj = {}, isQuantityLoading }) => {
                 {arr?.length > 0 ? arr.map((item, index) => (
                     <div key={index} className='cart_item'>
                         <div className='cart_check'>
-                            <input type='checkbox' />
+                            <input
+                                type='checkbox'
+                                onChange={() => handleSelect(item)}
+                            />
                         </div>
                         <div className='cart_img'>
                             <img src={item.productImgUrl} alt='product' />

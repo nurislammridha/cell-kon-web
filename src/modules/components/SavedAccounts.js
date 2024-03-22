@@ -5,7 +5,7 @@ const SavedAccounts = () => {
     return (<>
         <div className='pay_title'>Saved Account(s)</div>
         <div className='saved_accounts'>
-            {[1, 2, 3].map((item) => (
+            {/* {[1, 2, 3].map((item) => (
                 <div className='item'>
                     <div className='saved_item'>
                         <img src={bKashIcon} />
@@ -18,7 +18,10 @@ const SavedAccounts = () => {
                         <input type='radio' />
                     </div>
                 </div>
-            ))}
+            ))} */}
+            <div className='item pg_14'>
+                No account(s) are saved.
+            </div>
         </div>
     </>)
 }
