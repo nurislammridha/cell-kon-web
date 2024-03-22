@@ -245,3 +245,18 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 }
+export const GetBuyerDetailsByBuyerId = () => (dispatch) => {
+  const buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
+  const url = `${process.env.REACT_APP_API_URL}buyer/${buyerId}`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.BUYER_DETAILS, payload: res.data.result })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+};

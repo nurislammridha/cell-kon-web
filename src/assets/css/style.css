@@ -2232,3 +2232,12 @@ body {
 .shop_container {
     padding-top: 24px;
 }
+
+.btn_delivery_address {
+    cursor: pointer;
+    /* border: 1px solid #767676; */
+    width: fit-content !important;
+    border-radius: 5px;
+    padding: 2px 10px;
+    background-color: #e2e2e2;
+}

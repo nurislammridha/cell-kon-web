@@ -38,7 +38,8 @@ const initialState = {
     detailsAddress: "",
     postalCode: "",
   },
-  isAddressLoading: false
+  isAddressLoading: false,
+  buyerDetails: null,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -139,6 +140,11 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         addressInput: addressCreated,
+      };
+    case Types.BUYER_DETAILS:
+      return {
+        ...state,
+        buyerDetails: action.payload,
       };
     default:
       break;

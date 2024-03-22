@@ -15,7 +15,7 @@ const CartProducts = ({ obj = {}, isQuantityLoading }) => {
                 <a href><i class="fas fa-trash-alt"></i></a>
             </div>
             <div className='cart_bottom'>
-                {arr?.length > 0 && arr.map((item, index) => (
+                {arr?.length > 0 ? arr.map((item, index) => (
                     <div key={index} className='cart_item'>
                         <div className='cart_check'>
                             <input type='checkbox' />
@@ -49,7 +49,11 @@ const CartProducts = ({ obj = {}, isQuantityLoading }) => {
                             </div>
                         </div>
                     </div>
-                ))}
+                )) : (
+                    <div>
+                        No Cart Added
+                    </div>
+                )}
             </div>
         </div>
     )

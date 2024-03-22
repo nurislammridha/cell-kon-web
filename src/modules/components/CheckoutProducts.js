@@ -1,18 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetBuyerDetailsByBuyerId } from '../_redux/CommonAction'
+import { useEffect } from 'react'
 const CheckoutProducts = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const location = useLocation();
+    const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
+    const { addressInfo } = buyerDetails || { addressInfo: [] }
+    const [addressList, setAddressList] = useState({})
+    const { buyerName, buyerPhone, detailsAddress, division, district, upazilla, union } = addressList || {}
+    useEffect(() => {
+        dispatch(GetBuyerDetailsByBuyerId())
+    }, [])
+    useEffect(() => {
+        if (!location?.state?.isFromAddress) {
+            setAddressList(addressInfo[0])
+        }
+
+    }, [buyerDetails])
+    useEffect(() => {
+        if (location?.state?.isFromAddress) {
+            setAddressList(location?.state?.data)
+        }
+    }, [location])
+    console.log('buyerDetails', buyerDetails)
+    console.log('addressInfo', addressInfo)
     return (
         <div>
             <div className='checkout_address_section'>
-                <div className='checkout_title'>
-                    <span>Sellkon.com</span>
-                    <a href><i class="fas fa-edit"></i></a>
-                </div>
-                <div className='item checkout_phone'>01784528799</div>
-                <div className='item checkout_address'>
-                    House -237/1, Road, W4, Eastern housing,
-                    Pollobi, dhaka-1216
-                </div>
+                {addressInfo?.length > 0 ? (<>
+                    <div className='checkout_title'>
+                        <span>{buyerName}</span>
+                        <a href
+                            className='cp'
+                            onClick={() => navigate('/user-address', { state: { isFromChackout: true } })}
+                        >
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </div>
+                    <div className='item checkout_phone'>{buyerPhone}</div>
+                    <div className='item checkout_address'>
+                        <span>{detailsAddress}</span>
+                        <div>{`${division}-${district}-${upazilla}-${union}`}</div>
+                    </div>
+                </>) : (
+                    <div className='checkout_title'>
+                        <span>No delivery address found</span>
+                        <a href
+                            className='btn_delivery_address'
+                            onClick={() => navigate("/add-address")}
+                        >
+                            Add Address
+                        </a>
+                    </div>
+                )}
             </div>
             <div className='cart_products'>
                 <div className='cart_top'>

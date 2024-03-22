@@ -1,8 +1,19 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { GetBuyerDetailsByBuyerId } from '../_redux/CommonAction'
 
 const UserAddressPage = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const location = useLocation();
+    const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
+    const { addressInfo } = buyerDetails || { addressInfo: [] }
+    console.log('buyerDetails', buyerDetails)
+    useEffect(() => {
+        dispatch(GetBuyerDetailsByBuyerId())
+    }, [])
+
     return (
         <div className='address_list_container'>
             <div className='address_list'>
@@ -13,15 +24,19 @@ const UserAddressPage = () => {
                         onClick={() => navigate('/add-address')}
                     >Add Address</a>
                 </div>
-                {[1, 2, 3].map((item) => (
-                    <div className='address_item'>
+                {addressInfo?.length > 0 && addressInfo.map((item, index) => (
+                    <div
+                        key={index}
+                        className={location?.state?.isFromChackout ? 'cp address_item' : 'address_item'}
+                        onClick={() => location?.state?.isFromChackout ? navigate('/checkout', { state: { isFromAddress: true, data: item } }) : {}}
+                    >
                         <div className='title'>
-                            <p>SellKon.com</p>
+                            <p>{item?.buyerName}</p>
                             <a onClick={() => navigate('/edit-address')}><i class="fas fa-edit"></i></a>
                         </div>
-                        <div className='phone mt8'>01785434344</div>
-                        <div className='phone mt16'>Plot 1757, Road 3, BLog A</div>
-                        <div className='phone mt3'>Dhaka- Dhaka- Kerniganj - Bashundhara</div>
+                        <div className='phone mt8'>{item?.buyerPhone}</div>
+                        <div className='phone mt16'>{item?.detailsAddress}</div>
+                        <div className='phone mt3'>{`${item?.division}-${item?.district}-${item?.upazilla}-${item?.union}`}</div>
                     </div>
                 ))}
             </div>
