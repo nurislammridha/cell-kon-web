@@ -5,9 +5,11 @@ import Filter from '../components/Filter'
 import Order from '../components/Order'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
+import { useLocation } from 'react-router-dom'
 
 const AllProductsPage = () => {
     const dispatch = useDispatch()
+    const location = useLocation();
     const productsList = useSelector((state) => state.homeInfo.productsList);
     const categoriesList = useSelector((state) => state.homeInfo.categoriesList);
     const sellersList = useSelector((state) => state.homeInfo.sellersList);
@@ -15,7 +17,7 @@ const AllProductsPage = () => {
     const [isShortBy, setShortBy] = useState(false)
     const [short, setShort] = useState(0)
     const [shortName, setShortName] = useState("Select")
-    const [categoriesId, setCategoriesId] = useState([])
+    const [categoriesId, setCategoriesId] = useState(location?.state?.isFromCategory ? [location?.state?.categoryId] : [])
     const [sellersId, setSellersId] = useState([])
     const handleSelect = (isCategory, id) => {
         if (isCategory) {
@@ -43,9 +45,12 @@ const AllProductsPage = () => {
         dispatch(GetSellers())
     }, [])
     useEffect(() => {
+        // if (location?.state?.isFromCategory) {
+        //     setCategoriesId(location?.state?.categoryId)
+        // }
         dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
-    }, [categoriesId, sellersId, short])
-    console.log('categoriesId sellersId', categoriesId, sellersId)
+    }, [categoriesId, sellersId, short, location])
+    // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
         <>
             <div className='product_page'>
@@ -56,6 +61,7 @@ const AllProductsPage = () => {
                     setShort={setShort}
                     shortName={shortName}
                     setShortName={setShortName}
+                    categoryName={location?.state?.categoryName || ""}
                 />
                 <div className='filter_product'>
                     {/* Filter  */}
@@ -65,6 +71,8 @@ const AllProductsPage = () => {
                         handleSelect={handleSelect}
                         categoriesId={categoriesId}
                         sellersId={sellersId}
+                        hideShop={false}
+                        hideCategory={location?.state?.isFromCategory || false}
                     />
                     <div className='filter_right'>
                         <div className='products'>

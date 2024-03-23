@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { initialVal } from '../../assets/function/globalFunction'
+import { useNavigate } from 'react-router-dom'
 const Popular = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
+    const navigate = useNavigate();
     return (
         <div className='home_products'>
             <h2 className='title'>Popular Products</h2>
             <div className='products'>
                 {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
-                    <div className="product_cart">
+                    <div
+                        key={index}
+                        className="product_cart"
+                        onClick={() => navigate(`/product-details/${item?._id}`)}
+                    >
                         <div>
                             <div className='product_img'>
                                 <img

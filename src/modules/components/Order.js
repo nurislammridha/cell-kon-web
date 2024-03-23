@@ -1,9 +1,10 @@
 import React from 'react'
 import Select from 'react-select'
-const Order = ({ count, setShortBy, setShort, shortName, setShortName }) => {
+const Order = ({ count, setShortBy, setShort, shortName, setShortName, categoryName = "" }) => {
     return (
         <div className='order_section'>
             <div className='showing'>Showing {count} Product</div>
+            {categoryName?.length > 0 && <div className='showing' >{categoryName}</div>}
             <div className='select'>
                 <div className='sort'>Short By</div>
                 <div className='price'>

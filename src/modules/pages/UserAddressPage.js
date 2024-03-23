@@ -9,7 +9,7 @@ const UserAddressPage = () => {
     const location = useLocation();
     const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
     const { addressInfo } = buyerDetails || { addressInfo: [] }
-    console.log('buyerDetails', buyerDetails)
+    // console.log('buyerDetails', buyerDetails)
     useEffect(() => {
         dispatch(GetBuyerDetailsByBuyerId())
     }, [])
