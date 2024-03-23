@@ -54,7 +54,11 @@ const initialState = {
     birthYear: "",
   },
   isBuyerUpdateLoading: false,
-  userUpdted: 0
+  userUpdted: 0,
+  isProductLoading: false,
+  productsList: null,
+  sellersList: null,
+  categoriesList: null
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -207,6 +211,26 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isBuyerUpdateLoading: action.payload,
+      };
+    case Types.IS_PRODUCT_LOADING:
+      return {
+        ...state,
+        isProductLoading: action.payload,
+      };
+    case Types.PRODUCT_LIST:
+      return {
+        ...state,
+        productsList: action.payload,
+      };
+    case Types.CATEGORIES_LIST:
+      return {
+        ...state,
+        categoriesList: action.payload,
+      };
+    case Types.SELLERS_LIST:
+      return {
+        ...state,
+        sellersList: action.payload,
       };
     default:
       break;

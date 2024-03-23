@@ -1,31 +1,39 @@
 import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-const AllProducts = () => {
+import { useNavigate } from 'react-router-dom'
+const AllProducts = ({ list = [] }) => {
+    const navigate = useNavigate()
     return (
         <div className='products'>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((item, index) => (
-                <div className="product_cart">
+            {list?.length > 0 ? list.map((item, index) => (
+                <div
+                    key={index}
+                    className="product_cart cp"
+                    onClick={() => navigate(`/product-details/${item?._id}`)}
+                >
                     <div>
                         <div className='product_img'>
                             <img
-                                src={pro3}
+                                src={item?.productIcon?.url}
                                 alt="product"
                             />
                         </div>
                         <div className='product_name'>
-                            he llo bi ke dff fe r te s fg rd f d sf df ... ... ..
+                            {item?.productName}
                         </div>
                     </div>
                     <div>
                         <div className='del_price'>
-                            &#2547;9,9990
+                            &#2547;{item?.mrp}
                         </div>
                         <div className='product_price'>
-                            &#2547;8,990
+                            &#2547;{Math.floor(item.mrp - item?.mrp * item?.regularDiscount * 0.01)}
                         </div>
                     </div>
                 </div>
-            ))}
+            )) : (
+                <div><h2 className='tac'>No products found</h2></div>
+            )}
 
         </div>
     )

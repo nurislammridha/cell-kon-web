@@ -15,6 +15,37 @@ export const GetHomePageData = () => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+//all filter products list
+export const GetAllProduct = () => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}product`;
+  dispatch({ type: Types.IS_PRODUCT_LOADING, payload: true });
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_PRODUCT_LOADING, payload: false });
+        dispatch({ type: Types.PRODUCT_LIST, payload: res.data.result });
+      }
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_PRODUCT_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+export const GetFilterProduct = (data) => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}product/filter`;
+  dispatch({ type: Types.IS_PRODUCT_LOADING, payload: true });
+  try {
+    Axios.post(url, data).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.IS_PRODUCT_LOADING, payload: false });
+        dispatch({ type: Types.PRODUCT_LIST, payload: res.data.result });
+      }
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_PRODUCT_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
 export const ProductDetailsById = (id) => (dispatch) => {
   const url = `${process.env.REACT_APP_API_URL}product/${id}`;
   try {
@@ -396,3 +427,31 @@ export const submitUserInput = (input, x) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+export const GetCategories = () => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}category`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.CATEGORIES_LIST, payload: res.data.result })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}
+export const GetSellers = () => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}seller`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.SELLERS_LIST, payload: res.data.result })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import categoryIcon from '../../assets/images/icons/category.png'
-const Filter = () => {
+const Filter = ({ categoriesList, sellersList, handleSelect, categoriesId, sellersId }) => {
     return (
         <div>
             <div className='filter_left'>
@@ -13,26 +13,16 @@ const Filter = () => {
                         Category
                     </div>
                     <ul>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
+                        {categoriesList?.length > 0 && categoriesList.map((item, index) => (
+                            <li>
+                                <input
+                                    type='radio'
+                                    checked={categoriesId.find(v => v === item?._id)}
+                                    onChange={() => handleSelect(true, item?._id)}
+                                />
+                                <span>{item?.categoryName}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 <div className='category'>
@@ -40,26 +30,17 @@ const Filter = () => {
                         Shops
                     </div>
                     <ul>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
-                        <li>
-                            <input type='radio' />
-                            <span>Smartphone</span>
-                        </li>
+                        {sellersList?.length > 0 && sellersList.map((item, index) => (
+                            <li>
+                                <input
+                                    type='radio'
+                                    checked={sellersId.find(v => v === item?._id)}
+                                    onChange={() => handleSelect(false, item?._id)}
+                                />
+                                <span>{item?.shopName}</span>
+                            </li>
+                        ))}
+
                     </ul>
                 </div>
             </div>
