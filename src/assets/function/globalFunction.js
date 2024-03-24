@@ -115,3 +115,35 @@ export const getYear = () => {
         { label: "1989", value: 1 },
     ]
 }
+export const getBg = (item) => {
+    let bg = ""
+    if (item === "Created") {
+        bg = "created_bg"
+    } else if (item === "Confirmed") {
+        bg = "confirm_bg"
+    } else if (item === "Cancelled") {
+        bg = "cancelled_bg"
+    } else if (item === "Picked") {
+        bg = "picked_bg"
+    } else if (item === "Shipped") {
+        bg = "shipped_bg"
+    } else if (item === "Delivered") {
+        bg = "delivered_bg"
+    } else if (item === "Processing") {
+        bg = "processing_bg"
+    }
+    return bg
+}
+export const orderByStatus = (list, status) => {
+    let arr = []
+    if (status !== "All" && list.length > 0) {
+        list.forEach(val => {
+            if (val.orderStatus === status) {
+                arr.push(val)
+            }
+        });
+    } else {
+        arr = list
+    }
+    return arr
+}

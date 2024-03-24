@@ -455,3 +455,36 @@ export const GetSellers = () => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 }
+export const GetOrderByBuyer = () => (dispatch) => {
+  const id = JSON.parse(localStorage.getItem("buyerData"))._id
+  const url = `${process.env.REACT_APP_API_URL}order/buyer/${id}`;
+  dispatch({ type: Types.IS_ORDER_LIST_LOADING, payload: true })
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.ORDER_LIST, payload: res.data.result })
+        dispatch({ type: Types.IS_ORDER_LIST_LOADING, payload: false })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}
+export const GetOrderById = (id) => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}order/order-details/${id}`;
+  dispatch({ type: Types.IS_ORDER_DETAILS_LOADING, payload: true })
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.ORDER_DETAILS, payload: res.data.result })
+        dispatch({ type: Types.IS_ORDER_DETAILS_LOADING, payload: false })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}
