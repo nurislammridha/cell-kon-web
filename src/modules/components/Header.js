@@ -17,17 +17,13 @@ const Header = ({ isLogin }) => {
     const [cartList, setCartList] = useState([])
     const [userImgUrl, setUserImgUrl] = useState("")
     useEffect(() => {
-        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
-    }, [])
-    useEffect(() => {
-        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
-    }, [cartApiList])
-    useEffect(() => {
         if (userUpdted) {
             setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
         }
-    }, [userUpdted])
+        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
+    }, [userUpdted, cartApiList])
     useEffect(() => {
+        setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
         setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
     }, [])
     return (
@@ -56,7 +52,7 @@ const Header = ({ isLogin }) => {
                     <div className='header_top_icon'>
                         <div
                             className='top_icon'
-                            onClick={() => navigate('/cart')}
+                            onClick={() => navigate(isLogin ? '/cart' : '/login')}
                         >
                             <img src={cartIcon} alt='icon' />
                             {cartList?.length > 0 && (<span>{cartList?.length}</span>)}
@@ -69,7 +65,7 @@ const Header = ({ isLogin }) => {
                             <img src={notificationIcon} alt='icon' />
                             {/* <span>1</span> */}
                         </div>
-                        <div className='top_icon' onClick={() => navigate('/user-info')}>
+                        <div className='top_icon' onClick={() => navigate(isLogin ? '/user-info' : '/login')}>
                             <img src={isLogin ? userImgUrl.length > 0 ? userImgUrl : userLogo : userIcon} alt='icon' />
 
                         </div>
@@ -88,10 +84,10 @@ const Header = ({ isLogin }) => {
                         <img className='top_icon' src={campaignIcon} />
                         <label className='ml-8 cp'>Campaigns</label>
                     </div>
-                    <div className='menu_icon'>
+                    {/* <div className='menu_icon'>
                         <img className='top_icon' src={campaignIcon} />
                         <label className='ml-8 cp'>Campaigns</label>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

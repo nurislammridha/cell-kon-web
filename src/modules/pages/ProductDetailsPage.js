@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ProductDetailsById } from '../_redux/CommonAction'
 import { useParams } from 'react-router-dom'
 
-const ProductDetailsPage = () => {
+const ProductDetailsPage = ({ isLogin }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const productDetails = useSelector((state) => state.homeInfo.productDetails);
@@ -20,7 +20,7 @@ const ProductDetailsPage = () => {
     return (
         <>
             <div className='details_page'>
-                <ProductDetails data={productDetails} />
+                <ProductDetails data={productDetails} isLogin={isLogin} />
                 <ShortDetails data={productDetails?.shortDescriptions} />
                 <FullDetails data={productDetails?.longDescriptions} />
                 <RelatedProducts arr={productDetails?.relatedProducts} />

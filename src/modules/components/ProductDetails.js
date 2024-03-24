@@ -3,12 +3,11 @@ import pro3 from '../../assets/images/other/pro3.jpg'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data, isLogin }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const isCartAdded = useSelector((state) => state.homeInfo.isCartAdded);
     const isCartLoading = useSelector((state) => state.homeInfo.isCartLoading);
-    const [isLogin, setIsLogin] = useState(false)
     const [buyerData, setBuyerData] = useState({})
     const multiImg = data?.productImgColor || []
     // console.log('multiIim/g', multiImg[0]?.url)
@@ -23,7 +22,6 @@ const ProductDetails = ({ data }) => {
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
     }
     useEffect(() => {
-        setIsLogin(JSON.parse(localStorage.getItem('isLogin')))
         setBuyerData(JSON.parse(localStorage.getItem('buyerData')))
         dispatch(FalseCartAdded())
     }, [])

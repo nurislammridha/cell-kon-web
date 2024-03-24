@@ -39,7 +39,7 @@ function App() {
           <div className='w-1176'>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/product-details/:id" element={<ProductDetailsPage />} />
+              <Route path="/product-details/:id" element={<ProductDetailsPage isLogin={isLogin} />} />
               <Route path="/all-products" element={<AllProductsPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
