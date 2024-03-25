@@ -59,7 +59,7 @@ function App() {
               <Route path="/user-info" element={<UserInfoPage isLogin={isLogin} />} />
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
-              <Route path="/edit-address" element={<EditAddressPage />} />
+              <Route path="/edit-address/:id" element={<EditAddressPage />} />
               <Route path="/shop/:id" element={<ShopProductsPage />} />
               <Route path="/*" element={<div>No page found</div>} />
             </Routes>

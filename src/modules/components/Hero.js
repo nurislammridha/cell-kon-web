@@ -1,9 +1,9 @@
 import React from 'react'
-import slide1 from '../../assets/images/other/slide1.jpg' //1176 443
-import slide2 from '../../assets/images/other/slide2.jpg' //1176 443
-import slide3 from '../../assets/images/other/slide3.jpg' //1176 443
-import slide4 from '../../assets/images/other/slide4.jpg' //1176 443
-import slide5 from '../../assets/images/other/slide5.jpg' //1176 443
+import slide1 from '../../assets/images/other/slide1.png' //1176 443
+import slide2 from '../../assets/images/other/slide2.png' //1176 443
+// import slide3 from '../../assets/images/other/slide3.jpg' //1176 443
+// import slide4 from '../../assets/images/other/slide4.jpg' //1176 443
+// import slide5 from '../../assets/images/other/slide5.jpg' //1176 443
 import OwlCarousel from "react-owl-carousel";
 const Hero = () => {
     return (
@@ -18,7 +18,7 @@ const Hero = () => {
                 autoplayHoverPause={true}
             >
                 {
-                    [slide3, slide4, slide5, slide3, slide4].map((item) => {
+                    [slide1, slide2, slide1, slide2, slide1, slide2].map((item) => {
                         return (
                             <>
 

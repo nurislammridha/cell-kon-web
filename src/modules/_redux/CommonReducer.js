@@ -61,7 +61,26 @@ const initialState = {
   categoriesList: null,
   isOrderDetailsLoading: false,
   orderDetails: null,
-  loggedOut: 0
+  loggedOut: 0,
+  updateAddressInput: {
+    buyerName: "",
+    buyerPhone: "",
+    isMetropolitan: true,
+    division: "",
+    divisionId: "",
+    district: "",
+    districtId: "",
+    upazilla: "",
+    upazillaId: "",
+    union: "",
+    unionId: "",
+    nearestArea: "",
+    nearestAreaId: "",
+    detailsAddress: "",
+    postalCode: "",
+  },
+  isUpdateAddressLoading: false,
+  isAddressUpdated: false
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -196,6 +215,7 @@ const CommonReducer = (state = initialState, action) => {
         ...state,
         userInput: userInput,
       };
+
     case Types.SET_USER_INPUT:
       const { buyerName, buyerEmail, buyerPhone, buyerGender, birthDays, birthMonth, birthYear } = action.payload
       let userInputSet = { ...state.userInput };
@@ -260,6 +280,41 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         loggedOut: ++logVal,
+      };
+    case Types.SET_ADDRESS_UPDATE_INPUT:
+      const { buyerName: bName, buyerPhone: bPhone, detailsAddress, district, division, isMetropolitan, nearestArea, postalCode, union, upazilla } = action.payload
+      let updateAddress = { ...state.updateAddressInput }
+      updateAddress.buyerName = bName
+      updateAddress.buyerPhone = bPhone
+      updateAddress.detailsAddress = detailsAddress
+      updateAddress.district = district
+      updateAddress.division = division
+      updateAddress.isMetropolitan = isMetropolitan
+      updateAddress.nearestArea = nearestArea
+      updateAddress.postalCode = postalCode
+      updateAddress.union = union
+      updateAddress.upazilla = upazilla
+      return {
+        ...state,
+        updateAddressInput: updateAddress,
+      };
+    case Types.GET_UPDATE_ADDRESS_INPUT:
+      const { name: name4, value: value4 } = action.payload
+      const userUpdateInput = { ...state.updateAddressInput };
+      userUpdateInput[name4] = value4;
+      return {
+        ...state,
+        updateAddressInput: userUpdateInput,
+      };
+    case Types.IS_UPDATE_ADDRESS_LOADING:
+      return {
+        ...state,
+        isUpdateAddressLoading: action.payload,
+      };
+    case Types.IS_ADDRESS_UPDATED:
+      return {
+        ...state,
+        isAddressUpdated: action.payload,
       };
     default:
       break;

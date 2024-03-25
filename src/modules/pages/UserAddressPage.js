@@ -33,7 +33,7 @@ const UserAddressPage = () => {
                     >
                         <div className='title'>
                             <p>{item?.buyerName}</p>
-                            <a onClick={() => navigate('/edit-address')}><i class="fas fa-edit"></i></a>
+                            <a onClick={() => navigate(`/edit-address/${item._id}`)}><i class="fas fa-edit"></i></a>
                         </div>
                         <div className='phone mt8'>{item?.buyerPhone}</div>
                         <div className='phone mt16'>{item?.detailsAddress}</div>

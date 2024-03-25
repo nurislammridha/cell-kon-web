@@ -122,7 +122,11 @@ function AddAddressPage() {
                                 />
                             </div>
                         </div>
-                        <div className='mt24'>
+
+
+                    </div>
+                    <div className='input_right'>
+                        <div className=''>
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
@@ -153,10 +157,6 @@ function AddAddressPage() {
                                 </div>
                             </div>
                         )}
-
-                    </div>
-                    <div className='input_right'>
-
                         {/* <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
                             <div className='user_select mt12'>
@@ -171,7 +171,7 @@ function AddAddressPage() {
                                 />
                             </div>
                         </div> */}
-                        <div>
+                        {/* <div>
                             <p className='clr959595 fs16 fm'>Nearest Area<span>*</span></p>
                             <input
                                 className='mt12'
@@ -183,7 +183,7 @@ function AddAddressPage() {
                                     handleChange("nearestArea", e.target.value)
                                 }}
                             />
-                        </div>
+                        </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>House/Holding?Plot, Road/Para, Block/Avenue<span>*</span></p>
                             <input

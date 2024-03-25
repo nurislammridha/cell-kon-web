@@ -225,6 +225,10 @@ export const GetAddressInput = (name, value) => (dispatch) => {
   const postData = { name, value }
   dispatch({ type: Types.GET_ADDRESS_INPUT, payload: postData });
 }
+export const GetUpdateAddressInput = (name, value) => (dispatch) => {
+  const postData = { name, value }
+  dispatch({ type: Types.GET_UPDATE_ADDRESS_INPUT, payload: postData });
+}
 export const SubmitBuyerAddress = (data) => (dispatch) => {
   const { buyerName, buyerPhone, isMetropolitan, division, divisionId, district, districtId, upazilla, upazillaId, union, unionId, nearestArea, nearestAreaId, detailsAddress, postalCode } = data
   let buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
@@ -249,10 +253,12 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
   } else if (!isMetropolitan && union.length === 0) {
     showToast("error", "Please select a union!")
     return 0
-  } else if (nearestArea.length === 0) {
-    showToast("error", "Nearest area should n't be empty!")
-    return 0
-  } else if (detailsAddress.length === 0) {
+  }
+  // else if (nearestArea.length === 0) {
+  //   showToast("error", "Nearest area should n't be empty!")
+  //   return 0
+  // }
+  else if (detailsAddress.length === 0) {
     showToast("error", "house/holding, plot, road/para, block/Avenue should n't be empty!")
     return 0
   }
@@ -268,7 +274,7 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
       dispatch({ type: Types.IS_ADDRESS_LOADING, payload: false })
       if (res.data.status) {
 
-        dispatch({ type: Types.ADDRESS_CREATED, payload: false })
+        dispatch({ type: Types.ADDRESS_CREATED, payload: true })
         showToast("success", res.data.message)
       } else {
         showToast("error", res.data.message)
@@ -280,6 +286,68 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
     dispatch({ type: Types.IS_ADDRESS_LOADING, payload: false });
     showToast("error", "Something went wrong");
   }
+}
+export const UpdateBuyerAddress = (data, addressId) => (dispatch) => {
+  const { buyerName, buyerPhone, isMetropolitan, division, divisionId, district, districtId, upazilla, upazillaId, union, unionId, nearestArea, nearestAreaId, detailsAddress, postalCode } = data
+  let buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
+  if (!buyerId) {
+    showToast("error", "Please Login!")
+    return 0
+  } else if (buyerName.length === 0) {
+    showToast("error", "Full name should n't be empty!")
+    return 0
+  } else if (buyerPhone.length === 0) {
+    showToast("error", "Buyer phone should n't be empty!")
+    return 0
+  } else if (division.length === 0) {
+    showToast("error", "Please select a division!")
+    return 0
+  } else if (district.length === 0) {
+    showToast("error", "Please select a district!")
+    return 0
+  } else if (upazilla.length === 0) {
+    showToast("error", "Please select a upazilla!")
+    return 0
+  } else if (!isMetropolitan && union.length === 0) {
+    showToast("error", "Please select a union!")
+    return 0
+  }
+  // else if (nearestArea.length === 0) {
+  //   showToast("error", "Nearest area should n't be empty!")
+  //   return 0
+  // }
+  else if (detailsAddress.length === 0) {
+    showToast("error", "house/holding, plot, road/para, block/Avenue should n't be empty!")
+    return 0
+  }
+
+  dispatch({ type: Types.IS_UPDATE_ADDRESS_LOADING, payload: true });
+  const url = `${process.env.REACT_APP_API_URL}buyer/update-delivery-address`;
+  const postData = {
+    buyerId,
+    addressId,
+    addressInfo: { buyerName, buyerPhone, division, district, upazilla, nearestArea, union, postalCode, detailsAddress, isMetropolitan }
+  }
+  try {
+    Axios.put(url, postData).then((res) => {
+      dispatch({ type: Types.IS_UPDATE_ADDRESS_LOADING, payload: false })
+      if (res.data.status) {
+
+        dispatch({ type: Types.IS_ADDRESS_UPDATED, payload: true })
+        showToast("success", res.data.message)
+      } else {
+        showToast("error", res.data.message)
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_UPDATE_ADDRESS_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+}
+export const FalseUpdateAddress = () => (dispatch) => {
+  dispatch({ type: Types.IS_ADDRESS_UPDATED, payload: false })
 }
 const makeProductList = (list) => {
   let arr = []
@@ -553,4 +621,10 @@ export const LogoutRequest = () => (dispatch) => {
 export const FalseIsLoginComplete = () => (dispatch) => {
   dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: false })
   dispatch({ type: Types.IS_SIGNUP_COMPLETE, payload: false })
+}
+export const SetAddressUpdateInput = (id) => (dispatch) => {
+  const data = JSON.parse(localStorage.getItem("buyerData")).addressInfo
+  const postData = data.find(val => val._id === id)
+  console.log('postData', postData)
+  dispatch({ type: Types.SET_ADDRESS_UPDATE_INPUT, payload: postData })
 }
