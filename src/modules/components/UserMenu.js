@@ -6,15 +6,34 @@ import userIcon from "../../assets/images/icons/user.png"
 import orderIcon from "../../assets/images/icons/order.png"
 import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
-const UserMenu = () => {
+import { useDispatch, useSelector } from 'react-redux'
+import { LogoutRequest, UserProfileUpdate } from '../_redux/CommonAction'
+const UserMenu = ({ buyerDetails }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const userUpdted = useSelector((state) => state.homeInfo.userUpdted);
+    const handleChangeImg = (img) => {
+        dispatch(UserProfileUpdate(img, buyerDetails?.buyerImgUrl?.publicId, userUpdted))
+    }
+    const handleLogout = () => {
+        dispatch(LogoutRequest())
+    }
     return (
         <>
             <div className='left'>
                 <div className='img_container'>
                     <div className='img'>
-                        <img src={userLogo} alt='user' />
-                        <a href><i class="fas fa-edit"></i></a>
+                        <img src={buyerDetails?.buyerImgUrl?.url ? buyerDetails?.buyerImgUrl?.url : userLogo} alt='user' />
+                        <label for="file-upload"><a href><i class="fas fa-edit"></i></a></label>
+                        <input
+                            type="file"
+                            className="d_none"
+                            accept="image/*"
+                            id="file-upload"
+                            onChange={(e) =>
+                                handleChangeImg(e.target.files[0])
+                            }
+                        />
                     </div>
                 </div>
                 <div className='menu_container'>
@@ -35,7 +54,10 @@ const UserMenu = () => {
                         <p>Wishlist</p>
                     </div>
                 </div>
-                <div className='logout'>
+                <div
+                    className='logout'
+                    onClick={() => handleLogout()}
+                >
                     <img src={userIcon} alt='user icon' />
                     <p>Logout</p>
                 </div>

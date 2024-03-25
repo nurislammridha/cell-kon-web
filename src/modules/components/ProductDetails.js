@@ -21,6 +21,14 @@ const ProductDetails = ({ data, isLogin }) => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
     }
+    const handleBuyNow = () => {
+        const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
+        postData.productImgUrl = fullImg
+        data.quantity = quantity
+        const obj = { productDetails: data }
+        const newData = { ...obj, ...postData }
+        isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
+    }
     useEffect(() => {
         setBuyerData(JSON.parse(localStorage.getItem('buyerData')))
         dispatch(FalseCartAdded())
@@ -46,7 +54,11 @@ const ProductDetails = ({ data, isLogin }) => {
                                 src={item?.url}
                                 alt='product'
                                 className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
-                                onClick={() => setFullImg(item?.url)}
+                                onClick={() => {
+                                    setFullImg(item?.url)
+                                    setColorName(item?.colorName)
+                                    setColorHexCode(item?.colorHexCode)
+                                }}
                             />
                         ))}
                     </div>
@@ -86,6 +98,7 @@ const ProductDetails = ({ data, isLogin }) => {
                                     onClick={() => {
                                         setColorName(item?.colorName)
                                         setColorHexCode(item?.colorHexCode)
+                                        setFullImg(item?.url)
                                     }}
                                 >
                                     {item?.colorName}
@@ -134,7 +147,12 @@ const ProductDetails = ({ data, isLogin }) => {
                     >
                         {isCartAdded ? "Already Added" : isCartLoading ? "Adding to Cart" : "Add to Cart"}
                     </a>
-                    <a href className='btn buy cp'>Buy Now</a>
+                    <a href
+                        className='btn buy cp'
+                        onClick={() => handleBuyNow()}
+                    >
+                        Buy Now
+                    </a>
                 </div>
                 <div className='have_question'>Have questions about this product</div>
                 <div className='call'>

@@ -209,6 +209,10 @@ body {
     border: 1px solid #F54C54 !important;
 }
 
+.d_none {
+    display: none !important;
+}
+
 .content {
     margin-top: 140px;
     /* background-color: #FAFAFA; */

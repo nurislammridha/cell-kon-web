@@ -25,7 +25,7 @@ const PaymentPage = () => {
             buttons: [
                 {
                     label: "Yes",
-                    onClick: () => { dispatch(SubmitOrder(location?.state?.list, location?.state?.addressList)) },
+                    onClick: () => { dispatch(SubmitOrder(location?.state?.list, location?.state?.addressList, location?.state?.isFromDetails)) },
                 },
                 {
                     label: "No",

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
-import { GetSignUpInput, SignUpSubmit } from '../_redux/CommonAction'
+import { FalseIsLoginComplete, GetSignUpInput, SignUpSubmit } from '../_redux/CommonAction'
 import { useNavigate } from 'react-router-dom'
 const SignUpPage = () => {
     const dispatch = useDispatch()
@@ -19,7 +19,8 @@ const SignUpPage = () => {
     // console.log('isSignUpComplete', isSignUpComplete)
     useEffect(() => {
         if (isSignUpComplete) {
-            navigate('/user-info')
+            navigate('/')
+            dispatch(FalseIsLoginComplete())
         }
     }, [isSignUpComplete])
 

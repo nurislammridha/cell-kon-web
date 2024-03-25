@@ -5,7 +5,7 @@ import { showToast } from '../../utils/ToastHelper'
 const CartSummery = ({ selected, subTotal }) => {
     const navigate = useNavigate()
     const handleCheckout = () => {
-        if (selected.length === 0) {
+        if (selected?.length === 0) {
             showToast("error", "Please select at least one product")
         } else {
             navigate('/checkout', { state: { selected } })

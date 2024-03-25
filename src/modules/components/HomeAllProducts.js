@@ -20,7 +20,11 @@ const HomeAllProducts = ({ arr = [] }) => {
             <div className='products'>
 
                 {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
-                    <div key={index} className="product_cart">
+                    <div
+                        key={index}
+                        className="product_cart cp"
+                        onClick={() => navigate(`/product-details/${item?._id}`)}
+                    >
                         <div>
                             <div className='product_img'>
                                 <img

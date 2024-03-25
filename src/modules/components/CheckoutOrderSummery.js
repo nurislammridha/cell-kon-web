@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSubTotal } from '../../assets/function/globalFunction'
 
-const CheckoutOrderSummery = ({ list, addressList }) => {
+const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
     const { district } = addressList || {}
     const navigate = useNavigate()
     return (
@@ -30,7 +30,7 @@ const CheckoutOrderSummery = ({ list, addressList }) => {
                 <div className='order_policy'>
                     *Order Delivery Policy for this order can be found <a href>here</a>
                 </div>
-                <div className='cp cart_checkout' onClick={() => navigate("/payment", { state: { list, addressList } })}>
+                <div className='cp cart_checkout' onClick={() => navigate("/payment", { state: { list, addressList, isFromDetails } })}>
                     Please Order
                 </div>
             </div>

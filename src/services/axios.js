@@ -9,15 +9,12 @@ const localStorageService = LocalStorageService.getService();
 axios.interceptors.request.use(
   (config) => {
     const token = localStorageService.getAccessToken();
-    const currencyCode = localStorageService.getCurrencyCode();
 
     if (token) {
       config.headers["Authorization"] = "Bearer " + token; // as return full code with token type
       config.headers["Accept"] = "application/json";
     }
-    if (currencyCode) {
-      config.headers["xcurrency"] = currencyCode;
-    }
+
     return config;
   },
   (error) => {

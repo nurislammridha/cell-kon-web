@@ -325,7 +325,7 @@ export const DeleteFromCart = (productInfo) => (dispatch) => {
 export const FalseRemoveFromCart = () => (dispatch) => {
   dispatch({ type: Types.IS_REMOVE_FROM_CART, payload: false })
 }
-export const SubmitOrder = (list, address) => (dispatch) => {
+export const SubmitOrder = (list, address, isFromDetails = false) => (dispatch) => {
   const date = new Date()
   const buyerData = JSON.parse(localStorage.getItem("buyerData"))
   const { buyerName, _id: buyerId } = buyerData
@@ -345,7 +345,7 @@ export const SubmitOrder = (list, address) => (dispatch) => {
       if (res.data.status) {
         dispatch({ type: Types.IS_ORDER_LOADING, payload: false })
         dispatch({ type: Types.IS_ORDER_CREATED, payload: true })
-        dispatch(DeleteFromCart(list))
+        !isFromDetails && dispatch(DeleteFromCart(list))
       }
     }).catch((err) => {
       dispatch({ type: Types.IS_ORDER_CREATED, payload: false })
@@ -427,6 +427,64 @@ export const submitUserInput = (input, x) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+const UploadCloudinary = (img, x) => (dispatch) => {
+  console.log('img', img)
+  const data = new FormData();
+  data.append("file", img);
+  data.append("upload_preset", "nurislam");
+  data.append("cloud_name ", "nurislammridha");
+  const url = "https://api.cloudinary.com/v1_1/nurislammridha/image/upload"
+  Axios.post(url, data).then((res) => {
+    console.log('res.data', res.data)
+    if (res.data) {
+      //update img
+      const buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
+      const url = `${process.env.REACT_APP_API_URL}buyer/${buyerId}`;
+      dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: true })
+      const postData = {
+        buyerImgUrl: {
+          url: res?.data?.url,
+          publicId: res?.data?.public_id
+        }
+      }
+      try {
+        Axios.put(url, postData).then((res1) => {
+          if (res1.data.status) {
+            dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
+            dispatch({ type: Types.USER_UPDATED, payload: ++x })
+            dispatch(GetBuyerDetailsByBuyerId())
+          }
+        }).catch((err) => {
+          dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
+          showToast("error", err);
+        });
+      } catch (error) {
+        dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: false })
+        showToast("error", "Something went wrong");
+      }
+    }
+  }
+  )
+}
+export const UserProfileUpdate = (img, publicId, x) => (dispatch) => {
+  if (img.type === "image/jpeg" || img.type === "image/png") {
+    const urlRemove = `${process.env.REACT_APP_API_URL}helper/delete-cloudinary`;
+    // console.log('publicId', publicId)
+    // return 0
+    if (publicId) {
+      Axios.post(urlRemove, { publicId }).then((res) => {
+        if (res) {
+          dispatch(UploadCloudinary(img, x))
+        }
+      })
+    } else {
+      dispatch(UploadCloudinary(img, x))
+    }
+  } else {
+    showToast("error", "Image should be jpg/jpeg/png");
+  }
+
+};
 export const GetCategories = () => (dispatch) => {
   const url = `${process.env.REACT_APP_API_URL}category`;
   try {
@@ -487,4 +545,12 @@ export const GetOrderById = (id) => (dispatch) => {
   } catch (error) {
     showToast("error", "Something went wrong");
   }
+}
+export const LogoutRequest = () => (dispatch) => {
+  localStorage.clear();
+  dispatch({ type: Types.LOGGED_OUT, payload: false })
+}
+export const FalseIsLoginComplete = () => (dispatch) => {
+  dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: false })
+  dispatch({ type: Types.IS_SIGNUP_COMPLETE, payload: false })
 }

@@ -24,13 +24,20 @@ import UserAddressPage from './modules/pages/UserAddressPage';
 import AddAddressPage from './modules/pages/AddAddressPage';
 import EditAddressPage from './modules/pages/EditAddressPage';
 import ShopProductsPage from './modules/pages/ShopProductsPage';
+import { useSelector } from 'react-redux';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
+  const loggedOut = useSelector((state) => state.homeInfo.loggedOut);
+  const isLoginComplete = useSelector((state) => state.homeInfo.isLoginComplete);
   useEffect(() => {
     const val = localStorage.getItem("isLogin")
     val === "true" ? setIsLogin(true) : setIsLogin(false)
   }, [])
-
+  useEffect(() => {
+    const val = localStorage.getItem("isLogin")
+    val === "true" ? setIsLogin(true) : setIsLogin(false)
+  }, [loggedOut, isLoginComplete])
+  // console.log('loggedOut', loggedOut)
   return (
     <>
       <div className='full_content'>
@@ -49,7 +56,7 @@ function App() {
               <Route path="/order-details/:id" element={<OrderDetailsPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/user-info" element={<UserInfoPage />} />
+              <Route path="/user-info" element={<UserInfoPage isLogin={isLogin} />} />
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/edit-address" element={<EditAddressPage />} />

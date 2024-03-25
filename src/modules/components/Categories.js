@@ -10,7 +10,7 @@ const Categories = ({ arr = [] }) => {
             <h2 className='title'>Categories</h2>
             <div className='products shops'>
 
-                {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
+                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"

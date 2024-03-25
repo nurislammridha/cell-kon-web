@@ -1,7 +1,8 @@
 import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
+import { useNavigate } from 'react-router-dom'
 const RelatedProducts = ({ arr = [] }) => {
-    console.log('arr', arr)
+    const navigate = useNavigate()
     return (
         <div className='home_all_products'>
             <div className='all_title'>
@@ -10,7 +11,11 @@ const RelatedProducts = ({ arr = [] }) => {
             </div>
             <div className='products'>
                 {arr?.length > 0 && arr.map(({ value }, index) => (
-                    <div key={index} className="product_cart">
+                    <div
+                        key={index}
+                        className="product_cart cp"
+                        onClick={() => navigate(`/product-details/${value?._id}`)}
+                    >
                         <div>
                             <div className='product_img'>
                                 <img

@@ -30,7 +30,11 @@ const CheckoutPage = () => {
             <div className='cart_page checkout_page'>
                 <CheckoutProducts list={location?.state?.selected} addressList={addressList} addressInfo={addressInfo} />
                 {/* Checkout order summery */}
-                <CheckoutOrderSummery list={location?.state?.selected} addressList={addressList} />
+                <CheckoutOrderSummery
+                    list={location?.state?.selected}
+                    addressList={addressList}
+                    isFromDetails={location?.state?.isFromDetails || false}
+                />
             </div>
         </>
     )

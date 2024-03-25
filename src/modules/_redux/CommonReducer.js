@@ -60,7 +60,8 @@ const initialState = {
   sellersList: null,
   categoriesList: null,
   isOrderDetailsLoading: false,
-  orderDetails: null
+  orderDetails: null,
+  loggedOut: 0
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -253,6 +254,12 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         orderDetails: action.payload,
+      };
+    case Types.LOGGED_OUT:
+      let logVal = { ...state.loggedOut }
+      return {
+        ...state,
+        loggedOut: ++logVal,
       };
     default:
       break;

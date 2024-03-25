@@ -16,7 +16,7 @@ const ProductDetailsPage = ({ isLogin }) => {
     console.log('productDetails', productDetails)
     useEffect(() => {
         dispatch(ProductDetailsById(id));
-    }, [])
+    }, [id])
     return (
         <>
             <div className='details_page'>

@@ -14,7 +14,7 @@ const UserUpdate = ({ buyerDetails }) => {
     const handleSubmit = () => {
         dispatch(submitUserInput(userInput, userUpdted))
     }
-    console.log('userInput', userInput)
+    // console.log('userInput', userInput)
     return (
         <>
             <div className='right ' style={{ paddingBottom: "70px" }}>

@@ -54,7 +54,7 @@ const ShopProductsPage = () => {
             <div className='shop_container'>
                 <div className='product_page'>
                     {/* order section */}
-                    <div className='shop'>
+                    {productsList?.length > 0 ? <div className='shop'>
                         <img src={shopIcon} alt='shop icon' />
                         <div className='shop_info'>
                             <h1>{productsList && productsList[0].sellerName}</h1>
@@ -69,7 +69,8 @@ const ShopProductsPage = () => {
                             </div>
                             <h3 className='mt13'>Savar, Dhaka, Dhaka</h3>
                         </div>
-                    </div>
+                    </div> : ""}
+
                     <div className='filter_product'>
                         {/* Shops  */}
                         <Filter
