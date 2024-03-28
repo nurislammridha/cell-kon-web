@@ -19,7 +19,7 @@ const Categories = ({ arr = [] }) => {
                         <div>
                             <div className='product_img'>
                                 <img
-                                    src={item?.categoryImgUrl}
+                                    src={item?.categoryImg?.url}
                                     alt="product"
                                 />
                             </div>

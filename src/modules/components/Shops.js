@@ -19,7 +19,7 @@ const Shops = ({ arr = [] }) => {
                         <div>
                             <div className='product_img'>
                                 <img
-                                    src={item?.shopLogoUrl}
+                                    src={item?.shopLogo?.url}
                                     alt="product"
                                 />
                             </div>

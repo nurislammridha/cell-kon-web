@@ -3,6 +3,7 @@ import pro3 from '../../assets/images/other/pro3.jpg'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
+import { initialVal } from '../../assets/function/globalFunction'
 const ProductDetails = ({ data, isLogin }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -17,6 +18,8 @@ const ProductDetails = ({ data, isLogin }) => {
     const [colorHexCode, setColorHexCode] = useState(null)
     // console.log('fullImg', fullImg)
     const [quantity, setQuantity] = useState(1)
+    const [page, setPage] = useState(1)
+    const [start, setStart] = useState(0)
     const handleAddCart = () => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
@@ -29,6 +32,12 @@ const ProductDetails = ({ data, isLogin }) => {
         const newData = { ...obj, ...postData }
         isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
     }
+    const handleColor = (item, index) => {
+        setColorName(item?.colorName)
+        setColorHexCode(item?.colorHexCode)
+        setFullImg(item?.url)
+        setPage(Math.floor(index / 4) + 1)
+    }
     useEffect(() => {
         setBuyerData(JSON.parse(localStorage.getItem('buyerData')))
         dispatch(FalseCartAdded())
@@ -39,7 +48,9 @@ const ProductDetails = ({ data, isLogin }) => {
         setColorName(multiImg[0]?.colorName)
         setSizeName(data?.size[0]?.label)
     }, [data])
-
+    useEffect(() => {
+        setStart(initialVal(multiImg, page, 4))
+    }, [page])
     return (
         <div className='main'>
             <div className='left'>
@@ -47,24 +58,34 @@ const ProductDetails = ({ data, isLogin }) => {
                     <img src={fullImg} alt='product img' />
                 </div>
                 <div className='parent_img'>
-                    <div className='images'>
-                        {multiImg.length > 0 && multiImg.map((item, index) => (
-                            <img
-                                key={index}
-                                src={item?.url}
-                                alt='product'
-                                className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
-                                onClick={() => {
-                                    setFullImg(item?.url)
-                                    setColorName(item?.colorName)
-                                    setColorHexCode(item?.colorHexCode)
-                                }}
-                            />
-                        ))}
+                    <div className='img'>
+                        <div className='images'>
+                            {multiImg?.length > 0 && multiImg.slice(start, multiImg.length)?.map((item, index) => (
+                                <img
+                                    key={index}
+                                    src={item?.url}
+                                    className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
+                                    alt='product'
+                                    onClick={() => {
+                                        setFullImg(item?.url)
+                                        setColorName(item?.colorName)
+                                        setColorHexCode(item?.colorHexCode)
+                                    }}
+                                />
+                            ))}
+                        </div>
                     </div>
-                    {multiImg.length > 4 && (<div className='arrow'>
-                        <div className='left_arrow'><i class='fas fa-chevron-left'></i></div>
-                        <div className='right_arrow'><i class='fas fa-chevron-right'></i></div>
+                    {multiImg?.length > 4 && (<div className='arrow'>
+                        <div
+                            className={page == 1 ? 'left_arrow vih' : "left_arrow"}
+                            onClick={() => setPage(page - 1)}
+                        ><i class='fas fa-chevron-left'></i></div>
+                        <div
+                            className={multiImg.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
+                            onClick={() => setPage(page + 1)}
+                        >
+                            <i class='fas fa-chevron-right'></i>
+                        </div>
                     </div>)}
                 </div>
             </div>
@@ -89,24 +110,20 @@ const ProductDetails = ({ data, isLogin }) => {
                     <div>
                         <div className='txt_cq'>Color</div>
                         <div className='colors'>
-                            {multiImg.length > 0 && multiImg.map((item, index) => (
+                            {multiImg?.length > 0 && multiImg?.map((item, index) => (
                                 <a
                                     key={index}
                                     href
                                     className={colorName === item?.colorName ? 'active_border' : 'c_border'}
                                     // style={{ backgroundColor: item?.colorHexCode }}
-                                    onClick={() => {
-                                        setColorName(item?.colorName)
-                                        setColorHexCode(item?.colorHexCode)
-                                        setFullImg(item?.url)
-                                    }}
+                                    onClick={() => handleColor(item, index + 1)}
                                 >
                                     {item?.colorName}
                                 </a>
                             ))}
                         </div>
                     </div>
-                    <div className='ml30'>
+                    {data?.size?.length > 0 && <div className='ml30'>
                         <div className='txt_cq'>Size</div>
                         <div className='colors'>
                             {data?.size?.length > 0 && data?.size?.map((item, index) => (
@@ -120,7 +137,7 @@ const ProductDetails = ({ data, isLogin }) => {
                                 </a>
                             ))}
                         </div>
-                    </div>
+                    </div>}
                 </div>
                 <div className='txt_cq'>Quantity</div>
                 <div className='quantity_button'>

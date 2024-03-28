@@ -32,7 +32,7 @@ const RelatedProducts = ({ arr = [] }) => {
                                 &#2547;{value?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;{Math.floor(value.mrp - value?.mrp * value?.regularDiscount * 0.01)}
+                                &#2547;{Math.floor(value?.mrp - value?.mrp * value?.regularDiscount * 0.01)}
                             </div>
                         </div>
                     </div>

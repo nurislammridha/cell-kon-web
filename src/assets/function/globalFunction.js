@@ -1,10 +1,10 @@
-export const initialVal = (arr, page) => {
+export const initialVal = (arr, page, number = 5) => {
     let val = 0
-    let lastPage = Math.floor(arr.length / 5) + 1
+    let lastPage = Math.floor(arr.length / number) + 1
     if (lastPage === page) {
-        val = page * 5 - ((arr.length % 5) + 5)
+        val = page * number - ((arr.length % number) + number)
     } else {
-        val = page * 5 - 5
+        val = page * number - number
     }
     return val
 }

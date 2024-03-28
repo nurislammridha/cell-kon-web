@@ -784,11 +784,21 @@ body {
     position: relative;
 }
 
-.details_page .main .parent_img .images {
-    display: flex;
+.details_page .main .parent_img .img {
+    /* display: flex; */
+    width: 524px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
-.details_page .main .parent_img .images img {
+.details_page .main .parent_img .img .images {
+    display: flex;
+    width: fit-content;
+    /* overflow: scroll; */
+}
+
+
+.details_page .main .parent_img .img .images img {
     width: 107px;
     height: 96px;
     margin-right: 24px;
