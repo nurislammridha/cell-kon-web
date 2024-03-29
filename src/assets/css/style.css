@@ -336,12 +336,12 @@ body {
 
 .header_top_icon .top_icon span {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 18px;
-    height: 18px;
+    top: -3px;
+    right: -5px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
-    font-size: 13px;
+    font-size: 12px;
     color: #FFF;
     background-color: #FF5656;
     display: flex;
@@ -596,6 +596,7 @@ body {
     align-items: center;
     cursor: pointer;
     font-size: 20px;
+    box-shadow: 2px 8px 6px 0px rgba(0, 0, 0, 0.67);
 }
 
 .home_products .arrow .right_arrow {
@@ -608,6 +609,7 @@ body {
     align-items: center;
     cursor: pointer;
     font-size: 20px;
+    box-shadow: 2px 8px 6px 0px rgba(0, 0, 0, 0.67);
 }
 
 .home_products .shops .product_cart {
