@@ -21,10 +21,10 @@ const Footer = () => {
                     <div className='footer_middle'>
                         <h2 className='footer_contact_us'>Contact Us</h2>
                         <div className='footer_address'>
-                            House #101, Northern Road
-                            House #101, Northern Road
+                            House #1757, Road-3, Block A,
+                            Bashundhara riverview, keraniganj, Dhaka.
                         </div>
-                        <div className='footer_email'>
+                        <div className='footer_email mt20'>
                             Email: support@sellkon.com
                         </div>
                         <div className='footer_contact'>

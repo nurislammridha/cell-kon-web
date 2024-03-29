@@ -52,7 +52,10 @@ const PaymentPage = () => {
                     <PaymentMethod handleOrder={handleOrder} isOrderLoading={isOrderLoading} />
                 </div>
                 {/* //payment order summery */}
-                <PaymentOrderSummery />
+                <PaymentOrderSummery
+                    list={location?.state?.list}
+                    addressList={location?.state?.addressList}
+                />
 
             </div>
             {isOrderLoading && (<div className='ordering_products'>Ordering....</div>)}

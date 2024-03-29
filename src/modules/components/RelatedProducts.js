@@ -11,31 +11,36 @@ const RelatedProducts = ({ arr = [] }) => {
             </div>
             <div className='products'>
                 {arr?.length > 0 && arr.map(({ value }, index) => (
-                    <div
-                        key={index}
-                        className="product_cart cp"
-                        onClick={() => navigate(`/product-details/${value?._id}`)}
-                    >
-                        <div>
-                            <div className='product_img'>
-                                <img
-                                    src={value?.productIcon?.url}
-                                    alt="product"
-                                />
+                    <>
+                        {value !== null && (
+                            <div
+                                key={index}
+                                className="product_cart cp"
+                                onClick={() => navigate(`/product-details/${value?._id}`)}
+                            >
+                                <div>
+                                    <div className='product_img'>
+                                        <img
+                                            src={value?.productIcon?.url}
+                                            alt="product"
+                                        />
+                                    </div>
+                                    <div className='product_name'>
+                                        {value?.productName}
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className='del_price'>
+                                        &#2547;{value?.mrp}
+                                    </div>
+                                    <div className='product_price'>
+                                        &#2547;{Math.floor(value?.mrp - value?.mrp * value?.regularDiscount * 0.01)}
+                                    </div>
+                                </div>
                             </div>
-                            <div className='product_name'>
-                                {value?.productName}
-                            </div>
-                        </div>
-                        <div>
-                            <div className='del_price'>
-                                &#2547;{value?.mrp}
-                            </div>
-                            <div className='product_price'>
-                                &#2547;{Math.floor(value?.mrp - value?.mrp * value?.regularDiscount * 0.01)}
-                            </div>
-                        </div>
-                    </div>
+                        )}
+
+                    </>
                 ))}
             </div>
         </div>

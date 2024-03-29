@@ -46,7 +46,10 @@ const ProductDetails = ({ data, isLogin }) => {
         setFullImg(multiImg[0]?.url)
         setColorHexCode(multiImg[0]?.colorHexCode)
         setColorName(multiImg[0]?.colorName)
-        setSizeName(data?.size[0]?.label)
+        if (data?.size?.length > 0) {
+            setSizeName(data?.size[0]?.label)
+        }
+
     }, [data])
     useEffect(() => {
         setStart(initialVal(multiImg, page, 4))
@@ -110,8 +113,8 @@ const ProductDetails = ({ data, isLogin }) => {
                     <div>
                         <div className='txt_cq'>Color</div>
                         <div className='colors'>
-                            {multiImg?.length > 0 && multiImg?.map((item, index) => (
-                                <a
+                            {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
+                                {item?.colorName.length > 0 && (<a
                                     key={index}
                                     href
                                     className={colorName === item?.colorName ? 'active_border' : 'c_border'}
@@ -119,8 +122,8 @@ const ProductDetails = ({ data, isLogin }) => {
                                     onClick={() => handleColor(item, index + 1)}
                                 >
                                     {item?.colorName}
-                                </a>
-                            ))}
+                                </a>)}
+                            </>))}
                         </div>
                     </div>
                     {data?.size?.length > 0 && <div className='ml30'>

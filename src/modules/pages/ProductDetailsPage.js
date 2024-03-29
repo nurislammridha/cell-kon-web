@@ -22,8 +22,11 @@ const ProductDetailsPage = ({ isLogin }) => {
             <div className='details_page'>
                 <ProductDetails data={productDetails} isLogin={isLogin} />
                 <ShortDetails data={productDetails?.shortDescriptions} />
-                <FullDetails data={productDetails?.longDescriptions} />
-                <RelatedProducts arr={productDetails?.relatedProducts} />
+                <FullDetails
+                    data={productDetails?.longDescriptions}
+                    videoUrl={productDetails?.videoUrl}
+                />
+                {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />}
             </div>
         </>
     )

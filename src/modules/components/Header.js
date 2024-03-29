@@ -38,69 +38,78 @@ const Header = ({ isLogin }) => {
     console.log('userUpdted', userUpdted)
     return (
         <div className='header'>
-            <div className='w-1176'>
-                <div className='header_top'>
-                    <div
-                        className='header_top_img'
-                        onClick={() => navigate("/")}
-                    >
-                        <img src={sellConIconBlack} alt='cell kon icon' />
-                    </div>
-                    <div className='header_top_search'>
-                        <div className='input'>
-                            <input
-                                type='text'
-                                placeholder='Search In Cellkon'
-                                name="search"
-                            />
-                        </div>
-                        <div className='search'>
-                            <i class="fas fa-search"></i>
-                            <label className='ml-8'>Search</label>
-                        </div>
-                    </div>
-                    <div className='header_top_icon'>
+            <div className='header_top_container'>
+                <div className='w-1176 '>
+                    <div className='header_top'>
                         <div
-                            className='top_icon'
-                            onClick={() => navigate(isLogin ? '/cart' : '/login')}
+                            className='header_top_img'
+                            onClick={() => navigate("/")}
                         >
-                            <img src={cartIcon} alt='icon' />
-                            {cartList?.length > 0 && (<span>{cartList?.length}</span>)}
+                            <img src={sellConIconBlack} alt='cell kon icon' />
                         </div>
-                        <div className='top_icon'>
-                            <img src={loveIcon} alt='icon' />
-                            {/* <span>1</span> */}
+                        <div className='header_top_search'>
+                            <div className='input'>
+                                <input
+                                    type='text'
+                                    placeholder='Search In Cellkon'
+                                    name="search"
+                                />
+                            </div>
+                            <div className='search'>
+                                <i class="fas fa-search"></i>
+                                <label className='ml-8'>Search</label>
+                            </div>
                         </div>
-                        <div className='top_icon'>
-                            <img src={notificationIcon} alt='icon' />
-                            {/* <span>1</span> */}
-                        </div>
-                        <div className='top_icon' onClick={() => navigate(isLogin ? '/user-info' : '/login')}>
-                            <img src={isLogin ? userImgUrl?.url?.length > 0 ? userImgUrl.url : userLogo : userIcon} alt='icon' />
+                        <div className='header_top_icon'>
+                            <div
+                                className='top_icon'
+                                onClick={() => navigate(isLogin ? '/cart' : '/login')}
+                            >
+                                <img src={cartIcon} alt='icon' />
+                                {cartList?.length > 0 && (<span>{cartList?.length}</span>)}
+                            </div>
+                            {/* <div className='top_icon'>
+                                <img src={loveIcon} alt='icon' />
+                                <span>1</span>
+                            </div>
+                            <div className='top_icon'>
+                                <img src={notificationIcon} alt='icon' />
+                                <span>1</span>
+                            </div> */}
+                            <div className='top_icon' onClick={() => navigate(isLogin ? '/user-info' : '/login')}>
+                                <img src={isLogin ? userImgUrl?.url?.length > 0 ? userImgUrl.url : userLogo : userLogo} alt='icon' />
 
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className='header_bottom'>
-                    <div className='menu_icon'>
-                        <img className='top_icon' src={categoryIcon} />
-                        <label className='ml-8 cp'>Categories</label>
-                    </div>
-                    <div
-                        className='menu_icon'
-                        onClick={() => navigate('/')}
-                    >
-                        <img className='top_icon' src={homeIcon} />
-                        <label className='ml-8 cp'>Home</label>
-                    </div>
-                    <div className='menu_icon'>
-                        <img className='top_icon' src={campaignIcon} />
-                        <label className='ml-8 cp'>Campaigns</label>
-                    </div>
-                    {/* <div className='menu_icon'>
+            </div>
+            <div className='header_bottom_container'>
+                <div className='w-1176'>
+                    <div className='header_bottom'>
+                        <div
+                            className='menu_icon'
+                            onClick={() => navigate('/all-products')}
+                        >
+                            <img className='top_icon' src={categoryIcon} />
+                            <label className='ml-8 cp'>Categories</label>
+                        </div>
+                        <div
+                            className='menu_icon'
+                            onClick={() => navigate('/')}
+                        >
+                            <img className='top_icon' src={homeIcon} />
+                            <label className='ml-8 cp'>Home</label>
+                        </div>
+                        <div className='menu_icon'>
+                            <img className='top_icon' src={campaignIcon} />
+                            <label className='ml-8 cp'>Campaigns</label>
+                        </div>
+                        {/* <div className='menu_icon'>
                         <img className='top_icon' src={campaignIcon} />
                         <label className='ml-8 cp'>Campaigns</label>
                     </div> */}
+                    </div>
                 </div>
             </div>
         </div>

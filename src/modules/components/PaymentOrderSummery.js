@@ -1,6 +1,8 @@
 import React from 'react'
+import { getSubTotal } from 'src/assets/function/globalFunction'
 
-const PaymentOrderSummery = () => {
+const PaymentOrderSummery = ({ list, addressList }) => {
+    const { district } = addressList || {}
     return (
         <div>
             <div className='cart_summery'>
@@ -8,13 +10,13 @@ const PaymentOrderSummery = () => {
                     Order Summary
                 </div>
                 <div className='cart_subtotal'>
-                    <span>Subtotal (1 items & Delivery Fee)</span>
-                    <span>&#2547;324000</span>
+                    <span>Subtotal ({list?.length} items & Delivery Fee)</span>
+                    <span>&#2547;{getSubTotal(list)}</span>
                 </div>
 
                 <div className='cart_total'>
                     <span>Total</span>
-                    <span>&#2547;324000</span>
+                    <span>&#2547;{getSubTotal(list) + (district === "Dhaka" ? 50 : 100)}</span>
                 </div>
 
             </div>

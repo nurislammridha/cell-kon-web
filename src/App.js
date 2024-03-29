@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Switch, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Switch, Routes } from "react-router-dom";
 import 'font-awesome/css/font-awesome.css'
 // Owl Carousel....
 import "owl.carousel/dist/assets/owl.theme.default.css";

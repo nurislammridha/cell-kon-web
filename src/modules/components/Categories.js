@@ -8,7 +8,7 @@ const Categories = ({ arr = [] }) => {
     return (
         <div className='home_products'>
             <h2 className='title'>Categories</h2>
-            <div className='products shops'>
+            <div className='products shops cat'>
 
                 {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div

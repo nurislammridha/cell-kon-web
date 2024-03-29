@@ -2,7 +2,7 @@ import * as Types from "./Types";
 
 const initialState = {
   homeData: null,
-  productDetails: null,
+  productDetails: {},
   signUpInput: {
     buyerName: "",
     mailOrPhone: "",

@@ -114,6 +114,10 @@ body {
     margin-top: 19px;
 }
 
+.mt20 {
+    margin-top: 20px;
+}
+
 .mt21 {
     margin-top: 21px;
 }
@@ -243,10 +247,18 @@ body {
     width: 100%;
     position: fixed;
     top: 0;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     background-color: #FFF;
     z-index: 999;
+}
+
+.header_top_container {
+    background-color: #151820;
+}
+
+.header_bottom_container {
+    background-color: #282E3D;
 }
 
 .header_top {
@@ -260,8 +272,8 @@ body {
 .header_top_img {}
 
 .header_top_img img {
-    width: 164px;
-    height: 40px;
+    width: 150px;
+    height: 32px;
     cursor: pointer;
 }
 
@@ -296,11 +308,11 @@ body {
 
 .header_top_search .search {
     width: 130px;
-    background-color: #000000;
+    background-color: #EBC274;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #FFFFFF;
+    color: #151820;
     font-size: 16px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -309,7 +321,8 @@ body {
 .header_top_icon {
     width: 228px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    /*space btween after al icon s show*/
 }
 
 .header_top_icon .top_icon {
@@ -317,6 +330,8 @@ body {
     height: 30px !important;
     cursor: pointer;
     position: relative;
+    margin-left: 24px;
+    /*OFF after al icon s show*/
 }
 
 .header_top_icon .top_icon span {
@@ -328,7 +343,7 @@ body {
     border-radius: 50%;
     font-size: 13px;
     color: #FFF;
-    background-color: #CC0000;
+    background-color: #FF5656;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -337,6 +352,7 @@ body {
 .header_top_icon .top_icon img {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
 }
 
 .header_bottom {
@@ -352,6 +368,7 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
+    color: #FFF;
 }
 
 .header_bottom .menu_icon .top_icon {
@@ -504,13 +521,13 @@ body {
 .hero_main .owl-theme .owl-dots .owl-dot.active span {
     background: #000000 !important;
     width: 48px !important;
-    height: 17px;
+    height: 14px;
     border-radius: 30px !important;
 }
 
 .hero_main .owl-theme .owl-dots .owl-dot span {
-    width: 17px;
-    height: 17px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background-color: #C8C8C8;
 }
@@ -572,23 +589,25 @@ body {
 .home_products .arrow .left_arrow {
     width: 40px;
     height: 40px;
-    background: #d5d5d5;
+    background: #FFF;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .home_products .arrow .right_arrow {
     width: 40px;
     height: 40px;
-    background: #d5d5d5;
+    background: #FFF;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .home_products .shops .product_cart {
@@ -597,6 +616,11 @@ body {
     padding-top: 18px;
     padding-left: 18px;
     padding-right: 18px;
+}
+
+.home_products .cat .product_cart {
+    /* width: 192px; */
+    height: auto;
 }
 
 .product_cart .product_img {
@@ -629,6 +653,11 @@ body {
     height: 17px;
     font-size: 14px;
     /* line-height: 16px; */
+}
+
+.cat .product_cart .product_name {
+    height: auto;
+    line-height: 17px;
 }
 
 .product_cart .del_price {
@@ -701,6 +730,7 @@ body {
     text-decoration: none;
     color: #000;
     background-color: #FFFFFF;
+    border-radius: 10px;
 }
 
 .home_all_products .products {
@@ -725,7 +755,7 @@ body {
 .home_all_products .product_cart .product_img {
     /* background-color: red; */
     width: 100%;
-    height: 144px;
+    height: 180px;
 }
 
 .home_all_products .product_cart .product_img img {
@@ -2276,4 +2306,33 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
+}
+
+.video_container {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-bottom: 30px;
+}
+
+.video_item {
+    /* width: 600px; */
+    height: 301px;
+    border-radius: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.video_item iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.full_details ul {
+    margin-bottom: 20px !important;
+    font-size: 14px !important;
+}
+
+.full_details ul li {
+    margin-top: 5px !important;
 }
