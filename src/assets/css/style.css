@@ -326,22 +326,27 @@ body {
 }
 
 .header_top_icon .top_icon {
-    width: 30px !important;
-    height: 30px !important;
+    width: 50px !important;
+    height: 50px !important;
     cursor: pointer;
     position: relative;
     margin-left: 24px;
     /*OFF after al icon s show*/
 }
 
+.header_top_icon .cart_icon {
+    width: 60px !important;
+    height: 60px !important;
+}
+
 .header_top_icon .top_icon span {
     position: absolute;
-    top: -3px;
-    right: -5px;
-    width: 17px;
-    height: 17px;
+    top: 0px;
+    right: -4px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    font-size: 12px;
+    font-size: 13px;
     color: #FFF;
     background-color: #FF5656;
     display: flex;
@@ -363,7 +368,7 @@ body {
 }
 
 .header_bottom .menu_icon {
-    font-size: 15px;
+    font-size: 16px;
     margin-right: 40px;
     display: flex;
     align-items: center;
@@ -372,8 +377,8 @@ body {
 }
 
 .header_bottom .menu_icon .top_icon {
-    width: 17px;
-    height: 17px;
+    width: 40px;
+    height: 40px;
 }
 
 /* footer */

@@ -62,7 +62,7 @@ const Header = ({ isLogin }) => {
                         </div>
                         <div className='header_top_icon'>
                             <div
-                                className='top_icon'
+                                className='top_icon cart_icon'
                                 onClick={() => navigate(isLogin ? '/cart' : '/login')}
                             >
                                 <img src={cartIcon} alt='icon' />
