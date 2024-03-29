@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-import { initialVal } from '../../assets/function/globalFunction'
+import { initialVal, isLastPage } from '../../assets/function/globalFunction'
 import { useNavigate } from 'react-router-dom'
 const Popular = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
@@ -45,7 +45,7 @@ const Popular = ({ arr = [] }) => {
                     <i class='fas fa-chevron-left'></i>
                 </div>
                 <div
-                    className={arr.length / 5 >= page ? "right_arrow" : "right_arrow vih"}
+                    className={isLastPage(arr, page, 5) ? "right_arrow" : "right_arrow vih"}
                     onClick={() => setPage(page + 1)}
                 >
                     <i class='fas fa-chevron-right'></i>

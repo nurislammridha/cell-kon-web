@@ -1,12 +1,25 @@
 export const initialVal = (arr, page, number = 5) => {
     let val = 0
-    let lastPage = Math.floor(arr.length / number) + 1
-    if (lastPage === page) {
-        val = page * number - ((arr.length % number) + number)
+    let l = arr?.length
+    let lastPage = l % number === 0 ? Math.floor(l / number) : Math.floor(l / number) + 1
+    if (l % number === 0 && lastPage === page) {
+        val = page * number - (number + 1)
+    } else if (lastPage === page) {
+        val = page * number - ((l % number) + number)
     } else {
         val = page * number - number
     }
     return val
+}
+export const isLastPage = (arr, page, number) => {
+    let flag = false
+    let l = arr?.length
+    if (l % number !== 0 && l / number >= page) {
+        flag = true
+    } else if (l % number === 0 && l / number >= (page + 1)) {
+        flag = true
+    }
+    return flag
 }
 
 export const locationOption = (list) => {
