@@ -349,9 +349,9 @@ export const UpdateBuyerAddress = (data, addressId) => (dispatch) => {
 export const FalseUpdateAddress = () => (dispatch) => {
   dispatch({ type: Types.IS_ADDRESS_UPDATED, payload: false })
 }
-const makeProductList = (list) => {
+const makeProductList = (list = []) => {
   let arr = []
-  if (list.length > 0) {
+  if (list?.length > 0) {
     // console.log('list', list)
     list.forEach(item => {
       const obj = {

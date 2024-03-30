@@ -33,9 +33,9 @@ export const locationOption = (list) => {
     return arr
 }
 
-export const getSubTotal = (list) => {
+export const getSubTotal = (list = []) => {
     let total = 0
-    if (list.length) {
+    if (list?.length > 0) {
         list.forEach(item => {
             total = total + item.quantity * (Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01))
         });
@@ -149,7 +149,7 @@ export const getBg = (item) => {
 }
 export const orderByStatus = (list, status) => {
     let arr = []
-    if (status !== "All" && list.length > 0) {
+    if (status !== "All" && list?.length > 0) {
         list.forEach(val => {
             if (val.orderStatus === status) {
                 arr.push(val)

@@ -10,7 +10,7 @@ const Shops = ({ arr = [] }) => {
         <div className='home_products'>
             <h2 className='title'>Our Shops</h2>
             <div className='products shops'>
-                {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
+                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"
@@ -38,7 +38,7 @@ const Shops = ({ arr = [] }) => {
                     <i class='fas fa-chevron-left'></i>
                 </div>
                 <div
-                    className={arr.length / 5 >= page ? "right_arrow" : "right_arrow vih"}
+                    className={arr?.length / 5 >= page ? "right_arrow" : "right_arrow vih"}
                     onClick={() => setPage(page + 1)}
                 >
                     <i class='fas fa-chevron-right'></i>

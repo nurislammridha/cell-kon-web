@@ -63,7 +63,7 @@ const ProductDetails = ({ data, isLogin }) => {
                 <div className='parent_img'>
                     <div className='img'>
                         <div className='images'>
-                            {multiImg?.length > 0 && multiImg.slice(start, multiImg.length)?.map((item, index) => (
+                            {multiImg?.length > 0 && multiImg.slice(start, multiImg?.length)?.map((item, index) => (
                                 <img
                                     key={index}
                                     src={item?.url}
@@ -84,7 +84,7 @@ const ProductDetails = ({ data, isLogin }) => {
                             onClick={() => setPage(page - 1)}
                         ><i class='fas fa-chevron-left'></i></div>
                         <div
-                            className={multiImg.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
+                            className={multiImg?.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
                             onClick={() => setPage(page + 1)}
                         >
                             <i class='fas fa-chevron-right'></i>
@@ -114,7 +114,7 @@ const ProductDetails = ({ data, isLogin }) => {
                         <div className='txt_cq'>Color</div>
                         <div className='colors'>
                             {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
-                                {item?.colorName.length > 0 && (<a
+                                {item?.colorName?.length > 0 && (<a
                                     key={index}
                                     href
                                     className={colorName === item?.colorName ? 'active_border' : 'c_border'}

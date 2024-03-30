@@ -12,7 +12,7 @@ const Mall = ({ arr = [] }) => {
         <div className='home_products'>
             <h2 className='title'>Sellkon Mall</h2>
             <div className='products'>
-                {arr.length > 0 && arr.slice(initialVal(arr, page), arr.length).map((item, index) => (
+                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"
