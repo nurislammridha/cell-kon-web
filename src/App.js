@@ -6,6 +6,7 @@ import 'font-awesome/css/font-awesome.css'
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import "owl.carousel/dist/assets/owl.carousel.min.css";
 import './assets/css/style.css'
+import './assets/css/mobileStyle.css'
 
 import HomePage from './modules/pages/HomePage';
 import ProductDetailsPage from './modules/pages/ProductDetailsPage';

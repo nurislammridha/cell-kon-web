@@ -929,6 +929,7 @@ body {
     text-decoration: none;
     color: #000;
     background-color: #FFFFFF;
+    border-radius: 5px;
 }
 
 .details_page .main .del_price {
@@ -2343,4 +2344,40 @@ body {
 
 .full_details ul li {
     margin-top: 5px !important;
+}
+
+.mobile_footer_container {
+    display: none;
+}
+
+.mobile_header_container {
+    display: none;
+}
+
+.details_hero {
+    display: none;
+}
+
+.details_top {
+    display: none;
+}
+
+.details_page .main .right .title_section .share {
+    display: block;
+}
+
+.details_page .price_hide_pn {
+    display: block;
+}
+
+.details_page .mobile_price {
+    display: none;
+}
+
+.details_page .mobile_buy {
+    display: none;
+}
+
+.mobile_menu_container {
+    display: none;
 }

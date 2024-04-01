@@ -8,6 +8,9 @@ import Categories from '../components/Categories'
 import HomeAllProducts from '../components/HomeAllProducts'
 import { GetHomePageData } from '../_redux/CommonAction'
 import { useDispatch, useSelector } from 'react-redux'
+import MobileFooter from '../components/MobileFooter'
+import MobileHeader from '../components/MobileHeader'
+import MobileMenu from '../components/MobileMenu'
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -20,8 +23,10 @@ const HomePage = () => {
     }, [])
     return (
         <>
+            <MobileHeader />
             {/* hero */}
             <Hero />
+            <MobileMenu />
             {/* Mall Products */}
             <Mall arr={sellKonMallProducts} />
             {/* Trending */}
@@ -34,6 +39,7 @@ const HomePage = () => {
             <Categories arr={categoriesList} />
             {/* Home All Products */}
             <HomeAllProducts arr={data} />
+            <MobileFooter />
         </>
     )
 }

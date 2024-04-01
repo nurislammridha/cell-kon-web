@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
 import { initialVal } from '../../assets/function/globalFunction'
+import cartIcon from '../../assets/images/icons/cart.png'
+import OwlCarousel from "react-owl-carousel";
 const ProductDetails = ({ data, isLogin }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -54,7 +56,45 @@ const ProductDetails = ({ data, isLogin }) => {
     useEffect(() => {
         setStart(initialVal(multiImg, page, 4))
     }, [page])
-    return (
+    return (<>
+        {/* mobile carousel */}
+        <div className='details_top'>
+            <div className='l_arrow'>
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div className='share2'>
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div className='details_hero'>
+            <div className='hero_main'>
+                <OwlCarousel
+                    className="owl-theme"
+                    loop
+                    margin={10}
+                    items={1}
+                    autoplay={false}
+                    nav
+                    autoplayHoverPause={true}
+                >
+                    {
+                        multiImg?.length > 0 && multiImg.map((item) => {
+                            return (
+                                <>
+
+                                    <div class="item hero_carousel">
+                                        <img src={item?.url} className="img-fluid" alt="" />
+                                    </div>
+
+                                </>
+
+                            )
+                        })
+                    }
+
+                </OwlCarousel>
+            </div>
+        </div>
         <div className='main'>
             <div className='left'>
                 <div className='image'>
@@ -92,6 +132,7 @@ const ProductDetails = ({ data, isLogin }) => {
                     </div>)}
                 </div>
             </div>
+
             <div className='right'>
                 <div className='title_section'>
                     <div className='txt'>{data?.productName}</div>
@@ -107,23 +148,52 @@ const ProductDetails = ({ data, isLogin }) => {
                         Visit Store
                     </a>
                 </div>
-                <div className='del_price'>&#2547;{data?.mrp}</div>
-                <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
-                <div className='flex'>
+                <div className='price_hide_pn'>
+                    <div className='del_price'>&#2547;{data?.mrp}</div>
+                    <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+                </div>
+                {/* for mobile sections */}
+                <div className='mobile_price'>
+                    <div>
+                        <div className='del_price'>&#2547;{data?.mrp}</div>
+                        <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+
+                    </div>
+                    <div className='quantity_button'>
+                        <div
+                            className='btn plus'
+                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                        >
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div className='btn number'>{quantity}</div>
+                        <div
+                            className='btn minus'
+                            onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
+
+                        >
+                            <i class="fa fa-minus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='flex mobile_color'>
                     <div>
                         <div className='txt_cq'>Color</div>
-                        <div className='colors'>
-                            {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
-                                {item?.colorName?.length > 0 && (<a
-                                    key={index}
-                                    href
-                                    className={colorName === item?.colorName ? 'active_border' : 'c_border'}
-                                    // style={{ backgroundColor: item?.colorHexCode }}
-                                    onClick={() => handleColor(item, index + 1)}
-                                >
-                                    {item?.colorName}
-                                </a>)}
-                            </>))}
+                        <div className='mobile_colors'>
+                            <div className='colors'>
+                                {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
+                                    {item?.colorName?.length > 0 && (<a
+                                        key={index}
+                                        href
+                                        className={colorName === item?.colorName ? 'active_border' : 'c_border'}
+                                        // style={{ backgroundColor: item?.colorHexCode }}
+                                        onClick={() => handleColor(item, index + 1)}
+                                    >
+                                        {item?.colorName}
+                                    </a>)}
+                                </>))}
+                            </div>
                         </div>
                     </div>
                     {data?.size?.length > 0 && <div className='ml30'>
@@ -142,21 +212,23 @@ const ProductDetails = ({ data, isLogin }) => {
                         </div>
                     </div>}
                 </div>
-                <div className='txt_cq'>Quantity</div>
-                <div className='quantity_button'>
-                    <div
-                        className='btn plus'
-                        onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                    >
-                        <i class="fa fa-plus"></i>
-                    </div>
-                    <div className='btn number'>{quantity}</div>
-                    <div
-                        className='btn minus'
-                        onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
+                <div className='m_quantity'>
+                    <div className='txt_cq'>Quantity</div>
+                    <div className='quantity_button'>
+                        <div
+                            className='btn plus'
+                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                        >
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <div className='btn number'>{quantity}</div>
+                        <div
+                            className='btn minus'
+                            onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
-                    >
-                        <i class="fa fa-minus"></i>
+                        >
+                            <i class="fa fa-minus"></i>
+                        </div>
                     </div>
                 </div>
                 <div className='btn_buy'>
@@ -166,6 +238,22 @@ const ProductDetails = ({ data, isLogin }) => {
                         onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
                     >
                         {isCartAdded ? "Already Added" : isCartLoading ? "Adding to Cart" : "Add to Cart"}
+
+                    </a>
+                    <a href
+                        className='btn buy cp'
+                        onClick={() => handleBuyNow()}
+                    >
+                        Buy Now
+                    </a>
+                </div>
+                <div className='mobile_buy'>
+                    <a
+                        href
+                        className='btn cart cp'
+                        onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
+                    >
+                        <img src={cartIcon} />
                     </a>
                     <a href
                         className='btn buy cp'
@@ -181,7 +269,7 @@ const ProductDetails = ({ data, isLogin }) => {
                 </div>
             </div>
         </div>
-    )
+    </>)
 }
 
 export default ProductDetails

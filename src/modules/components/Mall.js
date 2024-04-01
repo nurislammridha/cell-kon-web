@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { initialVal, isLastPage } from '../../assets/function/globalFunction'
 import { useNavigate } from 'react-router-dom'
 // import { initialVal } from 'src/assets/function/globalFunction'
 const Mall = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
+    const [newArr, setNewArr] = useState([])
+    const { innerWidth: width, innerHeight: height } = window;
     const navigate = useNavigate();
     // let arr = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13"]
-
+    useEffect(() => {
+        if (width < 376) {
+            setNewArr(arr)
+        } else {
+            setNewArr(arr.slice(initialVal(arr, page), arr?.length))
+        }
+    }, [arr])
+    console.log('width', width)
     return (
         <div className='home_products'>
             <h2 className='title'>Sellkon Mall</h2>
             <div className='products'>
-                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
+                {newArr?.length > 0 && newArr.map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"
