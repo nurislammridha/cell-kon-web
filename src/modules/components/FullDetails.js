@@ -16,7 +16,7 @@ const FullDetails = ({ data, videoUrl = [] }) => {
     console.log('videoUrl', videoUrl)
     return (
         <div className='full_details'>
-            <h2>Product Description</h2>
+            <h2>Details</h2>
             <div className='txt'>
                 <div className='video_container'>
                     {videoUrl?.length > 0 && videoUrl.map((item, index) => (

@@ -3,7 +3,7 @@ import React from 'react'
 const ShortDetails = ({ data }) => {
     return (
         <div className='short_details'>
-            <h2>Product Details</h2>
+            <h2>Product Descriptions</h2>
             <div className='txt'>
                 <pre>
                     {data}
