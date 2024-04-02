@@ -3,7 +3,9 @@ import categoryIcon from '../../assets/images/icons/category11.png'
 import orderIcon from '../../assets/images/icons/order.png'
 import campaignIcon from '../../assets/images/icons/campaign11.png'
 import wishListIcon from '../../assets/images/icons/wishg.png'
+import { useNavigate } from 'react-router-dom'
 const MobileMenu = () => {
+    const navigate = useNavigate()
     return (
         <div className='mobile_menu_container'>
             <div className='item'>
@@ -14,7 +16,10 @@ const MobileMenu = () => {
                 <img src={campaignIcon} />
                 <div>Campaigns</div>
             </div>
-            <div className='item'>
+            <div
+                className='item cp'
+                onClick={() => navigate('/order-list')}
+            >
                 <img src={orderIcon} />
                 <div>Order</div>
             </div>

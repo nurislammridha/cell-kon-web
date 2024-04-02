@@ -12,7 +12,7 @@ const MobileHeader = () => {
                 <img src={searchIcon} alt='icon' />
                 <div>
                     <img src={notificationIcon} alt='icon' />
-                    <label>1</label>
+                    {/* <label>1</label> */}
                 </div>
             </div>
         </div>

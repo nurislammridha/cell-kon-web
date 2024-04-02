@@ -12,7 +12,7 @@ import MobileFooter from '../components/MobileFooter'
 import MobileHeader from '../components/MobileHeader'
 import MobileMenu from '../components/MobileMenu'
 
-const HomePage = () => {
+const HomePage = ({ isLogin }) => {
     const dispatch = useDispatch();
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
@@ -39,7 +39,7 @@ const HomePage = () => {
             <Categories arr={categoriesList} />
             {/* Home All Products */}
             <HomeAllProducts arr={data} />
-            <MobileFooter />
+            <MobileFooter isLogin={isLogin} />
         </>
     )
 }

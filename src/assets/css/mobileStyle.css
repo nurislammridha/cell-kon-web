@@ -261,6 +261,7 @@
         width: 100% !important;
         height: 100% !important;
         margin-top: 10px;
+        border-radius: 0px;
     }
 
     .details_top {
@@ -479,6 +480,25 @@
         font-size: 12px;
         color: #334A3B;
         text-align: center;
+    }
+
+    .mobile_cart {
+        position: relative;
+    }
+
+    .mobile_cart span {
+        position: absolute;
+        right: 0;
+        top: -10px;
+        width: 15px;
+        height: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #CC0000;
+        font-size: 10px;
+        border-radius: 50%;
+        color: #FFF;
     }
 }
 

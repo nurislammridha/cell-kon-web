@@ -47,14 +47,14 @@ function App() {
         <div className='content'>
           <div className='w-1176'>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePage isLogin={isLogin} />} />
               <Route path="/product-details/:id" element={<ProductDetailsPage isLogin={isLogin} />} />
               <Route path="/all-products" element={<AllProductsPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/payment" element={<PaymentPage />} />
               <Route path="/add-card" element={<AddCardPage />} />
-              <Route path="/order-list" element={<OrderListPage />} />
+              <Route path="/order-list" element={<OrderListPage isLogin={isLogin} />} />
               <Route path="/order-details/:id" element={<OrderDetailsPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />

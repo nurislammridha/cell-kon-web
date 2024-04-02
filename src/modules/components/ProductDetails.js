@@ -59,7 +59,10 @@ const ProductDetails = ({ data, isLogin }) => {
     return (<>
         {/* mobile carousel */}
         <div className='details_top'>
-            <div className='l_arrow'>
+            <div
+                className='l_arrow'
+                onClick={() => navigate('/')}
+            >
                 <i class="fas fa-arrow-left"></i>
             </div>
             <div className='share2'>
@@ -83,7 +86,16 @@ const ProductDetails = ({ data, isLogin }) => {
                                 <>
 
                                     <div class="item hero_carousel">
-                                        <img src={item?.url} className="img-fluid" alt="" />
+                                        <img
+                                            src={item?.url}
+                                            className="img-fluid"
+                                            alt=""
+                                            onClick={() => {
+                                                setFullImg(item?.url)
+                                                setColorName(item?.colorName)
+                                                setColorHexCode(item?.colorHexCode)
+                                            }}
+                                        />
                                     </div>
 
                                 </>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBg, orderByStatus } from '../../assets/function/globalFunction'
 import { GetOrderByBuyer } from '../_redux/CommonAction'
 import moment from 'moment'
-const OrderListPage = () => {
+const OrderListPage = ({ isLogin }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [tab, setTab] = useState("All")
@@ -14,6 +14,11 @@ const OrderListPage = () => {
     useEffect(() => {
         dispatch(GetOrderByBuyer())
     }, [])
+    useEffect(() => {
+        if (!isLogin) {
+            navigate('/')
+        }
+    }, [isLogin])
     // console.log('orderList', orderList)
     return (
         <div className='order_list_container'>
