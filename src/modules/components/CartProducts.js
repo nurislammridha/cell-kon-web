@@ -4,7 +4,9 @@ import { useDispatch } from 'react-redux'
 import { CartProductQuantity, DeleteFromCart } from '../_redux/CommonAction'
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { useNavigate } from 'react-router-dom';
 const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect, selected }) => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const { productInfo: arr, _id: cartId, buyerId } = obj || []
     const handleQuantity = (number, productInfoId) => {
@@ -28,6 +30,17 @@ const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect, selected }) =
     return (
         <div className='cart_products'>
             <div className='cart_top'>
+                <span>{arr?.length} Products</span>
+                <a href onClick={() => handleDelete()} ><i class="fas fa-trash-alt"></i></a>
+            </div>
+            {/* for mobile */}
+            <div className='mobile_cart_top'>
+                <div
+                    className='l_arrow'
+                    onClick={() => navigate('/')}
+                >
+                    <i class="fas fa-arrow-left"></i>
+                </div>
                 <span>{arr?.length} Products</span>
                 <a href onClick={() => handleDelete()} ><i class="fas fa-trash-alt"></i></a>
             </div>

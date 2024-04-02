@@ -4,6 +4,7 @@ import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseIsLoginComplete, GetSignUpInput, SignUpSubmit } from '../_redux/CommonAction'
 import { useNavigate } from 'react-router-dom'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 const SignUpPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,6 +27,7 @@ const SignUpPage = () => {
 
     return (
         <div className='sign_up_container'>
+            <MobileCommonHeader />
             <div className='sign_up'>
                 <p className='fs20 fm'>Create your Sellkon account</p>
                 <div className='mt40'>

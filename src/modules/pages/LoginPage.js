@@ -4,6 +4,7 @@ import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 const LoginPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -25,6 +26,7 @@ const LoginPage = () => {
 
     return (
         <div className='sign_up_container'>
+            <MobileCommonHeader />
             <div className='sign_up'>
                 <p className='fs20 fm'>Welcome back, we missed you!</p>
                 <div className='mt24'>

@@ -2381,3 +2381,7 @@ body {
 .mobile_menu_container {
     display: none;
 }
+
+.mobile_cart_top {
+    display: none;
+}
