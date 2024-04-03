@@ -58,7 +58,7 @@ const AllProductsPage = () => {
                 <div className='details_top'>
                     <div
                         className='l_arrow'
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate(-1)}
                     >
                         <i class="fas fa-arrow-left"></i>
                     </div>

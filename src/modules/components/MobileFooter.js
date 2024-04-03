@@ -56,7 +56,7 @@ const MobileFooter = ({ isLogin }) => {
             </div>
             <div
                 className='item'
-                onClick={() => navigate('/user-info')}
+                onClick={() => isLogin ? navigate('/user-info') : navigate('/login')}
             >
                 <img src={isLogin ? userImgUrl?.url?.length > 0 ? userImgUrl.url : userLogo : userLogo} />
                 <div>Profile</div>

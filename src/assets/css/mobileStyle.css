@@ -556,6 +556,7 @@
         padding: 6px 15px;
         margin-top: 4px;
         margin-bottom: 40px;
+        width: unset;
     }
 
     .sign_up .social_media .google {
