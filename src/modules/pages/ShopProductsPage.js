@@ -9,6 +9,7 @@ import starFillIcon from "../../assets/images/icons/startFill.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
 import { useParams } from 'react-router-dom'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 const ShopProductsPage = () => {
     const dispatch = useDispatch()
     const { id } = useParams();
@@ -50,7 +51,10 @@ const ShopProductsPage = () => {
         dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
     }, [categoriesId, sellersId, short])
     return (
-        <>
+        <div className='shop_mo'>
+            <div className='muser_inf0'>
+                <MobileCommonHeader />
+            </div>
             <div className='shop_container'>
                 <div className='product_page'>
                     {/* order section */}
@@ -94,7 +98,7 @@ const ShopProductsPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

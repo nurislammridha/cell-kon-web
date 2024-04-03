@@ -21,7 +21,7 @@
     }
 
     .mobile_header_container .sell_icon {
-        width: 110px;
+        width: 104px;
         height: 24px;
     }
 
@@ -721,6 +721,7 @@
         padding: 5px 5px;
         margin-right: 0px;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .payment_page {
@@ -902,6 +903,202 @@
         padding-bottom: 10px;
         background-color: #FFF;
         z-index: 999;
+    }
+
+    /* ///address info */
+    .address_list_container {
+        padding-top: 10px;
+        margin-bottom: 10px;
+        margin-top: -80px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .address_list {
+        width: unset;
+        padding-bottom: 200px;
+    }
+
+    .address_list .address_item {
+        padding: 10px 10px;
+    }
+
+    .address_list .address_item .title p {
+        font-size: 18px;
+    }
+
+    .address_list .address_item .title a {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .address_list .address_item .phone {
+        font-size: 14px;
+    }
+
+    .address_list .add p {
+        font-size: 17px;
+    }
+
+    .address_list .add a {
+        width: 101px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .madd_address .user_info {
+        margin-top: -114px !important;
+    }
+
+    .madd_address .user_info .user_txt {
+        font-size: 18px;
+    }
+
+    .order_list_container {
+        padding-top: 10px;
+        margin-bottom: 20px;
+        margin-top: -92px;
+        margin-left: 15px;
+        margin-right: 15px;
+        padding-bottom: 35px;
+    }
+
+    .order_list_container .container {
+        width: unset;
+        padding: 10px 10px;
+    }
+
+    .order_list_container .order_id {
+        font-size: 14px;
+    }
+
+    .order_list_container .order_id a {
+        padding: 3px 6px;
+        font-size: 12px;
+        border-radius: 4px;
+        height: fit-content;
+    }
+
+    .order_list_container .taka {
+        font-size: 13px;
+    }
+
+    .order_list_container .date {
+        font-size: 12px;
+    }
+
+    .nav_item {
+        margin-right: 10px;
+    }
+
+    .nav_item span {
+        font-size: 12px;
+    }
+
+    .nav_item .up_icon img {
+        width: 10px;
+        height: 5px;
+    }
+
+    .my_nav {
+        overflow-x: scroll;
+        padding-bottom: 16px;
+    }
+
+    .morder .checkout_page {
+        margin-top: -86px;
+        padding-top: 15px;
+    }
+
+    .morder .order_details .order_id .title {
+        font-size: 13px;
+    }
+
+    .morder .order_details .order_id .title a {
+        width: 44px;
+        height: 19px;
+        font-size: 10px;
+    }
+
+    .morder .checkout_address_section .item {
+        font-size: 12px;
+    }
+
+    .morder .order_details .status {
+        margin-bottom: 16px;
+    }
+
+    .morder .checkout_title span {
+        font-size: 13px;
+    }
+
+    /* all rpoducts */
+    .mpro_info .filter img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .product_page .order_section {
+        display: none;
+    }
+
+    .product_page .filter_product {
+        grid-template-columns: auto;
+    }
+
+    .product_page .filter_left {
+        display: none;
+    }
+
+    .product_page {
+        margin-top: -105px;
+    }
+
+    /* //shops products pages */
+    .shop img {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px;
+    }
+
+    .shop .shop_info h1 {
+        font-size: 14px;
+    }
+
+    .shop .shop_info h3 {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+    .shop .shop_info .star {
+        margin-top: 3px;
+    }
+
+    .shop .shop_info .star h3 {
+        margin-top: 0px;
+        font-size: 10px;
+    }
+
+    .shop .shop_info img {
+        width: 11px;
+        height: 11px;
+        margin-right: 5px;
+    }
+
+    .shop_mo .shop_container {
+        padding-top: 18px;
+        background: #FAFAFA;
+        margin-top: -91px;
+    }
+
+    .shop_mo .product_form_page {
+        width: calc(100vw - 30px);
+        margin-left: 15px;
+    }
+
+    .shop_mo .home_all_products {
+        padding: 10px 5px;
     }
 }
 

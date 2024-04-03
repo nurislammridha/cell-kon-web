@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { GetBuyerDetailsByBuyerId } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 
 const UserAddressPage = () => {
     const navigate = useNavigate()
@@ -15,7 +16,10 @@ const UserAddressPage = () => {
     }, [])
 
 
-    return (
+    return (<>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='address_list_container'>
             <div className='address_list'>
                 <div className='add'>
@@ -42,7 +46,7 @@ const UserAddressPage = () => {
                 ))}
             </div>
         </div>
-    )
+    </>)
 }
 
 export default UserAddressPage

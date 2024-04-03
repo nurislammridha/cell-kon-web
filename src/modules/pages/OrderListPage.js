@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getBg, orderByStatus } from '../../assets/function/globalFunction'
 import { GetOrderByBuyer } from '../_redux/CommonAction'
 import moment from 'moment'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 const OrderListPage = ({ isLogin }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,7 +21,10 @@ const OrderListPage = ({ isLogin }) => {
         }
     }, [isLogin])
     // console.log('orderList', orderList)
-    return (
+    return (<>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='order_list_container'>
             <div className='container'>
                 <div className='my_nav'>
@@ -74,7 +78,7 @@ const OrderListPage = ({ isLogin }) => {
                 </div>
             </div>
         </div>
-    )
+    </>)
 }
 
 export default OrderListPage

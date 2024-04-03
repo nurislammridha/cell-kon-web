@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetOrderById } from '../_redux/CommonAction';
 import moment from 'moment';
+import MobileCommonHeader from '../components/MobileCommonHeader';
 const OrderDetailsPage = () => {
     const { id } = useParams();
     const dispatch = useDispatch()
@@ -16,8 +17,11 @@ const OrderDetailsPage = () => {
     useEffect(() => {
         dispatch(GetOrderById(id))
     }, [id])
-    console.log('orderDetails', orderDetails)
-    return (
+    // console.log('orderDetails', orderDetails)
+    return (<div className='morder'>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='cart_page checkout_page order_details'>
             <div>
                 <div className='checkout_address_section '>
@@ -156,7 +160,7 @@ const OrderDetailsPage = () => {
             </div>
         </div>
 
-    )
+    </div>)
 }
 
 export default OrderDetailsPage

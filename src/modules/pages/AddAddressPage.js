@@ -10,6 +10,7 @@ import { district, division, union, upazilla } from '../../assets/function/locat
 import { locationOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 function AddAddressPage() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -37,7 +38,10 @@ function AddAddressPage() {
 
     }, [addressInput])
 
-    return (
+    return (<div className='madd_address'>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='user_info add_address'>
             <div className='right'>
                 <p className='user_txt'>Add Delivery Address</p>
@@ -126,7 +130,7 @@ function AddAddressPage() {
 
                     </div>
                     <div className='input_right'>
-                        <div className=''>
+                        <div className='mmt24'>
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
@@ -219,7 +223,7 @@ function AddAddressPage() {
                 </div>
             </div>
         </div>
-    )
+    </div>)
 }
 
 export default AddAddressPage

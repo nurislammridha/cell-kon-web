@@ -5,9 +5,10 @@ import Filter from '../components/Filter'
 import Order from '../components/Order'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
-import { useLocation } from 'react-router-dom'
-
+import { useLocation, useNavigate } from 'react-router-dom'
+import filterIcon from '../../assets/images/icons/filter.png'
 const AllProductsPage = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
     const productsList = useSelector((state) => state.homeInfo.productsList);
@@ -53,6 +54,22 @@ const AllProductsPage = () => {
     // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
         <>
+            <div className='muser_inf0 mpro_info'>
+                <div className='details_top'>
+                    <div
+                        className='l_arrow'
+                        onClick={() => navigate('/')}
+                    >
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div className='title'>
+                        Showing 250 Product
+                    </div>
+                    <div className='filter'>
+                        <img src={filterIcon} />
+                    </div>
+                </div>
+            </div>
             <div className='product_page'>
                 {/* order section */}
                 <Order
