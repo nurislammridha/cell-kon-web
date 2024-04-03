@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 const Mall = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
     const [newArr, setNewArr] = useState([])
-    const { innerWidth: width, innerHeight: height } = window;
+    const [width, setWidth] = useState(0)
+
     const navigate = useNavigate();
     // let arr = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13"]
     useEffect(() => {
@@ -16,7 +17,12 @@ const Mall = ({ arr = [] }) => {
             setNewArr(arr.slice(initialVal(arr, page), arr?.length))
         }
     }, [arr])
-    console.log('width', width)
+    useEffect(() => {
+        // const { innerWidth, innerHeight: height } = window;
+        setWidth(window.innerWidth)
+    }, [])
+
+    // console.log('width', width)
     return (
         <div className='home_products'>
             <h2 className='title'>Sellkon Mall</h2>

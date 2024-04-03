@@ -47,7 +47,7 @@ const CartPage = () => {
             // dispatch(FalseCartCalled())
         }
     }, [cartApiList])
-    console.log('selected', selected)
+    // console.log('selected', selected)
     return (
         <>
             <div className='cart_page'>

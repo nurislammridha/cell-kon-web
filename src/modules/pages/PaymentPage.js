@@ -8,6 +8,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseOrderCreated, SubmitOrder } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 const PaymentPage = () => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -42,7 +43,22 @@ const PaymentPage = () => {
     console.log('isOrderCreated', isOrderCreated)
     return (
         <>
+            <div className='mobile_payment'>
+                <div className='details_top'>
+                    <div
+                        className='l_arrow'
+                        onClick={() => navigate('/')}
+                    >
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div>Payment Method</div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
             <div className={isOrderLoading ? 'cart_page payment_page blur' : 'cart_page payment_page'}>
+
                 <div>
                     {/* recommended method */}
                     <RecomendedMethods />

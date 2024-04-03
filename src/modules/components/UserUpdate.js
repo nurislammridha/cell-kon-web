@@ -19,7 +19,7 @@ const UserUpdate = ({ buyerDetails }) => {
         <>
             <div className='right ' style={{ paddingBottom: "70px" }}>
                 <p className='user_txt'>User Info</p>
-                <div className='user_input mt50'>
+                <div className='user_input mt50 mmt10'>
                     <div className='input_left'>
                         <div>
                             <p className='clr959595 fs16 fm'>Full Name</p>
@@ -57,7 +57,7 @@ const UserUpdate = ({ buyerDetails }) => {
 
                     </div>
                     <div className='input_right'>
-                        <div className=''>
+                        <div className='mmt24'>
                             <p className='clr959595 fs16 fm'>Gender</p>
                             <div className='user_select mt12'>
                                 <Select

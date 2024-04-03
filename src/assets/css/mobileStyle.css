@@ -278,6 +278,11 @@
         margin: 0px 15px;
     }
 
+    .details_top .l_arrow {
+        display: flex;
+        align-items: center;
+    }
+
     .details_top .share2 {
         width: 28px;
         height: 28px;
@@ -718,6 +723,186 @@
         margin-top: 20px;
     }
 
+    .payment_page {
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-top: -88px;
+    }
+
+    .mobile_payment .details_top {
+        margin: 0;
+        padding: 10px 10px;
+        position: fixed;
+        top: 0;
+        width: calc(100vw - 0px);
+        background-color: #FFF;
+    }
+
+    .payment_page .pay_title {
+        margin-top: 10px;
+    }
+
+    .payment_page .payment_section {
+        padding: 10px 5px;
+        margin-top: 10px;
+    }
+
+    .payment_page .pb_txt {
+        font-size: 12px;
+    }
+
+    .payment_page .bank_icon img {
+        width: 30px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .payment_page .saved_accounts {
+        margin-top: 10px;
+    }
+
+    .payment_page .cart_summery {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        padding: 10px 15px;
+    }
+
+    /* //user info page */
+    .user_info {
+        display: block;
+        margin-top: -92px;
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+
+    .user_info .left {
+        width: unset;
+        padding: 5px 0px 5px 5px;
+        display: flex;
+        /* background: yellow; */
+        justify-content: space-between;
+    }
+
+    .user_info .left .img {
+        width: 70px;
+        height: 70px;
+        /* position: relative; */
+    }
+
+    .user_info .menu_container {
+        margin-left: 5px;
+        margin-top: 0px;
+        display: flex;
+        /* background: red; */
+        margin-right: 56px;
+        padding-bottom: 0px;
+        align-items: center;
+    }
+
+    .user_info .menu_container .menu {
+        display: grid;
+        margin-top: 0px;
+        margin-left: 12px;
+        padding-bottom: 0px;
+        text-align: center;
+        /* background: purple; */
+        position: relative;
+        height: fit-content;
+    }
+
+    .user_info .menu_container .menu img {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .user_info .menu_container .menu p {
+        color: #878787;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 0px;
+        margin: 0px;
+        margin-top: 28px;
+    }
+
+    .user_info .menu_container .menu:first-child p {
+        color: #878787;
+    }
+
+    .user_info .logout {
+        width: -moz-fit-content;
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+        left: auto;
+        /* margin-top: 13px; */
+        /* background: cyan; */
+        height: 44px;
+        padding-right: 5px;
+        text-align: center;
+        display: block;
+        top: 19px;
+    }
+
+    .user_info .logout img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+    }
+
+    .user_info .logout p {
+        color: #878787;
+        font-weight: 500;
+        font-size: 11px;
+    }
+
+    .user_info .user_txt {
+        font-size: 18px;
+    }
+
+    .user_info .user_input {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .user_info .right {
+        width: unset;
+        padding: 16px 6px;
+        margin-top: 15px;
+    }
+
+    .mt50 {
+        margin-top: 0px;
+    }
+
+    .user_info .save_changes {
+        margin-top: 30px;
+    }
+
+    .user_info .input_left {
+        width: unset;
+    }
+
+    .user_info .input_right {
+        width: unset;
+    }
+
+    .mmt24 {
+        margin-top: 24px;
+    }
+
+    .muser_inf0 {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: #FFF;
+        z-index: 999;
+    }
 }
 
 /* @media (max-width: 360px) {} */

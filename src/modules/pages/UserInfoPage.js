@@ -5,6 +5,7 @@ import UserMenu from '../components/UserMenu'
 import UserUpdate from '../components/UserUpdate'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetBuyerDetailsByBuyerId, SetUserInput } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 function UserInfoPage({ isLogin }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -22,12 +23,15 @@ function UserInfoPage({ isLogin }) {
             dispatch(SetUserInput(buyerDetails))
         }
     }, [buyerDetails])
-    return (
+    return (<>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='user_info'>
             <UserMenu buyerDetails={buyerDetails} />
             <UserUpdate buyerDetails={buyerDetails} />
         </div>
-    )
+    </>)
 }
 
 export default UserInfoPage
