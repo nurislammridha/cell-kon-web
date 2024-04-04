@@ -5,21 +5,15 @@ import { useNavigate } from 'react-router-dom'
 const HomeAllProducts = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
     const navigate = useNavigate()
-    return (
+    return (<>
         <div className='home_all_products'>
             <div className='all_title'>
                 <h2 className='title'>All Products</h2>
-                <a
-                    className='view_all'
-                    href
-                    onClick={() => navigate('/all-products')}
-                >
-                    View All
-                </a>
+
             </div>
             <div className='products'>
 
-                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
+                {arr?.length > 0 && arr.filter((item3, index) => index !== arr.length - 1).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart cp"
@@ -46,11 +40,28 @@ const HomeAllProducts = ({ arr = [] }) => {
                         </div>
                     </div>
                 ))}
-
+                <div
+                    className="product_cart cp all_product_card_last"
+                    onClick={() => navigate('/all-products')}
+                >
+                    <div className='all_product_card_last_text'>VIEW ALL</div>
+                </div>
             </div>
 
+            <div
+                className='m_all_view'
+                onClick={() => navigate('/all-products')}
+            >
+                <a
+                    href
+
+                >
+                    VIEW ALL
+                </a>
+            </div>
         </div>
-    )
+        <div className='m_view_bg_fix'></div>
+    </>)
 }
 
 export default HomeAllProducts

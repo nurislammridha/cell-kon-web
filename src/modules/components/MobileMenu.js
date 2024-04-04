@@ -1,8 +1,8 @@
 import React from 'react'
-import categoryIcon from '../../assets/images/icons/category11.png'
-import orderIcon from '../../assets/images/icons/order.png'
-import campaignIcon from '../../assets/images/icons/campaign11.png'
-import wishListIcon from '../../assets/images/icons/wishg.png'
+import categoryIcon from '../../assets/images/icons/mobileCategory.png'
+import orderIcon from '../../assets/images/icons/mobileOrder.png'
+import campaignIcon from '../../assets/images/icons/mobileCampaign.png'
+import wishListIcon from '../../assets/images/icons/mobileWish.png'
 import { useNavigate } from 'react-router-dom'
 const MobileMenu = () => {
     const navigate = useNavigate()
