@@ -307,7 +307,7 @@
     }
 
     .details_page {
-        margin-top: 8px;
+        margin-top: 53px;
         padding: 0px;
         border-radius: 0px;
     }
@@ -345,7 +345,13 @@
     .details_top {
         display: flex;
         justify-content: space-between;
-        margin: 0px 15px;
+        margin: 0px 0px;
+        position: fixed;
+        top: 0;
+        width: calc(100vw - 0px);
+        padding: 10px 15px;
+        background-color: #FFF;
+        z-index: 999;
     }
 
     .details_top .l_arrow {
