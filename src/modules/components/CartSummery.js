@@ -21,10 +21,10 @@ const CartSummery = ({ selected, subTotal }) => {
                     <span>Subtotal (1 items)</span>
                     <span>&#2547;{subTotal}</span>
                 </div>
-                <div className='cart_subtotal'>
+                {/* <div className='cart_subtotal'>
                     <span>Shipping Fee</span>
                     <span>&#2547;0</span>
-                </div>
+                </div> */}
                 <div className='cart_total'>
                     <span>Total</span>
                     <span>&#2547;{subTotal}</span>

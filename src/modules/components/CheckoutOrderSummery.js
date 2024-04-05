@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSubTotal } from '../../assets/function/globalFunction'
 
 const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
+    const [isPromo, setPromo] = useState(false)
     const { district } = addressList || {}
     const navigate = useNavigate()
     return (
@@ -19,10 +20,17 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
                     <span>Shipping Fee</span>
                     <span>&#2547;{district === "Dhaka" ? 50 : 100}</span>
                 </div>
-                <div className='promo_code'>
-                    <input type="text" />
-                    <a href>Apply</a>
+                <div
+                    className='coupon_code'
+                    onClick={() => setPromo(true)}
+                >
+                    Have a coupon code?
                 </div>
+                {isPromo && (<>
+                    <div className='promo_code'>
+                        <input type="text" />
+                        <a href>Apply</a>
+                    </div></>)}
                 <div className='cart_total'>
                     <span>Total</span>
                     <span>&#2547;{getSubTotal(list) + (district === "Dhaka" ? 50 : 100)}</span>

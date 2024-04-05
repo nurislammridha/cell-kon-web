@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
+import deleteIcon from '../../assets/images/icons/deleteIcon.png'
 import { useDispatch } from 'react-redux'
 import { CartProductQuantity, DeleteFromCart } from '../_redux/CommonAction'
 import { confirmAlert } from "react-confirm-alert";
@@ -42,7 +43,9 @@ const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect, selected }) =
                     <i class="fas fa-arrow-left"></i>
                 </div>
                 <span>{arr?.length} Products</span>
-                <a href onClick={() => handleDelete()} ><i class="fas fa-trash-alt"></i></a>
+                <a href onClick={() => handleDelete()} >
+                    <img src={deleteIcon} />
+                </a>
             </div>
             <div className='cart_bottom'>
                 {arr?.length > 0 ? arr.map((item, index) => (

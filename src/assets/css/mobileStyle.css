@@ -64,7 +64,7 @@
     }
 
     .hero_main {
-        margin-top: -80px;
+        margin-top: 50px;
         padding: 0px 15px;
         /* width: 375px !important; */
         width: 100vw !important;
@@ -144,8 +144,9 @@
     }
 
     .home_all_products .products .product_cart {
+        width: auto;
         /* width: 163px; */
-        width: calc(100vw - 215px);
+        /* width: calc(100vw - 215px); */
         height: auto;
     }
 
@@ -306,8 +307,9 @@
     }
 
     .details_page {
-        margin-top: -130px;
+        margin-top: 8px;
         padding: 0px;
+        border-radius: 0px;
     }
 
     .details_page .main .left {
@@ -494,6 +496,10 @@
 
     }
 
+    .details_page .mobile_buy .cart {
+        color: #FFF;
+    }
+
     .details_page .mobile_buy .cart img {
         width: 24px;
         height: 24px;
@@ -649,20 +655,26 @@
     .mobile_cart_top {
         display: flex;
         justify-content: space-between;
-        padding: 10px 0px;
+        padding: 10px 15px;
         position: fixed;
-        width: calc(100vw - 30px);
+        width: calc(100vw - 0px);
         top: 0;
         background-color: #FFF;
+    }
+
+    .mobile_cart_top a img {
+        width: 24px;
+        height: 24px;
     }
 
     .cart_products {
         padding: 0px 0px;
         /* background: red; */
-        margin-top: -101px;
+        margin-top: 61px;
+        border-radius: 0px;
         /* margin: 0px; */
-        margin-left: 15px;
-        margin-right: 15px;
+        /* margin-left: 15px;
+        margin-right: 15px; */
     }
 
     .cart_item {
@@ -680,9 +692,10 @@
 
     .cart_title {
         font-size: 12px;
-        height: 25px;
+        height: 13px;
         overflow: hidden;
         line-height: 12px;
+        width: 170px;
     }
 
     .cart_taka_1 {
@@ -695,10 +708,16 @@
     }
 
     .cart_page .quantity_button .btn {
-        width: 24px;
-        height: 24px;
-        border-radius: 3px;
-        font-size: 11px;
+        width: 18px;
+        height: 18px;
+        border-radius: 2px;
+        font-size: 9px;
+    }
+
+    .cart_check input {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
     }
 
     .cart_amount {
@@ -726,34 +745,50 @@
     }
 
     .cart_summery {
-        padding: 0px 15px;
+        margin-top: 10px;
+        padding: 10px 15px;
+        border-radius: 0px;
     }
 
     .checkout_page {
-        margin-top: -100px;
+        margin-top: 40px;
         padding-top: 10px;
-        margin-left: 15px;
-        margin-right: 15px;
+        /* margin-left: 15px;
+        margin-right: 15px; */
     }
 
     .checkout_page .cart_products {
         margin: 0px;
-        width: calc(100vw - 30px);
-        padding: 1px 5px;
+        /* width: calc(100vw - 30px); */
+        padding: 1px 15px;
+        border-radius: 0px;
     }
 
     .checkout_address_section {
-        padding: 10px 8px;
-        width: calc(100vw - 27px);
+        padding: 10px 15px;
+        border-radius: 0px;
+        /* width: calc(100vw - 27px); */
+    }
+
+    .content {
+        margin-top: 0px;
     }
 
     .cart_bottom {
-        margin-top: 15px;
+        margin-top: 10px;
+        padding: 10px 15px;
         /* width: calc(100vw - 30px); */
     }
 
     .checkout_page .cart_item {
         grid-template-columns: 79px auto;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .checkout_page .cart_item:last-child {
+        border-bottom: none;
     }
 
     .checkout_page .cart_item .cart_right {
@@ -761,9 +796,9 @@
     }
 
     .checkout_page .cart_title {
-        width: unset;
+        width: 166px !important;
         line-height: 13px;
-        height: 27px;
+        height: 15px;
 
     }
 
@@ -784,20 +819,35 @@
     }
 
     .promo_code input {
-        width: unset;
+        width: 100%;
+        height: 35px;
+    }
+
+    .promo_code a {
+        height: 35px;
+        border-radius: 5px;
     }
 
     .checkout_page .cart_summery {
-        padding: 5px 5px;
+        padding: 5px 15px;
         margin-right: 0px;
-        margin-top: 20px;
+        margin-left: 0px;
+        margin-top: 6px;
         margin-bottom: 20px;
+        border-radius: 0px;
+    }
+
+    .cart_checkout {
+        font-size: 16px;
+        border-radius: 5px;
+        height: 35px;
+        margin-top: 20px;
     }
 
     .payment_page {
-        margin-left: 15px;
-        margin-right: 15px;
-        margin-top: -88px;
+        /* margin-left: 15px;
+        margin-right: 15px; */
+        margin-top: 38px;
     }
 
     .mobile_payment .details_top {
@@ -810,12 +860,13 @@
     }
 
     .payment_page .pay_title {
-        margin-top: 10px;
+        margin: 8px 15px
     }
 
     .payment_page .payment_section {
-        padding: 10px 5px;
+        padding: 10px 15px;
         margin-top: 10px;
+        border-radius: 0px;
     }
 
     .payment_page .pb_txt {
@@ -830,20 +881,27 @@
 
     .payment_page .saved_accounts {
         margin-top: 10px;
+        border-radius: 0px;
     }
 
     .payment_page .cart_summery {
         margin-top: 10px;
         margin-bottom: 30px;
         padding: 10px 15px;
+        border-radius: 0px;
+    }
+
+    .saved_accounts .item {
+        border-radius: 0px !important;
+        padding: 10px 15px !important;
     }
 
     /* //user info page */
     .user_info {
         display: block;
-        margin-top: -92px;
-        margin-left: 15px;
-        margin-right: 15px;
+        margin-top: 35px;
+        /* margin-left: 15px;
+        margin-right: 15px; */
 
     }
 
@@ -851,7 +909,7 @@
         width: unset;
         padding: 5px 0px 5px 5px;
         display: flex;
-        /* background: yellow; */
+        border-radius: 0px;
         justify-content: space-between;
     }
 
@@ -941,8 +999,9 @@
 
     .user_info .right {
         width: unset;
-        padding: 16px 6px;
-        margin-top: 15px;
+        padding: 16px 15px;
+        margin-top: 10px;
+        border-radius: 0px;
     }
 
     .mt50 {
@@ -951,6 +1010,8 @@
 
     .user_info .save_changes {
         margin-top: 30px;
+        height: 40px;
+        font-size: 16px;
     }
 
     .user_info .input_left {
@@ -979,9 +1040,9 @@
     .address_list_container {
         padding-top: 10px;
         margin-bottom: 10px;
-        margin-top: -80px;
-        margin-left: 15px;
-        margin-right: 15px;
+        margin-top: 50px;
+        /* margin-left: 15px;
+        margin-right: 15px; */
     }
 
     .address_list {
@@ -989,8 +1050,13 @@
         padding-bottom: 200px;
     }
 
+    .address_list .add {
+        padding: 0px 15px;
+    }
+
     .address_list .address_item {
-        padding: 10px 10px;
+        padding: 10px 15px;
+        border-radius: 0px;
     }
 
     .address_list .address_item .title p {
@@ -1018,7 +1084,7 @@
     }
 
     .madd_address .user_info {
-        margin-top: -114px !important;
+        margin-top: 30px !important;
     }
 
     .madd_address .user_info .user_txt {
@@ -1028,15 +1094,16 @@
     .order_list_container {
         padding-top: 10px;
         margin-bottom: 20px;
-        margin-top: -92px;
-        margin-left: 15px;
-        margin-right: 15px;
-        padding-bottom: 35px;
+        margin-top: 47px;
+        /* margin-left: 15px; */
+        /* margin-right: 15px; */
+        padding-bottom: 263px;
     }
 
     .order_list_container .container {
         width: unset;
-        padding: 10px 10px;
+        padding: 10px 15px;
+        border-radius: 0px;
     }
 
     .order_list_container .order_id {
@@ -1077,7 +1144,7 @@
     }
 
     .morder .checkout_page {
-        margin-top: -86px;
+        margin-top: 47px;
         padding-top: 15px;
     }
 
@@ -1097,6 +1164,19 @@
 
     .morder .order_details .status {
         margin-bottom: 16px;
+        border-radius: 0px;
+        padding: 10px 15px;
+    }
+
+    .order_details .status .order_timeline {
+        margin-left: 0px;
+        margin-top: 0px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .order_details .status_grow .left {
+        margin-left: 0px;
     }
 
     .morder .checkout_title span {
@@ -1169,6 +1249,22 @@
 
     .shop_mo .home_all_products {
         padding: 10px 5px;
+    }
+
+    .checkout_title span {
+        font-size: 13px;
+    }
+
+    .checkout_title a {
+        height: 20px;
+        font-size: 10px;
+    }
+
+    .coupon_code {
+        margin-top: 10px;
+        font-size: 12px;
+        text-decoration: underline;
+        color: #f54c54;
     }
 }
 

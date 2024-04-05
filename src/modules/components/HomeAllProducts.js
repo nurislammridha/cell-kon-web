@@ -27,7 +27,7 @@ const HomeAllProducts = ({ arr = [] }) => {
                                 />
                             </div>
                             <div className='product_name'>
-                                {item?.productName}
+                                {item?.productName.length <= 30 ? <span>{item?.productName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : item?.productName}
                             </div>
                         </div>
                         <div>
