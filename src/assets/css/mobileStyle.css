@@ -1320,8 +1320,12 @@
         display: none;
     }
 
-    .product_page {
-        margin-top: -105px;
+    .shop_mo .product_page {
+        margin-top: 123px;
+    }
+
+    .ms_product_page {
+        margin-top: 41px !important;
     }
 
     /* //shops products pages */
@@ -1329,6 +1333,10 @@
         width: 60px;
         height: 60px;
         margin-right: 15px;
+    }
+
+    .ms_products {
+        margin-top: 27px !important;
     }
 
     .shop .shop_info h1 {
@@ -1362,12 +1370,20 @@
     }
 
     .shop_mo .product_form_page {
-        width: calc(100vw - 30px);
-        margin-left: 15px;
+        width: calc(100vw - 0px);
+        margin-left: 0px;
     }
 
     .shop_mo .home_all_products {
         padding: 10px 5px;
+    }
+
+    .shop_mo .shop {
+        border-radius: 0px;
+    }
+
+    .shop_mo .product_page .filter_right {
+        margin-top: -22px;
     }
 
     .checkout_title span {

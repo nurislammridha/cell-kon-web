@@ -70,7 +70,7 @@ const AllProductsPage = () => {
                     </div>
                 </div>
             </div>
-            <div className='product_page'>
+            <div className='ms_product_page product_page'>
                 {/* order section */}
                 <Order
                     count={productsList?.length}

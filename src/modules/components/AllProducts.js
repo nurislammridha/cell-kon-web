@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 const AllProducts = ({ list = [] }) => {
     const navigate = useNavigate()
     return (
-        <div className='products'>
+        <div className='products ms_products'>
             {list?.length > 0 ? list.map((item, index) => (
                 <div
                     key={index}
