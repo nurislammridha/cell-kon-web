@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const MobileCommonHeader = () => {
+const MobileCommonHeader = ({ isShare = true }) => {
     const navigate = useNavigate()
     return (
         <div className='details_top'>
@@ -11,9 +11,10 @@ const MobileCommonHeader = () => {
             >
                 <i class="fas fa-arrow-left"></i>
             </div>
-            <div className='share2'>
+            {isShare ? <div className='share2'>
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
-            </div>
+            </div> : <div></div>}
+
         </div>
     )
 }

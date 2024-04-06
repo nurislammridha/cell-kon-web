@@ -4,21 +4,21 @@ import { initialVal } from '../../assets/function/globalFunction'
 import { useNavigate, useParams } from 'react-router-dom'
 const Shops = ({ arr = [] }) => {
     const [page, setPage] = useState(1)
-    const [newArr, setNewArr] = useState([])
-    const { innerWidth: width, innerHeight: height } = window;
+    const [newArr, setNewArr] = useState(arr.slice(initialVal(arr, page), arr?.length))
+    // const { innerWidth: width, innerHeight: height } = window;
     const navigate = useNavigate();
-    useEffect(() => {
-        if (width < 376) {
-            setNewArr(arr)
-        } else {
-            setNewArr(arr.slice(initialVal(arr, page), arr?.length))
-        }
-    }, [arr])
+    // useEffect(() => {
+    //     if (width < 376) {
+    //         setNewArr(arr)
+    //     } else {
+    //         setNewArr(arr.slice(initialVal(arr, page), arr?.length))
+    //     }
+    // }, [arr])
     return (
         <div className='home_products'>
             <h2 className='title'>Our Shops</h2>
             <div className='products shops'>
-                {newArr?.length > 0 && newArr.map((item, index) => (
+                {arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"

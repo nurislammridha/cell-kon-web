@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { initialVal, isLastPage } from '../../assets/function/globalFunction'
 import { useNavigate } from 'react-router-dom'
-const Trending = ({ arr = [] }) => {
+const Trending = ({ arr = [], loading }) => {
     const [page, setPage] = useState(1)
-    const [newArr, setNewArr] = useState([])
-    const { innerWidth: width, innerHeight: height } = window;
+    const [newArr, setNewArr] = useState(arr.slice(initialVal(arr, page), arr?.length))
+    // const { innerWidth: width, innerHeight: height } = window;
     const navigate = useNavigate();
-    useEffect(() => {
-        if (width < 376) {
-            setNewArr(arr)
-        } else {
-            setNewArr(arr.slice(initialVal(arr, page), arr?.length))
-        }
-    }, [arr])
+    // useEffect(() => {
+    //     if (width < 376) {
+    //         setNewArr(arr)
+    //     } else {
+    //         setNewArr(arr.slice(initialVal(arr, page), arr?.length))
+    //     }
+    // }, [arr])
     return (
         <div className='home_products'>
             <h2 className='title'>Trending Products</h2>
             <div className='products'>
-                {newArr?.length > 0 && newArr.map((item, index) => (
+                {!loading ? arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"
@@ -44,7 +44,30 @@ const Trending = ({ arr = [] }) => {
                             </div>
                         </div>
                     </div>
-                ))}
+                )) :
+                    [1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => (
+                        <div
+                            key={index}
+                            className="product_cart"
+                        >
+                            <div>
+                                <div className='product_img'>
+                                    <span id="foo"></span>
+                                </div>
+                                <div className='product_name'>
+                                    <span id="foo"></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div className='del_price'>
+                                    <span id="foo"></span>
+                                </div>
+                                <div className='product_price'>
+                                    <span id="foo"></span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
             </div>
             <div className='arrow'>
                 <div

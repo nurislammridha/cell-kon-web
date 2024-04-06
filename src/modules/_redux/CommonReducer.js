@@ -2,6 +2,7 @@ import * as Types from "./Types";
 
 const initialState = {
   homeData: null,
+  isHomePageLoading: false,
   productDetails: {},
   signUpInput: {
     buyerName: "",
@@ -89,6 +90,11 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         homeData: action.payload,
+      };
+    case Types.IS_HOME_LOADING:
+      return {
+        ...state,
+        isHomePageLoading: action.payload,
       };
     case Types.PRODUCT_DETAILS:
       return {

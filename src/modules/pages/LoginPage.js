@@ -26,24 +26,24 @@ const LoginPage = () => {
 
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader />
+            <MobileCommonHeader isShare={false} />
             <div className='sign_up'>
-                <p className='fs20 fm'>Welcome back, we missed you!</p>
+                <p className='fs20 fm mfs14'>Welcome back, we missed you!</p>
                 <div className='mt24'>
-                    <p className='clr959595 fs16 fm'>Mail Or Phone</p>
+                    <p className='clr959595 mfs12 fs16 fm'>Email Or Phone</p>
                     <input
-                        className='mt12'
+                        className='mt12 mmt8'
                         type='text'
-                        placeholder='enter mail or phone'
+                        placeholder='enter email or phone'
                         name='mailOrPhone'
                         value={loginInput.mailOrPhone}
                         onChange={(e) => handleChange("mailOrPhone", e.target.value)}
                     />
                 </div>
-                <div className='mt24'>
-                    <p className='clr959595 fs16 fm'>Password</p>
+                <div className='mt24 mmt16'>
+                    <p className='clr959595 fs16 fm mfs12'>Password</p>
                     <input
-                        className='mt12'
+                        className='mt12 mmt8'
                         type='password'
                         placeholder='enter password'
                         name='password'
@@ -54,29 +54,29 @@ const LoginPage = () => {
                 </div>
 
                 <div
-                    className='mt40 sign_up_btn cp'
+                    className='mmt32 mt40 sign_up_btn cp'
                     onClick={() => !isLoginLoading ? handleSubmit() : {}}
                 >
                     <a href>
                         {isLoginLoading ? "Login in" : "Login"}
                     </a>
                 </div>
-                <p className='mt21 fs16 tac'>OR</p>
-                <div className='mt19 social_media'>
+                <p className='mmt16 mt21 fs16 tac mfs12'>OR</p>
+                <div className='mmt16 mt19 social_media'>
                     <div className='google cp'>
-                        <img className='s2424' src={googleIcon} alt='google' />
-                        <span className='ml13 fs16'>Continue with google</span>
+                        <img className='s2424 ms2020' src={googleIcon} alt='google' />
+                        <span className='ml13 fs16 mfs14'>Continue with google</span>
                     </div>
                     <div className='facebook1 cp'>
-                        <img className='s1426' src={facebookIcon} alt='facebook' />
+                        <img className='s1426 ms1120' src={facebookIcon} alt='facebook' />
                     </div>
                 </div>
-                <div className='mt32'>
+                <div className='mmt24 mt32 have_an_account'>
                     <span>Don't have an account? </span>
                     <a href
                         className='cp'
                         onClick={() => navigate('/sign-up')}
-                    >Sign Sign Up</a>
+                    > Sign Up</a>
                 </div>
             </div>
         </div>

@@ -704,6 +704,51 @@ body {
     margin-top: 6px;
 }
 
+.product_cart .product_img span {
+    display: block;
+    /* width: 100%; */
+    height: 100%;
+    /* background-color: #f5f5f5; */
+}
+
+.product_cart .product_name span {
+    display: block;
+    /* width: 64px; */
+    height: 40px;
+    /* background-color: #f5f5f5; */
+}
+
+.product_cart .del_price span {
+    display: block;
+    /* width: 64px; */
+    height: 12px;
+    /* background-color: #f5f5f5; */
+}
+
+.product_cart .product_price span {
+    display: block;
+    /* width: 64px; */
+    height: 12px;
+    /* background-color: #f5f5f5; */
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#foo {
+    background-color: #ddd;
+    -webkit-animation: fadein 2s ease-in alternate infinite;
+    -moz-animation: fadein 2s ease-in alternate infinite;
+    animation: fadein 2s ease-in alternate infinite;
+}
+
 /* owl carousel */
 .products .owl-theme .owl-nav {
     display: flex;

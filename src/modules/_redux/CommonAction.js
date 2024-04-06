@@ -5,10 +5,12 @@ import Axios from "axios";
 
 export const GetHomePageData = () => (dispatch) => {
   const url = `${process.env.REACT_APP_API_URL}product/home-page`;
+  dispatch({ type: Types.IS_HOME_LOADING, payload: true });
   try {
     Axios.get(url).then((res) => {
       if (res.data.status) {
         dispatch({ type: Types.HOME_PAGE, payload: res.data.result });
+        dispatch({ type: Types.IS_HOME_LOADING, payload: false });
       }
     });
   } catch (error) {

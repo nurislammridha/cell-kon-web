@@ -14,6 +14,7 @@ import MobileMenu from '../components/MobileMenu'
 
 const HomePage = ({ isLogin }) => {
     const dispatch = useDispatch();
+    const isHomePageLoading = useSelector((state) => state.homeInfo.isHomePageLoading);
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
         sellKonMallProducts, shopsList, trendingProducts } = homeDataList || {}
@@ -28,17 +29,17 @@ const HomePage = ({ isLogin }) => {
             <Hero />
             <MobileMenu />
             {/* Mall Products */}
-            <Mall arr={sellKonMallProducts} />
+            <Mall arr={sellKonMallProducts} loading={isHomePageLoading} />
             {/* Trending */}
-            <Trending arr={trendingProducts} />
+            <Trending arr={trendingProducts} loading={isHomePageLoading} />
             {/* Popular */}
-            <Popular arr={popularProducts} />
+            <Popular arr={popularProducts} loading={isHomePageLoading} />
             {/* Shops */}
-            <Shops arr={shopsList} />
+            {!isHomePageLoading && <Shops arr={shopsList} />}
             {/* Categories */}
-            <Categories arr={categoriesList} />
+            {!isHomePageLoading && <Categories arr={categoriesList} loading={isHomePageLoading} />}
             {/* Home All Products */}
-            <HomeAllProducts arr={data} />
+            {!isHomePageLoading && <HomeAllProducts arr={data} loading={isHomePageLoading} />}
             <MobileFooter isLogin={isLogin} />
         </>
     )

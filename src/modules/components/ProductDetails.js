@@ -264,7 +264,7 @@ const ProductDetails = ({ data, isLogin }) => {
                         href
                         className='btn cart cp'
                         style={!isCartAdded && !isCartLoading ? { opacity: "1" } : { opacity: "1" }}
-                        onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
+                        onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : navigate('/cart')}
                     >
                         {isCartAdded ? <small>Added</small> : isCartLoading ? <i class="fa fa-refresh fa-spin"></i> : <img src={cartIcon} />}
                     </a>

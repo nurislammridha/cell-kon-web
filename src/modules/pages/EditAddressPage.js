@@ -10,6 +10,7 @@ import { district, division, union, upazilla } from '../../assets/function/locat
 import { locationOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseUpdateAddress, GetUpdateAddressInput, SetAddressUpdateInput, SubmitBuyerAddress, UpdateBuyerAddress } from '../_redux/CommonAction'
+import MobileCommonHeader from '../components/MobileCommonHeader'
 function EditAddressPage() {
     const { id } = useParams();
     const navigate = useNavigate()
@@ -49,7 +50,10 @@ function EditAddressPage() {
 
     }, [isAddressUpdated])
     console.log('isAddressUpdated', isAddressUpdated)
-    return (
+    return (<div className='madd_address'>
+        <div className='muser_inf0'>
+            <MobileCommonHeader />
+        </div>
         <div className='user_info add_address'>
             <div className='right'>
                 <p className='user_txt'>Edit Delivery Address</p>
@@ -231,7 +235,7 @@ function EditAddressPage() {
                 </div>
             </div>
         </div>
-    )
+    </div>)
 }
 
 export default EditAddressPage

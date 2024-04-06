@@ -1,4 +1,5 @@
 export const HOME_PAGE = "HOME_PAGE";
+export const IS_HOME_LOADING = "IS_HOME_LOADING";
 export const PRODUCT_DETAILS = "PRODUCT_DETAILS";
 export const GET_SIGNUP_INPUT = "GET_SIGNUP_INPUT";
 export const SIGNUP_CREATED = "SIGNUP_CREATED";
