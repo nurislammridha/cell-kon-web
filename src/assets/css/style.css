@@ -1086,7 +1086,7 @@ body {
 }
 
 .details_page .btn_buy .buy {
-    background-color: #FF2C7A;
+    background-color: #FF9E28;
 }
 
 .details_page .have_question {
@@ -1974,7 +1974,7 @@ body {
 
 .sign_up input:focus {
     outline: none;
-    border: 1px solid #FF2C7A;
+    border: 1px solid #FF9E28;
 }
 
 .sign_up_btn {
@@ -2165,7 +2165,7 @@ body {
 
 .user_info input:focus {
     outline: none;
-    border: 1px solid #FF2C7A;
+    border: 1px solid #FF9E28;
 }
 
 .user_info .user_select {

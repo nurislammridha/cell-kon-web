@@ -9,9 +9,9 @@ const localStorageService = LocalStorageService.getService();
 axios.interceptors.request.use(
   (config) => {
     const token = localStorageService.getAccessToken();
-
     if (token) {
-      config.headers["Authorization"] = "Bearer " + token; // as return full code with token type
+      // config.headers["Authorization"] = "Bearer " + token; // as return full code with token type
+      config.headers["Authorization"] = token; // as return full code with token type
       config.headers["Accept"] = "application/json";
     }
 

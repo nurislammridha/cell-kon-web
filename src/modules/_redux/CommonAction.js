@@ -145,6 +145,7 @@ export const LoginSubmit = (data) => (dispatch) => {
         if (res.data.isLogin) {
           localStorage.setItem("isLogin", true)
           localStorage.setItem("buyerData", JSON.stringify(res.data.result))
+          localStorage.setItem("access_token", res.data.token)
           dispatch(GetCartListByBuyer(res.data.result._id))
           dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: true });
         } else {

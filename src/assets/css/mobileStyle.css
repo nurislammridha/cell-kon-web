@@ -111,7 +111,7 @@
     }
 
     .hero_main {
-        margin-top: 50px;
+        margin-top: 30px;
         padding: 0px 15px;
         /* width: 375px !important; */
         width: 100vw !important;
@@ -441,7 +441,7 @@
         position: fixed;
         top: 0;
         width: calc(100vw - 0px);
-        padding: 10px 15px;
+        padding: 13px 15px;
         background-color: #FFF;
         z-index: 999;
     }
@@ -449,6 +449,7 @@
     .details_top .l_arrow {
         display: flex;
         align-items: center;
+        font-size: 22px;
     }
 
     .details_top .share2 {
@@ -578,7 +579,7 @@
         margin-right: 15px;
         margin-top: 20px;
         position: fixed;
-        bottom: 0;
+        bottom: 10px;
         width: 100%;
         z-index: 9999;
     }
@@ -606,7 +607,7 @@
     .details_page .mobile_buy .buy {
         width: 65%;
         border-radius: 5px;
-        background-color: #FF2C7A;
+        background-color: #FF9E28;
         color: #FFF;
         display: flex;
         justify-content: center;
@@ -619,10 +620,16 @@
 
     .details_page .call {
         margin-left: 15px;
+        font-size: 16px;
+
     }
 
     .details_page .short_details .txt {
         overflow-x: scroll;
+    }
+
+    .details_page .short_details .txt pre {
+        font-family: "Inter";
     }
 
     .video_container {
@@ -748,6 +755,7 @@
 
     .sign_up input {
         height: 48px;
+        font-size: 14px;
     }
 
     .sign_up .social_media .google {
