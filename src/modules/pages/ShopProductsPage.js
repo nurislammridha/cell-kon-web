@@ -61,8 +61,8 @@ const ShopProductsPage = () => {
                     {productsList?.length > 0 ? <div className='shop'>
                         <img src={shopIcon} alt='shop icon' />
                         <div className='shop_info'>
-                            <h1>{productsList && productsList[0].sellerName}</h1>
-                            <h3 className='mt13'>Delivery in 1-5 Days</h3>
+                            <h1>{productsList && productsList[0]?.sellerInfo?.shopName}</h1>
+                            <h3 className='mt13'>Delivery in {productsList && productsList[0]?.sellerInfo?.deliveryPeriod}</h3>
                             <div className='star mt13'>
                                 <img src={starFillIcon} />
                                 <img src={starFillIcon} />
@@ -71,7 +71,7 @@ const ShopProductsPage = () => {
                                 <img src={starIcon} />
                                 <h3>(1.8K)</h3>
                             </div>
-                            <h3 className='mt13'>Savar, Dhaka, Dhaka</h3>
+                            <h3 className='mt13'>{productsList && productsList[0]?.sellerInfo?.sellerAddress}</h3>
                         </div>
                     </div> : ""}
 
