@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit } from '../_redux/CommonAction'
+import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
+import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
+import firebase from "firebase";
 const LoginPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [isGoogle, setGoogle] = useState(false)
+    const [isFacebook, setFacebook] = useState(false)
     const loginInput = useSelector((state) => state.homeInfo.signUpInput);
     const isLoginLoading = useSelector((state) => state.homeInfo.isLoginLoading);
     const isLoginComplete = useSelector((state) => state.homeInfo.isLoginComplete);
@@ -17,8 +21,47 @@ const LoginPage = () => {
     const handleSubmit = () => {
         dispatch(LoginSubmit(loginInput))
     }
+    const googleLogin = async () => {
+        setGoogle(true)
+        auth
+            .signInWithPopup(googleAuthProvider)
+            .then(async (result) => {
+                console.log('result', result)
+                // const { user } = result;
+                // const idTokenResult = await user.getIdTokenResult();
+                dispatch(SocialLoginSubmit(result))
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const facebookLogin = async () => {
+        setFacebook(true)
+        auth
+            .signInWithPopup(facebookAuthProvider)
+            .then(async (result) => {
+                console.log('result', result)
+                // const { user } = result;
+                // const idTokenResult = await user.getIdTokenResult();
+                dispatch(SocialLoginSubmit(result))
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+    const logout = () => {
+        // firebase.auth().signOut();
+        // console.log('signOut', "signOut")
+        // dispatch({
+        //     type: "LOGOUT",
+        //     payload: null,
+        // });
+        // history.push("/login");
+    };
     useEffect(() => {
         if (isLoginComplete) {
+            setGoogle(false)
+            setFacebook(false)
             navigate('/')
             dispatch(FalseIsLoginComplete())
         }
@@ -55,19 +98,25 @@ const LoginPage = () => {
 
                 <div
                     className='mmt32 mt40 sign_up_btn cp'
-                    onClick={() => !isLoginLoading ? handleSubmit() : {}}
+                    onClick={() => !isGoogle && !isFacebook && !isLoginLoading ? handleSubmit() : {}}
                 >
                     <a href>
-                        {isLoginLoading ? "Login in" : "Login"}
+                        {!isGoogle && !isFacebook && isLoginLoading ? "Login in" : "Login"}
                     </a>
                 </div>
                 <p className='mmt16 mt21 fs16 tac mfs12'>OR</p>
                 <div className='mmt16 mt19 social_media'>
-                    <div className='google cp'>
-                        <img className='s2424 ms2020' src={googleIcon} alt='google' />
+                    <div
+                        className='google cp'
+                        onClick={() => googleLogin()}
+                    >
+                        {isGoogle && !isFacebook && isLoginLoading ? <i class="fa fa-refresh fa-spin"></i> : <img className='s2424 ms2020' src={googleIcon} alt='google' />}
                         <span className='ml13 fs16 mfs14'>Continue with google</span>
                     </div>
-                    <div className='facebook1 cp'>
+                    <div
+                        className='facebook1 cp'
+                        onClick={() => facebookLogin()}
+                    >
                         <img className='s1426 ms1120' src={facebookIcon} alt='facebook' />
                     </div>
                 </div>

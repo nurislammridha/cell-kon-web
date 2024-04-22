@@ -161,6 +161,46 @@ export const LoginSubmit = (data) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+export const SocialLoginSubmit = (data) => (dispatch) => {
+  const { additionalUserInfo } = data || {}
+  const { providerId, isNewUser, profile } = additionalUserInfo || {}
+  const { email: buyerEmail, name: buyerName, picture, id: googleId, } = profile || {}
+  let buyerPhone = ""
+  let buyerImgUrl = {}
+  providerId === "facebook.com" ? buyerImgUrl = { url: picture.data.url, publicId: "" } : buyerImgUrl = { url: picture, publicId: "" }
+
+  const postData = { buyerName, buyerEmail, buyerPhone, googleId, buyerImgUrl, providerId, isNewUser }
+  // console.log('postData', postData)
+  // return 0
+  const url = `${process.env.REACT_APP_API_URL}buyer/social-login`;
+  dispatch({ type: Types.IS_LOGIN_LOADING, payload: true })
+  try {
+    Axios.post(url, postData).then((res) => {
+      if (res.data.status) {
+        // console.log('res', res)
+        dispatch({ type: Types.IS_LOGIN_LOADING, payload: false });
+        dispatch({ type: Types.LOGIN_CREATED, payload: true });
+        showToast("success", res.data.message);
+        if (res.data.isLogin) {
+          localStorage.setItem("isLogin", true)
+          localStorage.setItem("buyerData", JSON.stringify(res.data.result))
+          localStorage.setItem("access_token", res.data.token)
+          dispatch(GetCartListByBuyer(res.data.result._id))
+          dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: true });
+        } else {
+          localStorage.setItem("isLogin", false)
+          localStorage.setItem("buyerData", null)
+        }
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_LOGIN_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+
 export const GetCartListByBuyer = (id) => (dispatch) => {
   const url = `${process.env.REACT_APP_API_URL}cart/buyer/${id}`;
   try {
