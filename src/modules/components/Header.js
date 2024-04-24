@@ -9,14 +9,16 @@ import categoryIcon from '../../assets/images/icons/category.png'
 import campaignIcon from '../../assets/images/icons/campaign.png'
 import notificationIcon from '../../assets/images/icons/notification.png'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-const Header = ({ isLogin }) => {
+import { useLocation, useNavigate } from 'react-router-dom'
+const Header = ({ isLogin, search, setSearch }) => {
     const navigate = useNavigate()
+    const { pathname } = useLocation()
     const cartApiList = useSelector((state) => state.homeInfo.cartList);
     const userUpdted = useSelector((state) => state.homeInfo.userUpdted);
     const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
     const loggedOut = useSelector((state) => state.homeInfo.loggedOut);
     const [cartList, setCartList] = useState([])
+
     const [userImgUrl, setUserImgUrl] = useState("")
     useEffect(() => {
         if (userUpdted) {
@@ -35,7 +37,12 @@ const Header = ({ isLogin }) => {
         setCartList(JSON.parse(localStorage.getItem("cartList"))?.productInfo || [])
         setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
     }, [loggedOut])
-    console.log('userUpdted', userUpdted)
+    useEffect(() => {
+        if (search.length > 0 && pathname !== "all-products") {
+            navigate('/all-products')
+        }
+    }, [search])
+
     return (
         <div className='header'>
             <div className='header_top_container'>
@@ -53,6 +60,8 @@ const Header = ({ isLogin }) => {
                                     type='text'
                                     placeholder='Search In Cellkon'
                                     name="search"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
                                 />
                             </div>
                             <div className='search'>

@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
 import { useLocation, useNavigate } from 'react-router-dom'
 import filterIcon from '../../assets/images/icons/filter.png'
-const AllProductsPage = () => {
+const AllProductsPage = ({ search }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
-    const productsList = useSelector((state) => state.homeInfo.productsList);
+    const proInfo = useSelector((state) => state.homeInfo.productsList);
+    const { products, pagination } = proInfo || {}
     const categoriesList = useSelector((state) => state.homeInfo.categoriesList);
     const sellersList = useSelector((state) => state.homeInfo.sellersList);
     const isProductLoading = useSelector((state) => state.homeInfo.isProductLoading);
@@ -40,17 +41,25 @@ const AllProductsPage = () => {
             }
         }
     }
+    const handlePagination = (page) => {
+        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page, limit: 20 }));
+    };
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
+        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page: 1, limit: 20 }))
         dispatch(GetCategories())
         dispatch(GetSellers())
     }, [])
+    // useEffect(() => {
+    //     if (search.length > 0) {
+    //         dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search }))
+    //     }
+    // }, [search])
     useEffect(() => {
         // if (location?.state?.isFromCategory) {
         //     setCategoriesId(location?.state?.categoryId)
         // }
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
-    }, [categoriesId, sellersId, short, location])
+        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page: 1, limit: 20 }))
+    }, [categoriesId, sellersId, short, location, search])
     // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
         <>
@@ -73,7 +82,7 @@ const AllProductsPage = () => {
             <div className='ms_product_page product_page'>
                 {/* order section */}
                 <Order
-                    count={productsList?.length}
+                    count={products?.length}
                     setShortBy={setShortBy}
                     setShort={setShort}
                     shortName={shortName}
@@ -95,9 +104,9 @@ const AllProductsPage = () => {
                         <div className='products'>
                             <div className='home_all_products product_form_page'>
                                 {/* All products */}
-                                <AllProducts list={productsList} />
+                                <AllProducts list={products} />
                                 {/* //pagination */}
-                                {/* <ProductsPagination /> */}
+                                {pagination?.totalPage > 1 && <ProductsPagination pagination={pagination} handlePagination={handlePagination} />}
                             </div>
                         </div>
                     </div>

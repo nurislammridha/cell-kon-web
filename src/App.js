@@ -29,6 +29,7 @@ import ShopProductsPage from './modules/pages/ShopProductsPage';
 import { useSelector } from 'react-redux';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
+  const [search, setSearch] = useState("")
   const loggedOut = useSelector((state) => state.homeInfo.loggedOut);
   const isLoginComplete = useSelector((state) => state.homeInfo.isLoginComplete);
   useEffect(() => {
@@ -43,13 +44,13 @@ function App() {
   return (
     <>
       <div className='full_content'>
-        <Header isLogin={isLogin} />
+        <Header isLogin={isLogin} search={search} setSearch={setSearch} />
         <div className='content'>
           <div className='w-1176'>
             <Routes>
               <Route path="/" element={<HomePage isLogin={isLogin} />} />
               <Route path="/product-details/:id" element={<ProductDetailsPage isLogin={isLogin} />} />
-              <Route path="/all-products" element={<AllProductsPage />} />
+              <Route path="/all-products" element={<AllProductsPage search={search} />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/payment" element={<PaymentPage />} />
