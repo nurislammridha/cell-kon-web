@@ -27,6 +27,8 @@ import AddAddressPage from './modules/pages/AddAddressPage';
 import EditAddressPage from './modules/pages/EditAddressPage';
 import ShopProductsPage from './modules/pages/ShopProductsPage';
 import { useSelector } from 'react-redux';
+import TermsAndConditions from './modules/pages/TermsAndConditions';
+import ReturnAndRefund from './modules/pages/ReturnAndRefund';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [search, setSearch] = useState("")
@@ -64,6 +66,8 @@ function App() {
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/edit-address/:id" element={<EditAddressPage />} />
               <Route path="/shop/:id" element={<ShopProductsPage />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+              <Route path="/return-and-refund" element={<ReturnAndRefund />} />
               <Route path="/*" element={<div>No page found</div>} />
             </Routes>
           </div>
