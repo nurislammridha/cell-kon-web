@@ -2,28 +2,29 @@ import React, { useEffect } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
-import { FalseIsLoginComplete, GetSignUpInput, SignUpSubmit } from '../_redux/CommonAction'
+import { FalseIsLoginComplete, GetSignUpInput, SignUpSubmit, sendEmailOtp } from '../_redux/CommonAction'
 import { useNavigate } from 'react-router-dom'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 const SignUpPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const signUpInput = useSelector((state) => state.homeInfo.signUpInput);
-    const isSignUpLoading = useSelector((state) => state.homeInfo.isSignUpLoading);
-    const isSignUpComplete = useSelector((state) => state.homeInfo.isSignUpComplete);
+    const isEmailOtpLoading = useSelector((state) => state.homeInfo.isEmailOtpLoading);
+    const isEmailOtpComplete = useSelector((state) => state.homeInfo.isEmailOtpComplete);
     const handleChange = (name, value) => {
         dispatch(GetSignUpInput(name, value))
     }
     const handleSubmit = () => {
-        dispatch(SignUpSubmit(signUpInput))
+        // dispatch(SignUpSubmit(signUpInput))
+        dispatch(sendEmailOtp(signUpInput))
     }
-    // console.log('isSignUpComplete', isSignUpComplete)
+    // console.log('isEmailOtpComplete', isEmailOtpComplete)
     useEffect(() => {
-        if (isSignUpComplete) {
-            navigate('/')
+        if (isEmailOtpComplete) {
+            navigate('/email-otp')
             dispatch(FalseIsLoginComplete())
         }
-    }, [isSignUpComplete])
+    }, [isEmailOtpComplete])
 
     return (
         <div className='sign_up_container'>
@@ -42,11 +43,11 @@ const SignUpPage = () => {
                     />
                 </div>
                 <div className='mmt16 mt24'>
-                    <p className='clr959595 mfs12 fs16 fm'>Email Or Phone</p>
+                    <p className='clr959595 mfs12 fs16 fm'>Email</p>
                     <input
                         className='mmt8 mt12'
                         type='text'
-                        placeholder='enter email or phone'
+                        placeholder='enter email'
                         name='mailOrPhone'
                         value={signUpInput.mailOrPhone}
                         onChange={(e) => handleChange("mailOrPhone", e.target.value)}
@@ -76,11 +77,11 @@ const SignUpPage = () => {
                 </div>
                 <div
                     className='mt40 sign_up_btn cp'
-                    onClick={() => !isSignUpLoading ? handleSubmit() : {}}
+                    onClick={() => !isEmailOtpLoading ? handleSubmit() : {}}
                 >
                     <a href
                     >
-                        {isSignUpLoading ? "Signing Up" : "Sign Up"}
+                        {isEmailOtpLoading ? "Signing Up" : "Sign Up"}
                     </a>
                 </div>
                 <p className='mmt16 mt21 mfs12 fs16 tac'>OR</p>

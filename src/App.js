@@ -29,6 +29,10 @@ import ShopProductsPage from './modules/pages/ShopProductsPage';
 import { useSelector } from 'react-redux';
 import TermsAndConditions from './modules/pages/TermsAndConditions';
 import ReturnAndRefund from './modules/pages/ReturnAndRefund';
+import EmailOtpPage from './modules/pages/EmailOtpPage';
+import EmailPage from './modules/pages/EmailPage';
+import CreatePasswordPage from './modules/pages/CreatePasswordPage';
+import ForgetPasswordOtpPage from './modules/pages/ForgetPasswordOtpPage';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [search, setSearch] = useState("")
@@ -61,6 +65,7 @@ function App() {
               <Route path="/order-details/:id" element={<OrderDetailsPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/email-otp" element={<EmailOtpPage />} />
               <Route path="/user-info" element={<UserInfoPage isLogin={isLogin} />} />
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
@@ -68,6 +73,9 @@ function App() {
               <Route path="/shop/:id" element={<ShopProductsPage />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
               <Route path="/return-and-refund" element={<ReturnAndRefund />} />
+              <Route path="/email" element={<EmailPage />} />
+              <Route path="/create-password" element={<CreatePasswordPage />} />
+              <Route path="/forget-password-otp" element={<ForgetPasswordOtpPage />} />
               <Route path="/*" element={<div>No page found</div>} />
             </Routes>
           </div>

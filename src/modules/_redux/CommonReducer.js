@@ -12,6 +12,8 @@ const initialState = {
   },
   isSignUpLoading: false,
   isSignUpComplete: false,
+  isEmailOtpLoading: false,
+  isEmailOtpComplete: false,
   loginInput: {
     mailOrPhone: "",
     password: ""
@@ -81,7 +83,13 @@ const initialState = {
     postalCode: "",
   },
   isUpdateAddressLoading: false,
-  isAddressUpdated: false
+  isAddressUpdated: false,
+  isCheckBuyerLoading: false,
+  isCheckBuyerCompleted: false,
+  isCreatePasswordLoading: false,
+  isPasswordCreated: false,
+  isSetPasswordLoading: false,
+  isSetPasswordComplete: false,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -124,6 +132,16 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isSignUpComplete: action.payload,
+      };
+    case Types.IS_EMAIL_OTP_LOADING:
+      return {
+        ...state,
+        isEmailOtpLoading: action.payload,
+      };
+    case Types.EMAIL_OTP_CREATED:
+      return {
+        ...state,
+        isEmailOtpComplete: action.payload,
       };
     case Types.GET_LOGIN_INPUT:
       const { name: name1, value: value1 } = action.payload
@@ -322,6 +340,38 @@ const CommonReducer = (state = initialState, action) => {
         ...state,
         isAddressUpdated: action.payload,
       };
+    case Types.IS_CHECK_BUYER_LOADING:
+      return {
+        ...state,
+        isCheckBuyerLoading: action.payload,
+      };
+    case Types.CHECK_BUYER_COMPLETED:
+      return {
+        ...state,
+        isCheckBuyerCompleted: action.payload,
+      };
+    case Types.IS_CREATE_PASSWORD_LOADING:
+      return {
+        ...state,
+        isCreatePasswordLoading: action.payload,
+      };
+    case Types.PASSWORD_CREATED:
+      return {
+        ...state,
+        isPasswordCreated: action.payload,
+      };
+    case Types.IS_SET_PASSWORD_LOADING:
+      return {
+        ...state,
+        isSetPasswordLoading: action.payload,
+      };
+    case Types.SET_PASSWORD_COMPLETE:
+      return {
+        ...state,
+        isSetPasswordComplete: action.payload,
+      };
+
+
     default:
       break;
   }

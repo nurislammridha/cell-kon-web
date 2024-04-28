@@ -64,14 +64,14 @@ export const GetSignUpInput = (name, value) => (dispatch) => {
   const formValue = { name, value }
   dispatch({ type: Types.GET_SIGNUP_INPUT, payload: formValue });
 };
-export const SignUpSubmit = (data) => (dispatch) => {
+export const sendEmailOtp = (data) => (dispatch) => {
   const { buyerName, mailOrPhone, password, cPassword } = data
   // console.log('data', data)
   if (buyerName.length === 0) {
     showToast("error", "Full name shouldn't be empty!")
     return 0
   } else if (mailOrPhone.length === 0) {
-    showToast("error", "Mail or phone name shouldn't be empty!")
+    showToast("error", "Email shouldn't be empty!")
     return 0
   } else if (password.length === 0) {
     showToast("error", "Password shouldn't be empty!")
@@ -87,7 +87,32 @@ export const SignUpSubmit = (data) => (dispatch) => {
   let buyerPhone = ""
   mailOrPhone.substring(0, 2) === "01" ? buyerPhone = mailOrPhone : buyerEmail = mailOrPhone
   const postData = { buyerName, password, buyerEmail, buyerPhone }
+  localStorage.setItem("signUpData", JSON.stringify(postData))
+  const url = `${process.env.REACT_APP_API_URL}buyer/send-email-otp`;
+  dispatch({ type: Types.IS_EMAIL_OTP_LOADING, payload: true })
+  try {
+    Axios.post(url, { email: buyerEmail }).then((res) => {
+      if (res.data.status) {
+        // console.log('res', res)
+        dispatch({ type: Types.IS_EMAIL_OTP_LOADING, payload: false });
+        dispatch({ type: Types.EMAIL_OTP_CREATED, payload: true });
+        showToast("success", res.data.message);
 
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_EMAIL_OTP_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+}
+export const SignUpSubmit = (data, otp) => (dispatch) => {
+  if (otp.length !== 6) {
+    showToast("error", "Invalid Otp!")
+    return 0
+  }
+  const postData = { ...data, otp }
   const url = `${process.env.REACT_APP_API_URL}buyer`;
   dispatch({ type: Types.IS_SIGNUP_LOADING, payload: true })
   try {
@@ -98,6 +123,7 @@ export const SignUpSubmit = (data) => (dispatch) => {
         dispatch({ type: Types.SIGNUP_CREATED, payload: true });
         showToast("success", res.data.message);
         if (res.data.isSignUp) {
+          localStorage.setItem("signUpData", "")
           localStorage.setItem("isLogin", true)
           localStorage.setItem("buyerData", JSON.stringify(res.data.result))
           dispatch({ type: Types.IS_SIGNUP_COMPLETE, payload: true });
@@ -119,7 +145,7 @@ export const LoginSubmit = (data) => (dispatch) => {
   const { mailOrPhone, password } = data
   // console.log('data', data)
   if (mailOrPhone.length === 0) {
-    showToast("error", "Mail or phone name shouldn't be empty!")
+    showToast("error", "Email shouldn't be empty!")
     return 0
   } else if (password.length === 0) {
     showToast("error", "Password shouldn't be empty!")
@@ -161,6 +187,112 @@ export const LoginSubmit = (data) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 };
+export const CheckBuyerSubmit = (buyerEmail) => (dispatch) => {
+
+  // console.log('data', data)
+  if (buyerEmail.length === 0) {
+    showToast("error", "Mail shouldn't be empty!")
+    return 0
+  }
+  const url = `${process.env.REACT_APP_API_URL}buyer/check-buyer`;
+  dispatch({ type: Types.IS_CHECK_BUYER_LOADING, payload: true })
+  localStorage.setItem('buyerEmail', buyerEmail)
+  try {
+    Axios.post(url, { buyerEmail }).then((res) => {
+      if (res.data.status) {
+        if (res.data.isPresent) {
+          dispatch({ type: Types.CHECK_BUYER_COMPLETED, payload: true });
+        } else {
+          //not found
+          showToast("success", res.data.message);
+        }
+        dispatch({ type: Types.IS_CHECK_BUYER_LOADING, payload: false });
+
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_CHECK_BUYER_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+export const CreatePasswordSubmit = (data) => (dispatch) => {
+  const { password, cPassword } = data
+  console.log('data', data)
+  if (password.length === 0) {
+    showToast("error", "Password should n't be empty!")
+    return 0;
+  } else if (password.length < 6) {
+    showToast("error", "Password should be at least 6 character!")
+    return 0;
+  } else if (cPassword.length === 0) {
+    showToast("error", "Confirm password should n't be empty!")
+    return 0;
+  } else if (cPassword.length < 6) {
+    showToast("error", "Confirm password should be at least 6 character!")
+    return 0;
+  } else if (cPassword !== password) {
+    showToast("error", "Password and confirm password not matche!")
+    return 0;
+  }
+  const buyerEmail = localStorage.getItem('buyerEmail')
+  localStorage.setItem("resetInfo", JSON.stringify({ password, buyerEmail }))
+  const url = `${process.env.REACT_APP_API_URL}buyer/forget-password-otp`;
+  dispatch({ type: Types.IS_CREATE_PASSWORD_LOADING, payload: true })
+  try {
+    Axios.post(url, { buyerEmail }).then((res) => {
+      if (res.data.status) {
+        // console.log('res', res)
+        dispatch({ type: Types.IS_CREATE_PASSWORD_LOADING, payload: false });
+        dispatch({ type: Types.PASSWORD_CREATED, payload: true });
+        showToast("success", res.data.message);
+      } else {
+        dispatch({ type: Types.IS_CREATE_PASSWORD_LOADING, payload: false });
+        showToast("success", "Something went wrong");
+      }
+    }).catch((err) => {
+      dispatch({ type: Types.IS_CREATE_PASSWORD_LOADING, payload: false });
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_CREATE_PASSWORD_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+export const SetPasswordSubmit = (resetInfo, otp) => (dispatch) => {
+
+  // console.log('data', data)
+  if (otp.length !== 6) {
+    showToast("error", "Invalid Otp!")
+    return 0
+  }
+  const url = `${process.env.REACT_APP_API_URL}buyer/set-password`;
+  dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: true })
+  // const resetInfo = JSON.parse(localStorage.getItem('resetInfo'))
+  const payload = { ...resetInfo, otp }
+  try {
+    Axios.post(url, payload).then((res) => {
+      if (res.data.status) {
+        // console.log('res', res)
+        localStorage.setItem('buyerEmail', "")
+        localStorage.setItem('resetInfo', "")
+        dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: false });
+        dispatch({ type: Types.SET_PASSWORD_COMPLETE, payload: true });
+        showToast("success", res.data.message);
+      } else {
+        showToast("success", res.data.message);
+        dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: false });
+      }
+    }).catch((err) => {
+      showToast("success", err);
+    });
+  } catch (error) {
+    dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: false });
+    showToast("error", "Something went wrong");
+  }
+};
+
 export const SocialLoginSubmit = (data) => (dispatch) => {
   const { additionalUserInfo } = data || {}
   const { providerId, isNewUser, profile } = additionalUserInfo || {}
@@ -664,6 +796,10 @@ export const LogoutRequest = () => (dispatch) => {
 export const FalseIsLoginComplete = () => (dispatch) => {
   dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: false })
   dispatch({ type: Types.IS_SIGNUP_COMPLETE, payload: false })
+  dispatch({ type: Types.EMAIL_OTP_CREATED, payload: false })
+  dispatch({ type: Types.SET_PASSWORD_COMPLETE, payload: false })
+  dispatch({ type: Types.PASSWORD_CREATED, payload: false })
+  dispatch({ type: Types.CHECK_BUYER_COMPLETED, payload: false })
 }
 export const SetAddressUpdateInput = (id) => (dispatch) => {
   const data = JSON.parse(localStorage.getItem("buyerData")).addressInfo

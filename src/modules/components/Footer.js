@@ -2,7 +2,9 @@ import React from 'react'
 import appStore from '../../assets/images/other/appstore.png'
 import playStore from '../../assets/images/other/playstore.png'
 import sellConWhite from '../../assets/images/other/SellKonWhite.png'
+import { useNavigate } from 'react-router-dom'
 const Footer = () => {
+    const navigate = useNavigate()
     return (
         <div className='footer'>
             <div className='w-1176'>
@@ -20,6 +22,8 @@ const Footer = () => {
                     </div>
                     <div className='footer_middle'>
                         <h2 className='footer_contact_us'>Contact Us</h2>
+                        <div className='footer_link cp'><a onClick={() => navigate('/terms-and-conditions')} href>Terms And Conditions</a></div>
+                        <div className='footer_link cp'><a onClick={() => navigate('/return-and-refund')} href>Return And Refund Policy</a></div>
                         <div className='footer_address'>
                             House #1757, Road-3, Block A,
                             Bashundhara riverview, keraniganj, Dhaka.

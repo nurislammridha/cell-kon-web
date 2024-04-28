@@ -3,9 +3,22 @@ import en from '../../assets/images/icons/English.png'
 import bn from '../../assets/images/icons/Bangla.png'
 import TermsEnglish from '../components/TermsEnglish'
 import TermsBangla from '../components/TermsBangla'
+import { useNavigate } from 'react-router-dom'
 const TermsAndConditions = () => {
     const [lan, setLan] = useState('en')
-    return (
+    const navigate = useNavigate()
+    return (<>
+        <div className='details_top'>
+            <div
+                className='l_arrow'
+                onClick={() => navigate(-1)}
+            >
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div className='share2'>
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </div>
+        </div>
         <div className='terms_conditions'>
             <div className='container'>
                 <div className='lan_btn cp'>
@@ -17,7 +30,7 @@ const TermsAndConditions = () => {
                 {lan === 'en' ? <TermsEnglish /> : <TermsBangla />}
             </div>
         </div>
-    )
+    </>)
 }
 
 export default TermsAndConditions

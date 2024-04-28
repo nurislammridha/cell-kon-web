@@ -73,11 +73,11 @@ const LoginPage = () => {
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Welcome back, we missed you!</p>
                 <div className='mt24'>
-                    <p className='clr959595 mfs12 fs16 fm'>Email Or Phone</p>
+                    <p className='clr959595 mfs12 fs16 fm'>Email</p>
                     <input
                         className='mt12 mmt8'
                         type='text'
-                        placeholder='enter email or phone'
+                        placeholder='enter email'
                         name='mailOrPhone'
                         value={loginInput.mailOrPhone}
                         onChange={(e) => handleChange("mailOrPhone", e.target.value)}
@@ -93,7 +93,12 @@ const LoginPage = () => {
                         value={loginInput.password}
                         onChange={(e) => handleChange("password", e.target.value)}
                     />
-                    <p className='forgot_pass'>Forgot Password</p>
+                    <p
+                        className='forgot_pass'
+                        onClick={() => navigate('/email')}
+                    >
+                        Forgot Password
+                    </p>
                 </div>
 
                 <div

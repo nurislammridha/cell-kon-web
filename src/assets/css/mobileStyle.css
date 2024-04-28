@@ -1409,6 +1409,15 @@
         text-decoration: underline;
         color: #f54c54;
     }
+
+    .terms_conditions {
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+
+    .terms_conditions .container {
+        width: fit-content;
+    }
 }
 
 /* @media (max-width: 360px) {} */
