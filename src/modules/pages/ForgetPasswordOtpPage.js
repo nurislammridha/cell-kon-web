@@ -29,7 +29,7 @@ const ForgetPasswordOtpPage = () => {
     useEffect(() => {
         if (isSetPasswordComplete) {
             setOtp("")
-            navigate('/login')
+            navigate('/')
             dispatch(FalseIsLoginComplete())
         }
     }, [isSetPasswordComplete])

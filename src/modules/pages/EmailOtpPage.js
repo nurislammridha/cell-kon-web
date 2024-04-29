@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SignUpSubmit, SocialLoginSubmit, sendEmailOtp } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 
 const EmailOtpPage = () => {
+    const { pathname } = useLocation();
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [otp, setOtp] = useState("")
@@ -20,15 +21,17 @@ const EmailOtpPage = () => {
     const handleSubmit = () => {
         dispatch(SignUpSubmit(signUpInput, otp))
     }
-
+    // console.log('isSignUpComplete', isSignUpComplete)
 
     const resendOTP = () => {
         dispatch(sendEmailOtp(signUpInput))
     };
     useEffect(() => {
         if (isSignUpComplete) {
+            const reDetails = localStorage.getItem("redirect_details") || ""
             setOtp("")
-            navigate('/login')
+            reDetails.length > 0 ? navigate(`/product-details/${reDetails}`) : navigate('/')
+            localStorage.setItem("redirect_details", "")
             dispatch(FalseIsLoginComplete())
         }
     }, [isSignUpComplete])
@@ -65,7 +68,9 @@ const EmailOtpPage = () => {
             dispatch(FalseIsLoginComplete())
         }
     }, [isEmailOtpComplete])
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (
         <div className='sign_up_container'>
             <MobileCommonHeader isShare={false} />

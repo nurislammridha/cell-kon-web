@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
@@ -10,6 +10,7 @@ import firebase from "firebase";
 const LoginPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { pathname } = useLocation();
     const [isGoogle, setGoogle] = useState(false)
     const [isFacebook, setFacebook] = useState(false)
     const loginInput = useSelector((state) => state.homeInfo.signUpInput);
@@ -60,13 +61,17 @@ const LoginPage = () => {
     };
     useEffect(() => {
         if (isLoginComplete) {
+            const reDetails = localStorage.getItem("redirect_details") || ""
             setGoogle(false)
             setFacebook(false)
-            navigate('/')
+            reDetails.length > 0 ? navigate(`/product-details/${reDetails}`) : navigate('/')
+            localStorage.setItem("redirect_details", "")
             dispatch(FalseIsLoginComplete())
         }
     }, [isLoginComplete])
-
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (
         <div className='sign_up_container'>
             <MobileCommonHeader isShare={false} />

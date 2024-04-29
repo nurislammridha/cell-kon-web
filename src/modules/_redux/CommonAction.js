@@ -120,13 +120,16 @@ export const SignUpSubmit = (data, otp) => (dispatch) => {
       if (res.data.status) {
         // console.log('res', res)
         dispatch({ type: Types.IS_SIGNUP_LOADING, payload: false });
-        dispatch({ type: Types.SIGNUP_CREATED, payload: true });
+        // dispatch({ type: Types.SIGNUP_CREATED, payload: true });
         showToast("success", res.data.message);
-        if (res.data.isSignUp) {
+        if (res.data.isLogin) {
           localStorage.setItem("signUpData", "")
           localStorage.setItem("isLogin", true)
           localStorage.setItem("buyerData", JSON.stringify(res.data.result))
+          localStorage.setItem("access_token", res.data.token)
+          localStorage.setItem("buyerData", JSON.stringify(res.data.result))
           dispatch({ type: Types.IS_SIGNUP_COMPLETE, payload: true });
+          dispatch({ type: Types.IS_LOGIN_COMPLETE, payload: true });
         }
       }
     }).catch((err) => {
@@ -277,11 +280,14 @@ export const SetPasswordSubmit = (resetInfo, otp) => (dispatch) => {
         // console.log('res', res)
         localStorage.setItem('buyerEmail', "")
         localStorage.setItem('resetInfo', "")
+        localStorage.setItem("isLogin", true)
+        localStorage.setItem("buyerData", JSON.stringify(res.data.result))
+        localStorage.setItem("access_token", res.data.token)
         dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: false });
         dispatch({ type: Types.SET_PASSWORD_COMPLETE, payload: true });
         showToast("success", res.data.message);
       } else {
-        showToast("success", res.data.message);
+        showToast("error", res.data.message);
         dispatch({ type: Types.IS_SET_PASSWORD_LOADING, payload: false });
       }
     }).catch((err) => {

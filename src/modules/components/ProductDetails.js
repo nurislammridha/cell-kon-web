@@ -25,6 +25,7 @@ const ProductDetails = ({ data, isLogin }) => {
     const handleAddCart = () => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
+        !isLogin && localStorage.setItem('redirect_details', data._id)
     }
     const handleBuyNow = () => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
@@ -33,6 +34,7 @@ const ProductDetails = ({ data, isLogin }) => {
         const obj = { productDetails: data }
         const newData = { ...obj, ...postData }
         isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
+        !isLogin && localStorage.setItem('redirect_details', data._id)
     }
     const handleColor = (item, index) => {
         setColorName(item?.colorName)
@@ -56,6 +58,7 @@ const ProductDetails = ({ data, isLogin }) => {
     useEffect(() => {
         setStart(initialVal(multiImg, page, 4))
     }, [page])
+    // console.log('data', data)
     return (<>
         {/* mobile carousel */}
         <div className='details_top'>
