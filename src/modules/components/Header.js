@@ -58,7 +58,7 @@ const Header = ({ isLogin, search, setSearch }) => {
                             <div className='input'>
                                 <input
                                     type='text'
-                                    placeholder='Search In Cellkon'
+                                    placeholder='Search In Sellkon'
                                     name="search"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}

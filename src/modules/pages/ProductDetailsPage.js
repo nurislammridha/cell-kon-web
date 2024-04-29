@@ -5,9 +5,10 @@ import ShortDetails from '../components/ShortDetails'
 import ProductDetails from '../components/ProductDetails'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProductDetailsById } from '../_redux/CommonAction'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 const ProductDetailsPage = ({ isLogin }) => {
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
     const { id } = useParams();
     const productDetails = useSelector((state) => state.homeInfo.productDetails);
@@ -17,6 +18,9 @@ const ProductDetailsPage = ({ isLogin }) => {
     useEffect(() => {
         dispatch(ProductDetailsById(id));
     }, [id])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (
         <>
             <div className='details_page'>

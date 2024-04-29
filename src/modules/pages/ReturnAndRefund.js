@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import en from '../../assets/images/icons/English.png'
 import bn from '../../assets/images/icons/Bangla.png'
 import TermsEnglish from '../components/TermsEnglish'
 import TermsBangla from '../components/TermsBangla'
 import ReturnRefundEnglish from '../components/ReturnRefundEnglish'
 import ReturnRefundBangla from '../components/ReturnRefundBangla'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 const ReturnAndRefund = () => {
+    const { pathname } = useLocation();
     const navigate = useNavigate()
     const [lan, setLan] = useState('en')
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (<>
         <div className='details_top'>
             <div

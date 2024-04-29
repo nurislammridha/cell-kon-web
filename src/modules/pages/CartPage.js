@@ -4,9 +4,11 @@ import CartProducts from '../components/CartProducts'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseCartCalled, GetCartListByBuyer } from '../_redux/CommonAction'
 import { getSubTotal } from '../../assets/function/globalFunction'
+import { useLocation } from 'react-router-dom'
 
 const CartPage = () => {
     const dispatch = useDispatch()
+    const { pathname } = useLocation();
     const cartApiList = useSelector((state) => state.homeInfo.cartList);
     const isQuantityLoading = useSelector((state) => state.homeInfo.isQuantityLoading);
     const isCartListCalled = useSelector((state) => state.homeInfo.isCartListCalled);
@@ -25,6 +27,9 @@ const CartPage = () => {
         const buyerId = JSON.parse(localStorage.getItem("buyerData") || {})?._id
         dispatch(GetCartListByBuyer(buyerId))
     }, [])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     const newArr = () => {
         let arr = []
         let cart = JSON.parse(localStorage.getItem("cartList"))?.productInfo

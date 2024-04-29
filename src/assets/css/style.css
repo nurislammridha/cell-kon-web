@@ -226,7 +226,7 @@ body {
 }
 
 .content {
-    margin-top: 140px;
+    /* margin-top: 140px; */
     /* background-color: #FAFAFA; */
 }
 
@@ -253,20 +253,21 @@ body {
 
 .header {
     width: 100%;
-    position: fixed;
-    top: 0;
-    /* display: flex; */
     justify-content: center;
     background-color: #FFF;
-    z-index: 999;
 }
 
 .header_top_container {
     background-color: #151820;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
 }
 
 .header_bottom_container {
     background-color: #282E3D;
+    margin-top: 70px;
 }
 
 .header_top {

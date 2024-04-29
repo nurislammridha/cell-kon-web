@@ -6,6 +6,7 @@ import { GetBuyerDetailsByBuyerId } from '../_redux/CommonAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CheckoutPage = () => {
+    const { pathname } = useLocation();
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
@@ -26,6 +27,9 @@ const CheckoutPage = () => {
             setAddressList(location?.state?.data)
         }
     }, [location])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (
         <>
             <div className='cart_page checkout_page'>

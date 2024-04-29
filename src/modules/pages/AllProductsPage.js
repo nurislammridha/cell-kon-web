@@ -11,6 +11,7 @@ const AllProductsPage = ({ search }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
+    const { pathname } = useLocation();
     const proInfo = useSelector((state) => state.homeInfo.productsList);
     const { products, pagination } = proInfo || {}
     const categoriesList = useSelector((state) => state.homeInfo.categoriesList);
@@ -49,6 +50,9 @@ const AllProductsPage = ({ search }) => {
         dispatch(GetCategories())
         dispatch(GetSellers())
     }, [])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     // useEffect(() => {
     //     if (search.length > 0) {
     //         dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search }))
