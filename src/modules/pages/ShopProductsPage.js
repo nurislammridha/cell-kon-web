@@ -6,10 +6,12 @@ import Order from '../components/Order'
 import shopIcon from "../../assets/images/icons/userIcon.png"
 import starIcon from "../../assets/images/icons/star.png"
 import starFillIcon from "../../assets/images/icons/startFill.png"
+import banner from "../../assets/images/other/shop_banner.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { GetBrands, GetCategories, GetFilterProduct, GetSellerById, GetSellers } from '../_redux/CommonAction'
 import { useLocation, useParams } from 'react-router-dom'
 import MobileCommonHeader from '../components/MobileCommonHeader'
+import ShopProducts from '../components/ShopProducts'
 const ShopProductsPage = ({ search }) => {
     const dispatch = useDispatch()
     const { id } = useParams();
@@ -69,19 +71,22 @@ const ShopProductsPage = ({ search }) => {
                 <div className='product_page'>
                     {/* order section */}
                     {sellerDetails !== null && <div className='shop'>
-                        <img src={sellerDetails.shopLogo.url} alt='shop icon' />
-                        <div className='shop_info'>
-                            <h1>{sellerDetails.shopName}</h1>
-                            <h3 className='mt13'>Delivery in {products?.length > 0 ? products[0]?.sellerInfo?.deliveryPeriod : "0 Days"}</h3>
-                            <div className='star mt13'>
-                                <img src={starFillIcon} />
-                                <img src={starFillIcon} />
-                                <img src={starFillIcon} />
-                                <img src={starFillIcon} />
-                                <img src={starIcon} />
-                                <h3>(1.8K)</h3>
+                        <img src={banner} className='banner_img' />
+                        <div className='shop_info_parent'>
+                            <img src={sellerDetails.shopLogo.url} className='seller_icon' alt='shop icon' />
+                            <div className='shop_info'>
+                                <h2>{sellerDetails.shopName}</h2>
+                                <div className='star mt5'>
+                                    <img src={starFillIcon} />
+                                    <img src={starFillIcon} />
+                                    <img src={starFillIcon} />
+                                    <img src={starFillIcon} />
+                                    <img src={starIcon} />
+                                    <h5>(1.8K)</h5>
+                                </div>
+                                <p className='mt5 delivery_in'>Delivery in {products?.length > 0 ? products[0]?.sellerInfo?.deliveryPeriod : "0 Days"}</p>
+                                <p className='mt5'>{sellerDetails.sellerAddress}</p>
                             </div>
-                            <h3 className='mt13'>{sellerDetails.sellerAddress}</h3>
                         </div>
                     </div>}
 
@@ -99,7 +104,7 @@ const ShopProductsPage = ({ search }) => {
                             <div className='products'>
                                 <div className='home_all_products product_form_page'>
                                     {/* All products */}
-                                    <AllProducts list={products} />
+                                    <ShopProducts list={products} />
                                     {/* //pagination */}
                                     {pagination?.totalPage > 1 && <ProductsPagination pagination={pagination} handlePagination={handlePagination} />}
                                 </div>

@@ -1,12 +1,12 @@
 import React from 'react'
-import categoryIcon from '../../assets/images/icons/category.png'
+import categoryIcon from '../../assets/images/icons/filter.png'
 const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brandsId, hideShop = false, hideCategory = false }) => {
     return (
         <div>
             <div className='filter_left'>
                 <div className='filter'>
                     <img src={categoryIcon} />
-                    <span>Filter</span>
+                    <div>Filter</div>
                 </div>
                 {!hideCategory && (
                     <div className='category'>
@@ -28,7 +28,7 @@ const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brands
                     </div>
                 )}
                 {!hideShop && (
-                    <div className='category'>
+                    <div className='category category_line'>
                         <div className='txt'>
                             Brands
                         </div>
