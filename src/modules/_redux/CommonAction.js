@@ -762,6 +762,34 @@ export const GetSellers = () => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 }
+export const GetSellerById = (id) => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}seller/${id}`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.SELLER_DETAILS, payload: res.data.result })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}
+export const GetBrands = () => (dispatch) => {
+  const url = `${process.env.REACT_APP_API_URL}brand`;
+  try {
+    Axios.get(url).then((res) => {
+      if (res.data.status) {
+        dispatch({ type: Types.BRANDS_LIST, payload: res.data.result })
+      }
+    }).catch((err) => {
+      showToast("error", err);
+    });
+  } catch (error) {
+    showToast("error", "Something went wrong");
+  }
+}
 export const GetOrderByBuyer = () => (dispatch) => {
   const id = JSON.parse(localStorage.getItem("buyerData"))._id
   const url = `${process.env.REACT_APP_API_URL}order/buyer/${id}`;

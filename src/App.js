@@ -70,7 +70,7 @@ function App() {
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/edit-address/:id" element={<EditAddressPage />} />
-              <Route path="/shop/:id" element={<ShopProductsPage />} />
+              <Route path="/shop/:id" element={<ShopProductsPage search={search} />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
               <Route path="/return-and-refund" element={<ReturnAndRefund />} />
               <Route path="/email" element={<EmailPage />} />

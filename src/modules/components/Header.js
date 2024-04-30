@@ -38,11 +38,11 @@ const Header = ({ isLogin, search, setSearch }) => {
         setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
     }, [loggedOut])
     useEffect(() => {
-        if (search.length > 0 && pathname !== "all-products") {
+        if (search.length > 0 && pathname !== "all-products" && pathname.substring(0, 5) !== "/shop") {
             navigate('/all-products')
         }
     }, [search])
-
+    // console.log('pathname', pathname.substring(0, 5))
     return (
         <div className='header'>
             <div className='header_top_container'>

@@ -61,6 +61,7 @@ const initialState = {
   isProductLoading: false,
   productsList: null,
   sellersList: null,
+  brandsList: null,
   categoriesList: null,
   isOrderDetailsLoading: false,
   orderDetails: null,
@@ -90,6 +91,7 @@ const initialState = {
   isPasswordCreated: false,
   isSetPasswordLoading: false,
   isSetPasswordComplete: false,
+  sellerDetails: null,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -279,6 +281,11 @@ const CommonReducer = (state = initialState, action) => {
         ...state,
         sellersList: action.payload,
       };
+    case Types.BRANDS_LIST:
+      return {
+        ...state,
+        brandsList: action.payload,
+      };
     case Types.IS_ORDER_LIST_LOADING:
       return {
         ...state,
@@ -369,6 +376,11 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         isSetPasswordComplete: action.payload,
+      };
+    case Types.SELLER_DETAILS:
+      return {
+        ...state,
+        sellerDetails: action.payload,
       };
 
 

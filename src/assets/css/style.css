@@ -1243,6 +1243,8 @@ body {
 
 .product_page .filter_left .category ul li {
     padding: 5px 0px;
+    height: 26px;
+    overflow: hidden;
 }
 
 .product_page .filter_left .category ul li input {
@@ -1251,7 +1253,7 @@ body {
 
 .product_page .filter_left .category ul li span {
     font-size: 14px;
-    /* margin-top: -5px; */
+    margin-left: -6px;
 }
 
 .product_page .filter_right {

@@ -7,21 +7,24 @@ import shopIcon from "../../assets/images/icons/userIcon.png"
 import starIcon from "../../assets/images/icons/star.png"
 import starFillIcon from "../../assets/images/icons/startFill.png"
 import { useDispatch, useSelector } from 'react-redux'
-import { GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
-import { useParams } from 'react-router-dom'
+import { GetBrands, GetCategories, GetFilterProduct, GetSellerById, GetSellers } from '../_redux/CommonAction'
+import { useLocation, useParams } from 'react-router-dom'
 import MobileCommonHeader from '../components/MobileCommonHeader'
-const ShopProductsPage = () => {
+const ShopProductsPage = ({ search }) => {
     const dispatch = useDispatch()
     const { id } = useParams();
-    const productsList = useSelector((state) => state.homeInfo.productsList);
+    const { pathname } = useLocation();
+    const proInfo = useSelector((state) => state.homeInfo.productsList);
+    const { products, pagination } = proInfo || {}
     const categoriesList = useSelector((state) => state.homeInfo.categoriesList);
-    const sellersList = useSelector((state) => state.homeInfo.sellersList);
+    const brandsList = useSelector((state) => state.homeInfo.brandsList);
+    const sellerDetails = useSelector((state) => state.homeInfo.sellerDetails);
     const isProductLoading = useSelector((state) => state.homeInfo.isProductLoading);
     const [isShortBy, setShortBy] = useState(false)
     const [short, setShort] = useState(0)
     const [shortName, setShortName] = useState("Select")
     const [categoriesId, setCategoriesId] = useState([])
-    const [sellersId, setSellersId] = useState([id])
+    const [brandsId, setBrandsId] = useState([])
     const handleSelect = (isCategory, id) => {
         if (isCategory) {
             //category
@@ -32,24 +35,31 @@ const ShopProductsPage = () => {
                 setCategoriesId(prevState => [...prevState, id]);
             }
         } else {
-            console.log('isCategory', isCategory)
-            //seller
-            let isExistSeller = sellersId.filter(el => el === id)
-            if (isExistSeller.length > 0) {
-                setSellersId(l => l.filter(el => el !== id));
+            // console.log('isCategory', isCategory)
+            //brand
+            let isExistBrand = brandsId.filter(el => el === id)
+            if (isExistBrand.length > 0) {
+                setBrandsId(l => l.filter(el => el !== id));
             } else {
-                setSellersId(prevState => [...prevState, id]);
+                setBrandsId(prevState => [...prevState, id]);
             }
         }
     }
+    const handlePagination = (page) => {
+        dispatch(GetFilterProduct({ categoriesId, brandsId, sellersId: [id], isShortBy, short, search, page, limit: 20 }));
+    };
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
+        // dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short }))
         dispatch(GetCategories())
-        dispatch(GetSellers())
+        dispatch(GetBrands())
+        dispatch(GetSellerById(id))
     }, [])
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short }))
-    }, [categoriesId, sellersId, short])
+        dispatch(GetFilterProduct({ categoriesId, brandsId, sellersId: [id], isShortBy, short, search, page: 1, limit: 20 }))
+    }, [categoriesId, brandsId, short, id, search])
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [pathname])
     return (
         <div className='shop_mo'>
             <div className='muser_inf0'>
@@ -58,11 +68,11 @@ const ShopProductsPage = () => {
             <div className='shop_container'>
                 <div className='product_page'>
                     {/* order section */}
-                    {productsList?.length > 0 ? <div className='shop'>
-                        <img src={shopIcon} alt='shop icon' />
+                    {sellerDetails !== null && <div className='shop'>
+                        <img src={sellerDetails.shopLogo.url} alt='shop icon' />
                         <div className='shop_info'>
-                            <h1>{productsList && productsList[0]?.sellerInfo?.shopName}</h1>
-                            <h3 className='mt13'>Delivery in {productsList && productsList[0]?.sellerInfo?.deliveryPeriod}</h3>
+                            <h1>{sellerDetails.shopName}</h1>
+                            <h3 className='mt13'>Delivery in {products?.length > 0 ? products[0]?.sellerInfo?.deliveryPeriod : "0 Days"}</h3>
                             <div className='star mt13'>
                                 <img src={starFillIcon} />
                                 <img src={starFillIcon} />
@@ -71,27 +81,27 @@ const ShopProductsPage = () => {
                                 <img src={starIcon} />
                                 <h3>(1.8K)</h3>
                             </div>
-                            <h3 className='mt13'>{productsList && productsList[0]?.sellerInfo?.sellerAddress}</h3>
+                            <h3 className='mt13'>{sellerDetails.sellerAddress}</h3>
                         </div>
-                    </div> : ""}
+                    </div>}
 
                     <div className='filter_product'>
                         {/* Shops  */}
                         <Filter
                             categoriesList={categoriesList}
-                            sellersList={sellersList}
+                            brandsList={brandsList}
                             handleSelect={handleSelect}
                             categoriesId={categoriesId}
-                            sellersId={sellersId}
-                            hideShop={true}
+                            brandsId={brandsId}
+                            hideShop={false}
                         />
                         <div className='filter_right'>
                             <div className='products'>
                                 <div className='home_all_products product_form_page'>
                                     {/* All products */}
-                                    <AllProducts list={productsList} />
+                                    <AllProducts list={products} />
                                     {/* //pagination */}
-                                    {/* <ProductsPagination /> */}
+                                    {pagination?.totalPage > 1 && <ProductsPagination pagination={pagination} handlePagination={handlePagination} />}
                                 </div>
                             </div>
                         </div>

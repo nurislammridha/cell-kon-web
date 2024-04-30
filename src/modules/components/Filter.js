@@ -1,6 +1,6 @@
 import React from 'react'
 import categoryIcon from '../../assets/images/icons/category.png'
-const Filter = ({ categoriesList, sellersList, handleSelect, categoriesId, sellersId, hideShop = false, hideCategory = false }) => {
+const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brandsId, hideShop = false, hideCategory = false }) => {
     return (
         <div>
             <div className='filter_left'>
@@ -11,7 +11,7 @@ const Filter = ({ categoriesList, sellersList, handleSelect, categoriesId, selle
                 {!hideCategory && (
                     <div className='category'>
                         <div className='txt'>
-                            Category
+                            Categories
                         </div>
                         <ul>
                             {categoriesList?.length > 0 && categoriesList.map((item, index) => (
@@ -21,7 +21,7 @@ const Filter = ({ categoriesList, sellersList, handleSelect, categoriesId, selle
                                         checked={categoriesId.find(v => v === item?._id)}
                                         onChange={() => handleSelect(true, item?._id)}
                                     />
-                                    <span>{item?.categoryName}</span>
+                                    <span>{item?.categoryName.trim()}</span>
                                 </li>
                             ))}
                         </ul>
@@ -30,17 +30,17 @@ const Filter = ({ categoriesList, sellersList, handleSelect, categoriesId, selle
                 {!hideShop && (
                     <div className='category'>
                         <div className='txt'>
-                            Shops
+                            Brands
                         </div>
                         <ul>
-                            {sellersList?.length > 0 && sellersList.map((item, index) => (
+                            {brandsList?.length > 0 && brandsList.map((item, index) => (
                                 <li>
                                     <input
                                         type='radio'
-                                        checked={sellersId.find(v => v === item?._id)}
+                                        checked={brandsId.find(v => v === item?._id)}
                                         onChange={() => handleSelect(false, item?._id)}
                                     />
-                                    <span>{item?.shopName}</span>
+                                    <span>{item?.brandName}</span>
                                 </li>
                             ))}
 

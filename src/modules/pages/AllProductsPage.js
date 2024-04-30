@@ -4,7 +4,7 @@ import AllProducts from '../components/AllProducts'
 import Filter from '../components/Filter'
 import Order from '../components/Order'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetAllProduct, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
+import { GetAllProduct, GetBrands, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
 import { useLocation, useNavigate } from 'react-router-dom'
 import filterIcon from '../../assets/images/icons/filter.png'
 const AllProductsPage = ({ search }) => {
@@ -15,13 +15,13 @@ const AllProductsPage = ({ search }) => {
     const proInfo = useSelector((state) => state.homeInfo.productsList);
     const { products, pagination } = proInfo || {}
     const categoriesList = useSelector((state) => state.homeInfo.categoriesList);
-    const sellersList = useSelector((state) => state.homeInfo.sellersList);
+    const brandsList = useSelector((state) => state.homeInfo.brandsList);
     const isProductLoading = useSelector((state) => state.homeInfo.isProductLoading);
     const [isShortBy, setShortBy] = useState(false)
     const [short, setShort] = useState(0)
     const [shortName, setShortName] = useState("Select")
     const [categoriesId, setCategoriesId] = useState(location?.state?.isFromCategory ? [location?.state?.categoryId] : [])
-    const [sellersId, setSellersId] = useState([])
+    const [brandsId, setBrandsId] = useState([])
     const handleSelect = (isCategory, id) => {
         if (isCategory) {
             //category
@@ -34,21 +34,21 @@ const AllProductsPage = ({ search }) => {
         } else {
             console.log('isCategory', isCategory)
             //seller
-            let isExistSeller = sellersId.filter(el => el === id)
-            if (isExistSeller.length > 0) {
-                setSellersId(l => l.filter(el => el !== id));
+            let isExistBrand = brandsId.filter(el => el === id)
+            if (isExistBrand.length > 0) {
+                setBrandsId(l => l.filter(el => el !== id));
             } else {
-                setSellersId(prevState => [...prevState, id]);
+                setBrandsId(prevState => [...prevState, id]);
             }
         }
     }
     const handlePagination = (page) => {
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page, limit: 20 }));
+        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page, limit: 20 }));
     };
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page: 1, limit: 20 }))
+        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
         dispatch(GetCategories())
-        dispatch(GetSellers())
+        dispatch(GetBrands())
     }, [])
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -62,8 +62,8 @@ const AllProductsPage = ({ search }) => {
         // if (location?.state?.isFromCategory) {
         //     setCategoriesId(location?.state?.categoryId)
         // }
-        dispatch(GetFilterProduct({ categoriesId, sellersId, isShortBy, short, search, page: 1, limit: 20 }))
-    }, [categoriesId, sellersId, short, location, search])
+        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
+    }, [categoriesId, brandsId, short, location, search])
     // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
         <>
@@ -97,10 +97,10 @@ const AllProductsPage = ({ search }) => {
                     {/* Filter  */}
                     <Filter
                         categoriesList={categoriesList}
-                        sellersList={sellersList}
+                        brandsList={brandsList}
                         handleSelect={handleSelect}
                         categoriesId={categoriesId}
-                        sellersId={sellersId}
+                        brandsId={brandsId}
                         hideShop={false}
                         hideCategory={location?.state?.isFromCategory || false}
                     />
