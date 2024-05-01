@@ -63,7 +63,7 @@ const ShopProductsPage = ({ search }) => {
         window.scrollTo(0, 0)
     }, [pathname])
     return (
-        <div className='shop_mo'>
+        <div className='shop_mo shop_new_banner'>
             <div className='muser_inf0'>
                 <MobileCommonHeader />
             </div>
@@ -85,7 +85,7 @@ const ShopProductsPage = ({ search }) => {
                                     <h5>(1.8K)</h5>
                                 </div>
                                 <p className='mt5 delivery_in'>Delivery in {products?.length > 0 ? products[0]?.sellerInfo?.deliveryPeriod : "0 Days"}</p>
-                                <p className='mt5'>{sellerDetails.sellerAddress}</p>
+                                <p className='mt5 delivery_in'>{sellerDetails.sellerAddress}</p>
                             </div>
                         </div>
                     </div>}

@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
+import show from '../../assets/images/icons/password_show.png'
+import hide from '../../assets/images/icons/password_Hide.png'
 import eye from '../../assets/images/icons/eye.jpg'
 import firebase from "firebase";
 const LoginPage = () => {
