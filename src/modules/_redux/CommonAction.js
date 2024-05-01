@@ -468,6 +468,9 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
     showToast("error", "Something went wrong");
   }
 }
+export const FalseAddressCreated = () => (dispatch) => {
+  dispatch({ type: Types.ADDRESS_CREATED, payload: false })
+}
 export const UpdateBuyerAddress = (data, addressId) => (dispatch) => {
   const { buyerName, buyerPhone, isMetropolitan, division, divisionId, district, districtId, upazilla, upazillaId, union, unionId, nearestArea, nearestAreaId, detailsAddress, postalCode } = data
   let buyerId = JSON.parse(localStorage.getItem("buyerData"))._id
@@ -581,6 +584,7 @@ export const SubmitOrder = (list, address, isFromDetails = false) => (dispatch) 
   delete address._id
   const subTotal = getSubTotal(list)
   const shippingFee = address?.upazilla === "Dhaka" ? 50 : 100
+
   const postData = {
     buyerName, buyerId, buyerInfo: buyerId, productInfo: makeProductList(list), orderStatus: "Created",
     deliveryAddressInfo: address, isCreated: true, createdAt: date, paymentMethodName: "COD", subTotal, shippingFee

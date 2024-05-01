@@ -65,7 +65,7 @@ const OrderListPage = ({ isLogin }) => {
                     {orderList?.length > 0 && orderByStatus(orderList, tab).length > 0 ? orderByStatus(orderList, tab).map((item, index) => (
                         <div key={index} className='cp products' onClick={() => navigate(`/order-details/${item._id}`)}>
                             <div className='order_id'>
-                                <div>Order ID:<span>{item._id}</span></div>
+                                <div>Order ID:<span>{item.orderId}</span></div>
                                 <a className={getBg(item.orderStatus)}>{item.orderStatus}</a>
                             </div>
                             <div className='taka_section'>

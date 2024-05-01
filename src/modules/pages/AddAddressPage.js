@@ -5,16 +5,18 @@ import userIcon from "../../assets/images/icons/user.png"
 import orderIcon from "../../assets/images/icons/order.png"
 import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { district, division, union, upazilla } from '../../assets/function/locationService'
 import { locationOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
+import { FalseAddressCreated, GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 function AddAddressPage() {
+    const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const addressInput = useSelector((state) => state.homeInfo.addressInput);
+    const isAddressCreated = useSelector((state) => state.homeInfo.isAddressCreated);
     const isAddressLoading = useSelector((state) => state.homeInfo.isAddressLoading);
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
@@ -37,7 +39,15 @@ function AddAddressPage() {
         }
 
     }, [addressInput])
-
+    useEffect(() => {
+        if (isAddressCreated) {
+            if (location?.state?.isFromCheckout) {
+                navigate('/checkout', { state: { selected: location?.state?.selected } })
+            }
+            dispatch(FalseAddressCreated())
+        }
+    }, [isAddressCreated])
+    console.log('location?.state?.isFromChackout', location?.state?.isFromCheckout)
     return (<div className='madd_address'>
         <div className='muser_inf0'>
             <MobileCommonHeader />

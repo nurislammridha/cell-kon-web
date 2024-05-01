@@ -26,7 +26,7 @@ const UserAddressPage = () => {
                     <p>Delivery Address</p>
                     <a href
                         className='cp'
-                        onClick={() => navigate('/add-address')}
+                        onClick={() => navigate('/add-address', { state: { isFromCheckout: location?.state?.isFromChackout, selected: location?.state?.selected } })}
                     >Add Address</a>
                 </div>
                 {addressInfo?.length > 0 && addressInfo.map((item, index) => (
@@ -37,7 +37,7 @@ const UserAddressPage = () => {
                     >
                         <div className='title'>
                             <p>{item?.buyerName}</p>
-                            <a onClick={() => navigate(`/edit-address/${item._id}`)}><i class="fas fa-edit"></i></a>
+                            {!location?.state?.isFromChackout && <a onClick={() => navigate(`/edit-address/${item._id}`)}><i class="fas fa-edit"></i></a>}
                         </div>
                         <div className='phone mt8'>{item?.buyerPhone}</div>
                         <div className='phone mt16'>{item?.detailsAddress}</div>

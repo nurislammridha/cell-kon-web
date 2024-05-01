@@ -6,11 +6,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
+import eye from '../../assets/images/icons/eye.jpg'
 import firebase from "firebase";
 const LoginPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { pathname } = useLocation();
+    const [isShow, setShow] = useState(true)
     const [isGoogle, setGoogle] = useState(false)
     const [isFacebook, setFacebook] = useState(false)
     const loginInput = useSelector((state) => state.homeInfo.signUpInput);
@@ -72,6 +74,7 @@ const LoginPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [pathname])
+    console.log('show', isShow)
     return (
         <div className='sign_up_container'>
             <MobileCommonHeader isShare={false} />
@@ -90,14 +93,17 @@ const LoginPage = () => {
                 </div>
                 <div className='mt24 mmt16'>
                     <p className='clr959595 fs16 fm mfs12'>Password</p>
-                    <input
-                        className='mt12 mmt8'
-                        type='password'
-                        placeholder='enter password'
-                        name='password'
-                        value={loginInput.password}
-                        onChange={(e) => handleChange("password", e.target.value)}
-                    />
+                    <div className='pass_show'>
+                        <input
+                            className='mt12 mmt8'
+                            type={isShow ? "text" : 'password'}
+                            placeholder='enter password'
+                            name="password"
+                            value={loginInput.password}
+                            onChange={(e) => handleChange("password", e.target.value)}
+                        />
+                        <img onClick={() => setShow(!isShow)} src={eye} />
+                    </div>
                     <p
                         className='forgot_pass'
                         onClick={() => navigate('/email')}

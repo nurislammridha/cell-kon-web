@@ -18,7 +18,7 @@ const CheckoutPage = () => {
     }, [])
     useEffect(() => {
         if (!location?.state?.isFromAddress) {
-            setAddressList(addressInfo[0])
+            setAddressList(addressInfo[addressInfo?.length - 1])
         }
 
     }, [buyerDetails])
@@ -30,6 +30,7 @@ const CheckoutPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [pathname])
+    console.log('addressList', addressList)
     return (
         <>
             <div className='cart_page checkout_page'>

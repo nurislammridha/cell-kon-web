@@ -50,7 +50,10 @@ const Header = ({ isLogin, search, setSearch }) => {
                     <div className='header_top'>
                         <div
                             className='header_top_img'
-                            onClick={() => navigate("/")}
+                            onClick={() => {
+                                navigate("/")
+                                setSearch("")
+                            }}
                         >
                             <img src={sellConIconBlack} alt='cell kon icon' />
                         </div>
@@ -72,7 +75,10 @@ const Header = ({ isLogin, search, setSearch }) => {
                         <div className='header_top_icon'>
                             <div
                                 className='top_icon cart_icon'
-                                onClick={() => navigate(isLogin ? '/cart' : '/login')}
+                                onClick={() => {
+                                    navigate(isLogin ? '/cart' : '/login')
+                                    setSearch("")
+                                }}
                             >
                                 <img src={cartIcon} alt='icon' />
                                 {cartList?.length > 0 && (<span>{cartList?.length}</span>)}
@@ -85,9 +91,14 @@ const Header = ({ isLogin, search, setSearch }) => {
                                 <img src={notificationIcon} alt='icon' />
                                 <span>1</span>
                             </div> */}
-                            <div className='top_icon' onClick={() => navigate(isLogin ? '/user-info' : '/login')}>
+                            <div
+                                className='top_icon'
+                                onClick={() => {
+                                    navigate(isLogin ? '/user-info' : '/login')
+                                    setSearch("")
+                                }}
+                            >
                                 <img src={isLogin ? userImgUrl?.url?.length > 0 ? userImgUrl.url : userLogo : userLogo} alt='icon' />
-
                             </div>
                         </div>
                     </div>
@@ -105,12 +116,21 @@ const Header = ({ isLogin, search, setSearch }) => {
                         </div>
                         <div
                             className='menu_icon'
-                            onClick={() => navigate('/')}
+                            onClick={() => {
+                                navigate('/')
+                                setSearch("")
+                            }}
                         >
                             <img className='top_icon' src={homeIcon} />
                             <label className='ml-8 cp'>Home</label>
                         </div>
-                        <div className='menu_icon'>
+                        <div
+                            className='menu_icon'
+                            onClick={() => {
+                                navigate('/')
+                                setSearch("")
+                            }}
+                        >
                             <img className='top_icon' src={campaignIcon} />
                             <label className='ml-8 cp'>Campaigns</label>
                         </div>

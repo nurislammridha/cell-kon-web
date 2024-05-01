@@ -92,6 +92,7 @@ const initialState = {
   isSetPasswordLoading: false,
   isSetPasswordComplete: false,
   sellerDetails: null,
+  isAddressCreated: false,
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -207,6 +208,7 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         addressInput: addressCreated,
+        isAddressCreated: action.payload,
       };
     case Types.BUYER_DETAILS:
       return {

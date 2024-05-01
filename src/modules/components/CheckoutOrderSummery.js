@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSubTotal } from '../../assets/function/globalFunction'
+import { showToast } from 'src/utils/ToastHelper'
 
 const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
     const [isPromo, setPromo] = useState(false)
     const { district } = addressList || {}
     const navigate = useNavigate()
+    const handleOrder = () => {
+        if (addressList === undefined) {
+            showToast('error', "Please Add Delivery Address")
+        } else {
+            navigate("/payment", { state: { list, addressList, isFromDetails } })
+        }
+
+    }
+    // console.log('addressList 2',)
     return (
         <div>
             <div className='cart_summery'>
@@ -38,7 +48,7 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
                 <div className='order_policy'>
                     *Order Delivery Policy for this order can be found <a href>here</a>
                 </div>
-                <div className='cp cart_checkout' onClick={() => navigate("/payment", { state: { list, addressList, isFromDetails } })}>
+                <div className='cp cart_checkout' onClick={() => handleOrder()}>
                     Please Order
                 </div>
             </div>

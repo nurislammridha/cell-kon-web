@@ -2602,3 +2602,17 @@ body {
 .terms_conditions ul {
     margin-left: 25px;
 }
+
+.pass_show {
+    position: relative;
+}
+
+.pass_show img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

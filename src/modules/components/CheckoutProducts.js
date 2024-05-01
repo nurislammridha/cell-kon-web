@@ -33,7 +33,7 @@ const CheckoutProducts = ({ list, addressList, addressInfo }) => {
                         <span>No delivery address found</span>
                         <a href
                             className='btn_delivery_address'
-                            onClick={() => navigate("/add-address")}
+                            onClick={() => navigate("/add-address", { state: { isFromCheckout: true, selected: list } })}
                         >
                             Add Address
                         </a>

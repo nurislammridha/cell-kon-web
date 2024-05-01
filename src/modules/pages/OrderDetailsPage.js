@@ -12,7 +12,7 @@ const OrderDetailsPage = () => {
     const orderDetails = useSelector((state) => state.homeInfo.orderDetails);
     const { _id, deliveryAddressInfo, createdAt, confirmedAt, deliveredAt, pickedAt,
         processedAt, shippedAt, cancelAt, productInfo, isCancel, isConfirm, isCreated, isDelivered, isFullPaid, isPicked,
-        isProcessing, isShipped, subTotal, shippingFee } = orderDetails || {}
+        isProcessing, isShipped, subTotal, shippingFee, orderId } = orderDetails || {}
     const { buyerName, buyerPhone, detailsAddress, district, division, upazilla, union } = deliveryAddressInfo || {}
     useEffect(() => {
         dispatch(GetOrderById(id))
@@ -27,7 +27,7 @@ const OrderDetailsPage = () => {
                 <div className='checkout_address_section '>
                     <div className='order_id'>
                         <div className='title'>
-                            <div>Order ID: <span>{_id}</span></div>
+                            <div>Order ID: <span>{orderId}</span></div>
                             <a className='item'>Copy</a>
                         </div>
                         <div className='item'>{moment(createdAt).format('lll')}</div>
