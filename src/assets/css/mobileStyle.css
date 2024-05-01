@@ -116,6 +116,7 @@
         /* width: 375px !important; */
         width: 100vw !important;
         background-color: #FFF;
+        /* height: 128px; */
     }
 
     .hero_carousel {
@@ -125,11 +126,12 @@
 
     .hero_carousel img {
         width: calc(100vw - 30px) !important;
-        height: 129px;
+        height: auto !important;
+        /* height: 129px; */
     }
 
     .hero_main .owl-theme .owl-dots {
-        bottom: 0px;
+        bottom: 5px;
         display: flex;
     }
 
@@ -1481,6 +1483,26 @@
     }
 
     .shop_new_banner .shop h2 {}
+
+    .hero_category {
+        display: none;
+    }
+
+    .hero_sub_banner {
+        margin-top: 0px;
+        display: grid;
+        grid-template-columns: 50% auto;
+        column-gap: 3px;
+        padding-left: 15px;
+        padding-right: 15px;
+        background: #fff;
+    }
+
+    .hero_sub_banner img {
+        /* width: 100%; */
+        height: 45px;
+        border-radius: 12px;
+    }
 }
 
 /* @media (max-width: 360px) {} */

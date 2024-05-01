@@ -8,7 +8,6 @@ import MobileCommonHeader from '../components/MobileCommonHeader'
 import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
 import show from '../../assets/images/icons/password_show.png'
 import hide from '../../assets/images/icons/password_Hide.png'
-import eye from '../../assets/images/icons/eye.jpg'
 import firebase from "firebase";
 const LoginPage = () => {
     const dispatch = useDispatch()
@@ -104,7 +103,7 @@ const LoginPage = () => {
                             value={loginInput.password}
                             onChange={(e) => handleChange("password", e.target.value)}
                         />
-                        <img onClick={() => setShow(!isShow)} src={eye} />
+                        <img onClick={() => setShow(!isShow)} src={isShow ? hide : show} />
                     </div>
                     <p
                         className='forgot_pass'

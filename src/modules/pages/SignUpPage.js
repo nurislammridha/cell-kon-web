@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseIsLoginComplete, GetSignUpInput, SignUpSubmit, sendEmailOtp } from '../_redux/CommonAction'
 import { useNavigate } from 'react-router-dom'
 import MobileCommonHeader from '../components/MobileCommonHeader'
+import show from '../../assets/images/icons/password_show.png'
+import hide from '../../assets/images/icons/password_Hide.png'
 const SignUpPage = () => {
+    const [isShow, setShow] = useState(true)
+    const [isCShow, setCShow] = useState(true)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const signUpInput = useSelector((state) => state.homeInfo.signUpInput);
@@ -55,25 +59,31 @@ const SignUpPage = () => {
                 </div>
                 <div className='mmt16 mt24'>
                     <p className='clr959595 mfs12  fs16 fm'>Password</p>
-                    <input
-                        className='mmt8 mt12'
-                        type='password'
-                        placeholder='enter password'
-                        name='password'
-                        value={signUpInput.password}
-                        onChange={(e) => handleChange("password", e.target.value)}
-                    />
+                    <div className='pass_show'>
+                        <input
+                            className='mmt8 mt12'
+                            type={isShow ? "text" : 'password'}
+                            placeholder='enter password'
+                            name='password'
+                            value={signUpInput.password}
+                            onChange={(e) => handleChange("password", e.target.value)}
+                        />
+                        <img onClick={() => setShow(!isShow)} src={isShow ? hide : show} />
+                    </div>
                 </div>
                 <div className='mmt16 mt24'>
                     <p className='clr959595 mfs12 fs16 fm'>Confirm Password</p>
-                    <input
-                        className='mmt8 mt12'
-                        type='password'
-                        placeholder='enter confirm password'
-                        name='cPassword'
-                        value={signUpInput.cPassword}
-                        onChange={(e) => handleChange("cPassword", e.target.value)}
-                    />
+                    <div className='pass_show'>
+                        <input
+                            className='mmt8 mt12'
+                            type={isCShow ? "text" : 'password'}
+                            placeholder='enter confirm password'
+                            name='cPassword'
+                            value={signUpInput.cPassword}
+                            onChange={(e) => handleChange("cPassword", e.target.value)}
+                        />
+                        <img onClick={() => setCShow(!isCShow)} src={isCShow ? hide : show} />
+                    </div>
                 </div>
                 <div
                     className='mt40 sign_up_btn cp'
