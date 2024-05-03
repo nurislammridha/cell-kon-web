@@ -19,9 +19,9 @@ const OrderDetailsPage = () => {
     }, [id])
     // console.log('orderDetails', orderDetails)
     return (<div className='morder'>
-        <div className='muser_inf0'>
+        {/* <div className='muser_inf0'>
             <MobileCommonHeader />
-        </div>
+        </div> */}
         <div className='cart_page checkout_page order_details'>
             <div>
                 <div className='checkout_address_section '>

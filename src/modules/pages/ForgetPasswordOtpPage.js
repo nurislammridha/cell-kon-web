@@ -69,7 +69,7 @@ const ForgetPasswordOtpPage = () => {
 
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Otp send to {resetInfo?.buyerEmail}</p>
                 <div className='mt24'>

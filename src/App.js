@@ -54,9 +54,9 @@ function App() {
         <div className='content'>
           <div className='w-1176'>
             <Routes>
-              <Route path="/" element={<HomePage isLogin={isLogin} />} />
+              <Route path="/" element={<HomePage isLogin={isLogin} search={search} setSearch={setSearch} />} />
               <Route path="/product-details/:id" element={<ProductDetailsPage isLogin={isLogin} />} />
-              <Route path="/all-products" element={<AllProductsPage search={search} />} />
+              <Route path="/all-products" element={<AllProductsPage search={search} setSearch={setSearch} />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/payment" element={<PaymentPage />} />

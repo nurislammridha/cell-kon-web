@@ -12,7 +12,7 @@ import MobileFooter from '../components/MobileFooter'
 import MobileHeader from '../components/MobileHeader'
 import MobileMenu from '../components/MobileMenu'
 
-const HomePage = ({ isLogin }) => {
+const HomePage = ({ isLogin, search, setSearch }) => {
     const dispatch = useDispatch();
     const isHomePageLoading = useSelector((state) => state.homeInfo.isHomePageLoading);
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
@@ -24,7 +24,7 @@ const HomePage = ({ isLogin }) => {
     }, [])
     return (
         <>
-            <MobileHeader />
+            {/* <MobileHeader search={search} setSearch={setSearch} /> */}
             {/* hero */}
             <Hero />
             <MobileMenu />

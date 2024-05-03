@@ -1,12 +1,20 @@
 import React from 'react'
 import categoryIcon from '../../assets/images/icons/filter.png'
-const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brandsId, hideShop = false, hideCategory = false }) => {
+const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brandsId, hideShop = false, hideCategory = false, isClose, setClose }) => {
     return (
         <div>
-            <div className='filter_left'>
+            <div className={isClose ? 'filter_left filter_visible' : 'filter_left'}>
                 <div className='filter'>
-                    <img src={categoryIcon} />
-                    <div>Filter</div>
+                    <div className='filter_in'>
+                        <img src={categoryIcon} />
+                        <div>Filter</div>
+                    </div>
+                    <a
+                        className='filter_close'
+                        onClick={() => setClose(false)}
+                    >
+                        Close
+                    </a>
                 </div>
                 {!hideCategory && (
                     <div className='category'>

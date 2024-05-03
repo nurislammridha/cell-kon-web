@@ -10,6 +10,7 @@ import campaignIcon from '../../assets/images/icons/campaign.png'
 import notificationIcon from '../../assets/images/icons/notification.png'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import MobileHeader from './MobileHeader'
 const Header = ({ isLogin, search, setSearch }) => {
     const navigate = useNavigate()
     const { pathname } = useLocation()
@@ -41,9 +42,10 @@ const Header = ({ isLogin, search, setSearch }) => {
         if (search.length > 0 && pathname !== "all-products" && pathname.substring(0, 5) !== "/shop") {
             navigate('/all-products')
         }
+        console.log('search', search)
     }, [search])
     // console.log('pathname', pathname.substring(0, 5))
-    return (
+    return (<>
         <div className='header'>
             <div className='header_top_container'>
                 <div className='w-1176 '>
@@ -142,7 +144,8 @@ const Header = ({ isLogin, search, setSearch }) => {
                 </div>
             </div>
         </div>
-    )
+        <MobileHeader search={search} setSearch={setSearch} />
+    </>)
 }
 
 export default Header

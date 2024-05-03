@@ -49,9 +49,9 @@ function AddAddressPage() {
     }, [isAddressCreated])
     console.log('location?.state?.isFromChackout', location?.state?.isFromCheckout)
     return (<div className='madd_address'>
-        <div className='muser_inf0'>
+        {/* <div className='muser_inf0'>
             <MobileCommonHeader />
-        </div>
+        </div> */}
         <div className='user_info add_address'>
             <div className='right'>
                 <p className='user_txt'>Add Delivery Address</p>

@@ -33,7 +33,7 @@ const CreatePasswordPage = () => {
 
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Create new password.</p>
                 <div className='mt24'>

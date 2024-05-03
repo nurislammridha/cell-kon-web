@@ -28,7 +28,7 @@ const EmailPage = () => {
 
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Your signed up email address.</p>
                 <div className='mt24'>

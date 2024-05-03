@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetBrands, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
 import { useLocation, useNavigate } from 'react-router-dom'
 import filterIcon from '../../assets/images/icons/filter.png'
-const AllProductsPage = ({ search }) => {
+import searchIcon from '../../assets/images/icons/search.png'
+import MobileCommonHeader from '../components/MobileCommonHeader'
+import MobileFilter from '../components/MobileFilter'
+const AllProductsPage = ({ search, setSearch }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
@@ -22,6 +25,7 @@ const AllProductsPage = ({ search }) => {
     const [shortName, setShortName] = useState("Select")
     const [categoriesId, setCategoriesId] = useState(location?.state?.isFromCategory ? [location?.state?.categoryId] : [])
     const [brandsId, setBrandsId] = useState([])
+    const [isClose, setClose] = useState(false)
     const handleSelect = (isCategory, id) => {
         if (isCategory) {
             //category
@@ -67,21 +71,23 @@ const AllProductsPage = ({ search }) => {
     // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
         <>
-            <div className='muser_inf0 mpro_info'>
-                <div className='details_top'>
-                    <div
-                        className='l_arrow'
-                        onClick={() => navigate(-1)}
-                    >
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                    <div className='title'>
-                        Showing 250 Product
-                    </div>
-                    <div className='filter'>
-                        <img src={filterIcon} />
-                    </div>
+            {/* <div className='m_filter_container'>
+                <div className='title'>
+                    Showing 250 Product
                 </div>
+                <div className='filter'>
+                    <img src={filterIcon} />
+                </div>
+            </div> */}
+            <div className='all_product_filter_container'>
+                <MobileFilter
+                    number={products?.length}
+                    setShortBy={setShortBy}
+                    setShort={setShort}
+                    isShortBy={isShortBy}
+                    short={short}
+                    setClose={setClose}
+                />
             </div>
             <div className='ms_product_page product_page'>
                 {/* order section */}
@@ -103,6 +109,8 @@ const AllProductsPage = ({ search }) => {
                         brandsId={brandsId}
                         hideShop={false}
                         hideCategory={location?.state?.isFromCategory || false}
+                        isClose={isClose}
+                        setClose={setClose}
                     />
                     <div className='filter_right'>
                         <div className='products'>

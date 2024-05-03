@@ -17,9 +17,9 @@ const UserAddressPage = () => {
 
 
     return (<>
-        <div className='muser_inf0'>
+        {/* <div className='muser_inf0'>
             <MobileCommonHeader />
-        </div>
+        </div> */}
         <div className='address_list_container'>
             <div className='address_list'>
                 <div className='add'>

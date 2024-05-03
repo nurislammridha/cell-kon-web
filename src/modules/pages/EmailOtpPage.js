@@ -73,7 +73,7 @@ const EmailOtpPage = () => {
     }, [pathname])
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Otp send to {signUpInput?.buyerEmail}</p>
                 <div className='mt24'>

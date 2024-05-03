@@ -12,6 +12,9 @@ import { GetBrands, GetCategories, GetFilterProduct, GetSellerById, GetSellers }
 import { useLocation, useParams } from 'react-router-dom'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import ShopProducts from '../components/ShopProducts'
+
+
+import MobileFilter from '../components/MobileFilter'
 const ShopProductsPage = ({ search }) => {
     const dispatch = useDispatch()
     const { id } = useParams();
@@ -27,6 +30,7 @@ const ShopProductsPage = ({ search }) => {
     const [shortName, setShortName] = useState("Select")
     const [categoriesId, setCategoriesId] = useState([])
     const [brandsId, setBrandsId] = useState([])
+    const [isClose, setClose] = useState(false)
     const handleSelect = (isCategory, id) => {
         if (isCategory) {
             //category
@@ -64,9 +68,10 @@ const ShopProductsPage = ({ search }) => {
     }, [pathname])
     return (
         <div className='shop_mo shop_new_banner'>
-            <div className='muser_inf0'>
-                <MobileCommonHeader />
-            </div>
+            {/* <div className='muser_inf0'>
+                <MobileCommonHeader isSearch={true} />
+            </div> */}
+
             <div className='shop_container'>
                 <div className='product_page'>
                     {/* order section */}
@@ -89,8 +94,15 @@ const ShopProductsPage = ({ search }) => {
                             </div>
                         </div>
                     </div>}
-
-                    <div className='filter_product'>
+                    <MobileFilter
+                        number={products?.length}
+                        setShortBy={setShortBy}
+                        setShort={setShort}
+                        isShortBy={isShortBy}
+                        short={short}
+                        setClose={setClose}
+                    />
+                    <div className='filter_product mt24'>
                         {/* Shops  */}
                         <Filter
                             categoriesList={categoriesList}
@@ -99,6 +111,8 @@ const ShopProductsPage = ({ search }) => {
                             categoriesId={categoriesId}
                             brandsId={brandsId}
                             hideShop={false}
+                            isClose={isClose}
+                            setClose={setClose}
                         />
                         <div className='filter_right'>
                             <div className='products'>

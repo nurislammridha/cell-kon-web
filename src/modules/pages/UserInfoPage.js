@@ -24,9 +24,9 @@ function UserInfoPage({ isLogin }) {
         }
     }, [buyerDetails])
     return (<>
-        <div className='muser_inf0'>
+        {/* <div className='muser_inf0'>
             <MobileCommonHeader />
-        </div>
+        </div> */}
         <div className='user_info'>
             <UserMenu buyerDetails={buyerDetails} />
             <UserUpdate buyerDetails={buyerDetails} />

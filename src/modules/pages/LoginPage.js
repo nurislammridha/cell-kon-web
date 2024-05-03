@@ -78,7 +78,7 @@ const LoginPage = () => {
     console.log('show', isShow)
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Welcome back, we missed you!</p>
                 <div className='mt24'>

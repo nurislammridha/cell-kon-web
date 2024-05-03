@@ -22,9 +22,9 @@ const OrderListPage = ({ isLogin }) => {
     }, [isLogin])
     // console.log('orderList', orderList)
     return (<>
-        <div className='muser_inf0'>
+        {/* <div className='muser_inf0'>
             <MobileCommonHeader />
-        </div>
+        </div> */}
         <div className='order_list_container'>
             <div className='container'>
                 <div className='my_nav'>

@@ -32,7 +32,7 @@ const SignUpPage = () => {
 
     return (
         <div className='sign_up_container'>
-            <MobileCommonHeader isShare={false} />
+            {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='mfs14 fs20 fm'>Create your Sellkon account</p>
                 <div className='mmt24 mt40'>
