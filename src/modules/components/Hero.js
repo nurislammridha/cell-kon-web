@@ -1,29 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import demo from '../../assets/images/icons/home11.png' //1176 443
 import slide1 from '../../assets/images/other/slide1.png' //1176 443
 import slide2 from '../../assets/images/other/slide2.png' //1176 443
 import ts from '../../assets/images/other/TS.png' //1176 443
-// import slide3 from '../../assets/images/other/slide3.jpg' //1176 443
-// import slide4 from '../../assets/images/other/slide4.jpg' //1176 443
-// import slide5 from '../../assets/images/other/slide5.jpg' //1176 443
+// import WomensGirlsFashion from '../../assets/images/icons/cat/WomensGirlsFashion.png'
+// import WatchesBagsJewellery from '../../assets/images/icons/cat/WatchesBagsJewellery.png'
+// import MensBoysFashion from '../../assets/images/icons/cat/MensBoysFashion.png'
+// import HealthBeauty from '../../assets/images/icons/cat/HealthBeauty.png'
+// import HomeLifestyle from '../../assets/images/icons/cat/HomeLifestyle.png'
+// import MotherBaby from '../../assets/images/icons/cat/MotherBaby.png'
+// import ElectronicsDevice from '../../assets/images/icons/cat/Electronics Device.png'
+// import TVHomeAppliances from '../../assets/images/icons/cat/HomeAppliancesTV.png'
+// import ElectronicAccessories from '../../assets/images/icons/cat/Electronic Accessories.png'
+// import SportsOutdoors from '../../assets/images/icons/cat/SportsOutdoors.png'
 import OwlCarousel from "react-owl-carousel";
-const Hero = () => {
+import { flatToNestedArr } from 'src/services/GlobalFunction'
+import { useNavigate } from 'react-router-dom'
+const Hero = ({ arr, loading }) => {
+    const navigate = useNavigate()
+    const list = flatToNestedArr(arr) || []
+    const [subList, setSubList] = useState([])
+    console.log('listtttt', list)
+    console.log('subList', subList)
     return (<div className='hero_parent'>
         <div className='hero_category'>
-            <ul>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 2].map((item) => (<li>
-                    <img src={demo} />
-                    <div>Women's & Girls Fasihion</div>
-                </li>))}
-            </ul>
-            {/* <div className='subcategory_hover'>
+            {!loading && list?.length > 0 && (
                 <ul >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 2].map((item) => (<li>
-
-                        <div>Women's & Girls Fasihion</div>
-                    </li>))}
+                    {list.map((item, index) => (
+                        <li
+                            key={index}
+                            onMouseEnter={() => setSubList(item.children)}
+                            onClick={() => navigate(`/all-products`, { state: { isFromCategory: true, categoryId: item.categoryId, categoryName: item.categoryName } })}
+                        >
+                            <img src={require(`../../assets/images/icons/cat/${item.iconName}.png`)} />
+                            <div>{item?.categoryName}</div>
+                        </li>
+                    ))}
                 </ul>
-            </div> */}
+            )}
+            {loading && list?.length == 0 && (
+                <ul className='home_category_loader'>
+                    {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,].map((item, index) => (<li key={index}>
+                        <div id="foo"></div>
+                        <div id="foo"></div>
+                    </li>))}
+                </ul>)}
+            <div className='subcategory_hover_parent subcategory__block'>
+                <div className='subcategory_hover'>
+                    <ul >
+                        {subList.length > 0 && subList.map((item, index) => (<li key={index}>
+                            <div>{item.subCategoryName}</div>
+                        </li>))}
+                    </ul>
+                </div>
+            </div>
 
         </div>
         <div className='hero_main_banner'>

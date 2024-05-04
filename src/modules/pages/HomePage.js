@@ -17,7 +17,7 @@ const HomePage = ({ isLogin, search, setSearch }) => {
     const isHomePageLoading = useSelector((state) => state.homeInfo.isHomePageLoading);
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
-        sellKonMallProducts, shopsList, trendingProducts } = homeDataList || {}
+        sellKonMallProducts, shopsList, trendingProducts, subCategoriesList } = homeDataList || {}
     // console.log('homeDataList', homeDataList)
     useEffect(() => {
         dispatch(GetHomePageData());
@@ -26,7 +26,7 @@ const HomePage = ({ isLogin, search, setSearch }) => {
         <>
             {/* <MobileHeader search={search} setSearch={setSearch} /> */}
             {/* hero */}
-            <Hero />
+            <Hero arr={subCategoriesList} loading={isHomePageLoading} />
             <MobileMenu />
             {/* Mall Products */}
             <Mall arr={sellKonMallProducts} loading={isHomePageLoading} />

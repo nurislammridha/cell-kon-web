@@ -538,19 +538,39 @@ body {
     border-radius: 12px;
     background-color: #FFF;
     margin-top: 24px;
-
+    height: 416px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
+
+.subcategory_hover_parent {
+    padding-left: 10px;
+    position: absolute;
+    top: 0;
+    left: 215px;
+    margin-top: 24px;
+    z-index: 100;
+    display: none;
+}
+
+.hero_category:hover .subcategory__block {
+    display: block;
+}
+
+/* .subcategory__block {
+    display: block;
+} */
 
 .subcategory_hover {
     padding: 14px 12px;
-    position: absolute;
-    top: 0;
-    left: 235px;
     padding: 14px 12px;
     border-radius: 12px;
     background-color: #FFF;
-    margin-top: 24px;
-    z-index: 100;
+    height: 416px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .hero_category ul {
@@ -575,7 +595,20 @@ body {
 
 .hero_category ul li div {
     margin-left: 4px;
-    font-size: 14px;
+    font-size: 13px;
+}
+
+.home_category_loader li {
+
+    display: grid !important;
+    grid-template-columns: 40px auto !important;
+    column-gap: 10px;
+    /* background-color: yellow; */
+}
+
+.home_category_loader li div {
+    height: 20px !important;
+    /* background-color: red !important; */
 }
 
 .hero_sub_banner {
