@@ -48,9 +48,14 @@ const Hero = ({ arr, loading }) => {
             <div className='subcategory_hover_parent subcategory__block'>
                 <div className='subcategory_hover'>
                     <ul >
-                        {subList.length > 0 && subList.map((item, index) => (<li key={index}>
-                            <div>{item.subCategoryName}</div>
-                        </li>))}
+                        {subList.length > 0 && subList.map((item, index) => (
+                            <li
+                                key={index}
+                                onClick={() => navigate(`/all-products`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
+                            >
+                                <div>{item.subCategoryName}</div>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

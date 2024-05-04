@@ -24,6 +24,7 @@ const AllProductsPage = ({ search, setSearch }) => {
     const [short, setShort] = useState(0)
     const [shortName, setShortName] = useState("Select")
     const [categoriesId, setCategoriesId] = useState(location?.state?.isFromCategory ? [location?.state?.categoryId] : [])
+    const [subCategoryId, setSubCategoryId] = useState(location?.state?.isFromSubCategory ? location?.state?.subCategoryId : "")
     const [brandsId, setBrandsId] = useState([])
     const [isClose, setClose] = useState(false)
     const handleSelect = (isCategory, id) => {
@@ -47,10 +48,10 @@ const AllProductsPage = ({ search, setSearch }) => {
         }
     }
     const handlePagination = (page) => {
-        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page, limit: 20 }));
+        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page, limit: 20 }));
     };
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
+        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
         dispatch(GetCategories())
         dispatch(GetBrands())
     }, [])
@@ -66,7 +67,7 @@ const AllProductsPage = ({ search, setSearch }) => {
         // if (location?.state?.isFromCategory) {
         //     setCategoriesId(location?.state?.categoryId)
         // }
-        dispatch(GetFilterProduct({ categoriesId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
+        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
     }, [categoriesId, brandsId, short, location, search])
     // console.log('categoriesId sellersId', categoriesId, sellersId)
     return (
@@ -98,6 +99,7 @@ const AllProductsPage = ({ search, setSearch }) => {
                     shortName={shortName}
                     setShortName={setShortName}
                     categoryName={location?.state?.categoryName || ""}
+                    subCategoryName={location?.state?.subCategoryName || ""}
                 />
                 <div className='filter_product'>
                     {/* Filter  */}
