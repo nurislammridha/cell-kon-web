@@ -9,7 +9,7 @@ const Order = ({ count, setShortBy, setShort, shortName, setShortName, categoryN
                 {subCategoryName.length > 0 && ">" + subCategoryName}
             </div>}
             <div className='select'>
-                <div className='sort'>Short By</div>
+                <div className='sort'>Sort By</div>
                 <div className='price'>
                     <Select
                         options={[{ label: "LOW TO HIGH", value: 1 }, { label: "HIGH TO LOW", value: -1 }]}

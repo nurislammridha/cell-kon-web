@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import sellConIconBlack from '../../assets/images/other/SellkonBlack.png'
 import userIcon from '../../assets/images/icons/user.png'
 import userLogo from "../../assets/images/icons/userIcon.png"
-import cartIcon from '../../assets/images/icons/cart.png'
+import cartIcon from '../../assets/images/icons/menu_bar/cart icon select.png'
 import loveIcon from '../../assets/images/icons/love.png'
-import homeIcon from '../../assets/images/icons/home.png'
-import categoryIcon from '../../assets/images/icons/category.png'
+import homeIconSelect from '../../assets/images/icons/menu_bar/home icon select.png'
+import homeIconDeSelect from '../../assets/images/icons/menu_bar/home icon deselect.png'
+import categoryIcon from '../../assets/images/icons/menu_bar/Categories icon select.png'
 import campaignIcon from '../../assets/images/icons/campaign.png'
 import notificationIcon from '../../assets/images/icons/notification.png'
 import { useSelector } from 'react-redux'
@@ -60,6 +61,10 @@ const Header = ({ isLogin, search, setSearch }) => {
                             <img src={sellConIconBlack} alt='cell kon icon' />
                         </div>
                         <div className='header_top_search'>
+                            <div className='search'>
+                                <i class="fas fa-search"></i>
+                                {/* <label className='ml-8'>Search</label> */}
+                            </div>
                             <div className='input'>
                                 <input
                                     type='text'
@@ -69,10 +74,7 @@ const Header = ({ isLogin, search, setSearch }) => {
                                     onChange={(e) => setSearch(e.target.value)}
                                 />
                             </div>
-                            <div className='search'>
-                                <i class="fas fa-search"></i>
-                                <label className='ml-8'>Search</label>
-                            </div>
+
                         </div>
                         <div className='header_top_icon'>
                             <div
@@ -123,7 +125,7 @@ const Header = ({ isLogin, search, setSearch }) => {
                                 setSearch("")
                             }}
                         >
-                            <img className='top_icon' src={homeIcon} />
+                            <img className='top_icon' src={pathname === '/' ? homeIconSelect : homeIconDeSelect} />
                             <label className='ml-8 cp'>Home</label>
                         </div>
                         <div

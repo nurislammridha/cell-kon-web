@@ -65,9 +65,10 @@ const LoginPage = () => {
     useEffect(() => {
         if (isLoginComplete) {
             const reDetails = localStorage.getItem("redirect_details") || ""
+            const reUrl = localStorage.getItem("redirect_url") || ""
             setGoogle(false)
             setFacebook(false)
-            reDetails.length > 0 ? navigate(`/product-details/${reDetails}`) : navigate('/')
+            reDetails.length > 0 ? reUrl === "shop" ? navigate(`/shop/${reDetails}`) : navigate(`/product-details/${reDetails}`) : navigate('/')
             localStorage.setItem("redirect_details", "")
             dispatch(FalseIsLoginComplete())
         }

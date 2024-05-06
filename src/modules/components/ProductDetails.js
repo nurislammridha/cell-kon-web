@@ -26,6 +26,7 @@ const ProductDetails = ({ data, isLogin }) => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
         !isLogin && localStorage.setItem('redirect_details', data._id)
+        !isLogin && localStorage.setItem('redirect_url', "product_details")
     }
     const handleBuyNow = () => {
         const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
@@ -35,6 +36,7 @@ const ProductDetails = ({ data, isLogin }) => {
         const newData = { ...obj, ...postData }
         isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
         !isLogin && localStorage.setItem('redirect_details', data._id)
+        !isLogin && localStorage.setItem('redirect_url', "product_details")
     }
     const handleColor = (item, index) => {
         setColorName(item?.colorName)

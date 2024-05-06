@@ -3,6 +3,7 @@ import demo from '../../assets/images/icons/home11.png' //1176 443
 import slide1 from '../../assets/images/other/slide1.png' //1176 443
 import slide2 from '../../assets/images/other/slide2.png' //1176 443
 import ts from '../../assets/images/other/TS.png' //1176 443
+import rightArrow from '../../assets/images/icons/right_arrow.png'
 // import WomensGirlsFashion from '../../assets/images/icons/cat/WomensGirlsFashion.png'
 // import WatchesBagsJewellery from '../../assets/images/icons/cat/WatchesBagsJewellery.png'
 // import MensBoysFashion from '../../assets/images/icons/cat/MensBoysFashion.png'
@@ -20,6 +21,7 @@ const Hero = ({ arr, loading }) => {
     const navigate = useNavigate()
     const list = flatToNestedArr(arr) || []
     const [subList, setSubList] = useState([])
+    const [hover, setHover] = useState(-1)
     console.log('listtttt', list)
     console.log('subList', subList)
     return (<div className='hero_parent'>
@@ -29,11 +31,18 @@ const Hero = ({ arr, loading }) => {
                     {list.map((item, index) => (
                         <li
                             key={index}
-                            onMouseEnter={() => setSubList(item.children)}
-                            onClick={() => navigate(`/all-products`, { state: { isFromCategory: true, categoryId: item.categoryId, categoryName: item.categoryName } })}
+                            onMouseEnter={() => {
+                                setSubList(item.children)
+                                setHover(index)
+                            }}
+                            onMouseLeave={() => setHover(-1)}
+                        // onClick={() => navigate(`/all-products`, { state: { isFromCategory: true, categoryId: item.categoryId, categoryName: item.categoryName } })}
                         >
-                            <img src={require(`../../assets/images/icons/cat/${item.iconName}.png`)} />
-                            <div>{item?.categoryName}</div>
+                            <div className='cat_nam'>
+                                <img src={require(`../../assets/images/icons/cat/${hover === index ? item.iconName + "Hover" : item.iconName}.png`)} />
+                                <div>{item?.categoryName}</div>
+                            </div>
+                            <img className='right_arrow' src={rightArrow} />
                         </li>
                     ))}
                 </ul>
@@ -54,6 +63,7 @@ const Hero = ({ arr, loading }) => {
                                 onClick={() => navigate(`/all-products`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
                             >
                                 <div>{item.subCategoryName}</div>
+                                <img className='right_arrow' src={rightArrow} />
                             </li>
                         ))}
                     </ul>

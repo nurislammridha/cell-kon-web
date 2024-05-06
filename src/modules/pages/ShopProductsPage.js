@@ -15,7 +15,8 @@ import ShopProducts from '../components/ShopProducts'
 
 
 import MobileFilter from '../components/MobileFilter'
-const ShopProductsPage = ({ search }) => {
+const ShopProductsPage = ({ search, isLogin }) => {
+    const location = useLocation();
     const dispatch = useDispatch()
     const { id } = useParams();
     const { pathname } = useLocation();
@@ -94,6 +95,15 @@ const ShopProductsPage = ({ search }) => {
                             </div>
                         </div>
                     </div>}
+                    <Order
+                        count={pagination.count || 0}
+                        setShortBy={setShortBy}
+                        setShort={setShort}
+                        shortName={shortName}
+                        setShortName={setShortName}
+                        categoryName={location?.state?.categoryName || ""}
+                        subCategoryName={location?.state?.subCategoryName || ""}
+                    />
                     <MobileFilter
                         number={products?.length}
                         setShortBy={setShortBy}
@@ -102,7 +112,7 @@ const ShopProductsPage = ({ search }) => {
                         short={short}
                         setClose={setClose}
                     />
-                    <div className='filter_product mt24'>
+                    <div className='filter_product'>
                         {/* Shops  */}
                         <Filter
                             categoriesList={categoriesList}
@@ -118,7 +128,7 @@ const ShopProductsPage = ({ search }) => {
                             <div className='products'>
                                 <div className='home_all_products product_form_page'>
                                     {/* All products */}
-                                    <ShopProducts list={products} />
+                                    <ShopProducts list={products} isLogin={isLogin} shopId={id} />
                                     {/* //pagination */}
                                     {pagination?.totalPage > 1 && <ProductsPagination pagination={pagination} handlePagination={handlePagination} />}
                                 </div>

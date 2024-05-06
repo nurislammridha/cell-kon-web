@@ -33,6 +33,7 @@ import EmailOtpPage from './modules/pages/EmailOtpPage';
 import EmailPage from './modules/pages/EmailPage';
 import CreatePasswordPage from './modules/pages/CreatePasswordPage';
 import ForgetPasswordOtpPage from './modules/pages/ForgetPasswordOtpPage';
+import PrivacyPolicyPage from './modules/pages/PrivacyPolicyPage';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [search, setSearch] = useState("")
@@ -70,9 +71,10 @@ function App() {
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/edit-address/:id" element={<EditAddressPage />} />
-              <Route path="/shop/:id" element={<ShopProductsPage search={search} />} />
+              <Route path="/shop/:id" element={<ShopProductsPage search={search} isLogin={isLogin} />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
               <Route path="/return-and-refund" element={<ReturnAndRefund />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/email" element={<EmailPage />} />
               <Route path="/create-password" element={<CreatePasswordPage />} />
               <Route path="/forget-password-otp" element={<ForgetPasswordOtpPage />} />

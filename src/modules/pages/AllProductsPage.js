@@ -93,7 +93,7 @@ const AllProductsPage = ({ search, setSearch }) => {
             <div className='ms_product_page product_page'>
                 {/* order section */}
                 <Order
-                    count={products?.length}
+                    count={pagination?.count || 0}
                     setShortBy={setShortBy}
                     setShort={setShort}
                     shortName={shortName}

@@ -1,9 +1,27 @@
 import React from 'react'
+import Select from 'react-select'
 import categoryIcon from '../../assets/images/icons/filter.png'
 const Filter = ({ categoriesList, brandsList, handleSelect, categoriesId, brandsId, hideShop = false, hideCategory = false, isClose, setClose }) => {
     return (
         <div>
             <div className={isClose ? 'filter_left filter_visible' : 'filter_left'}>
+                {/* <div className='shop_select'>
+                    <div className='sort'>Short By</div>
+                    <div className='price'>
+                        <Select
+                            options={[{ label: "LOW TO HIGH", value: 1 }, { label: "HIGH TO LOW", value: -1 }]}
+                            name="price_sort"
+                            value={""}
+                        // value={{ label: shortName }}
+                        // onChange={(e) => {
+                        //     setShortBy(true)
+                        //     setShortName(e.label)
+                        //     setShort(e.value)
+                        // }}
+                        />
+                    </div>
+                </div> */}
+
                 <div className='filter'>
                     <div className='filter_in'>
                         <img src={categoryIcon} />
