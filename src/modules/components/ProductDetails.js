@@ -6,6 +6,8 @@ import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
 import { initialVal } from '../../assets/function/globalFunction'
 import cartIcon from '../../assets/images/icons/cart.png'
 import OwlCarousel from "react-owl-carousel";
+import shareIcon from '../../assets/images/icons/share_icon.png'
+import ProductDetailsSeller from './ProductDetailsSeller'
 const ProductDetails = ({ data, isLogin }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -63,7 +65,7 @@ const ProductDetails = ({ data, isLogin }) => {
     // console.log('data', data)
     return (<>
         {/* mobile carousel */}
-        <div className='details_top'>
+        {/* <div className='details_top'>
             <div
                 className='l_arrow'
                 onClick={() => navigate(-1)}
@@ -72,8 +74,9 @@ const ProductDetails = ({ data, isLogin }) => {
             </div>
             <div className='share2'>
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
+              
             </div>
-        </div>
+        </div> */}
         <div className='details_hero'>
             <div className='hero_main'>
                 <OwlCarousel
@@ -112,7 +115,8 @@ const ProductDetails = ({ data, isLogin }) => {
                 </OwlCarousel>
             </div>
         </div>
-        <div className='main'>
+
+        <div className='main details_top_left'>
             <div className='left'>
                 <div className='image'>
                     <img src={fullImg} alt='product img' />
@@ -153,18 +157,22 @@ const ProductDetails = ({ data, isLogin }) => {
             <div className='right'>
                 <div className='title_section'>
                     <div className='txt'>{data?.productName}</div>
+
+                </div>
+                <div className='brand_top'>
+                    <div className='brand'>Brand: {data?.brandName} </div>
                     <div className='share'>
-                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        {/* <i class="fa fa-share-alt" aria-hidden="true"></i> */}
+                        <img src={shareIcon} />
                     </div>
                 </div>
-                <div className='brand'>Brand: {data?.brandName}</div>
-                <div className='sold_by'>
-                    <span>Sold By: {data?.sellerInfo?.shopName}</span>
-                    <a href
-                        onClick={() => navigate(`/shop/${data?.sellerId}`)}>
-                        Visit Store
-                    </a>
-                </div>
+                {/* <div className='sold_by'>
+                        <span>Sold By: {data?.sellerInfo?.shopName}</span>
+                        <a href
+                            onClick={() => navigate(`/shop/${data?.sellerId}`)}>
+                            Visit Store
+                        </a>
+                    </div> */}
                 <div className='price_hide_pn'>
                     <div className='del_price'>&#2547;{data?.mrp}</div>
                     <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
@@ -177,19 +185,20 @@ const ProductDetails = ({ data, isLogin }) => {
 
                     </div>
                     <div className='quantity_button'>
-                        <div
-                            className='btn plus'
-                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                        >
-                            <i class="fa fa-plus"></i>
-                        </div>
-                        <div className='btn number'>{quantity}</div>
+
                         <div
                             className='btn minus'
                             onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
                         >
                             <i class="fa fa-minus"></i>
+                        </div>
+                        <div className='btn number'>{quantity}</div>
+                        <div
+                            className='btn plus'
+                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                        >
+                            <i class="fa fa-plus"></i>
                         </div>
                     </div>
                 </div>
@@ -233,18 +242,19 @@ const ProductDetails = ({ data, isLogin }) => {
                     <div className='txt_cq'>Quantity</div>
                     <div className='quantity_button'>
                         <div
-                            className='btn plus'
-                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                        >
-                            <i class="fa fa-plus"></i>
-                        </div>
-                        <div className='btn number'>{quantity}</div>
-                        <div
                             className='btn minus'
                             onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
                         >
                             <i class="fa fa-minus"></i>
+                        </div>
+
+                        <div className='btn number'>{quantity}</div>
+                        <div
+                            className='btn plus'
+                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                        >
+                            <i class="fa fa-plus"></i>
                         </div>
                     </div>
                 </div>
@@ -280,13 +290,15 @@ const ProductDetails = ({ data, isLogin }) => {
                         Buy Now
                     </a>
                 </div>
-                <div className='have_question'>Have questions about this product</div>
-                <div className='call'>
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                    <span>+8801784528799</span>
-                </div>
+                <div className='have_question'>Have any question? Please contact us 01784528799</div>
+                {/* <div className='call'>
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <span>+8801784528799</span>
+                    </div> */}
             </div>
         </div>
+        <ProductDetailsSeller />
+
     </>)
 }
 

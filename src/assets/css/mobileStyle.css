@@ -486,6 +486,12 @@
 
     .details_hero {
         display: block;
+        background-color: #FFF;
+    }
+
+    .details_page .details_top_right {
+        margin-top: 10px;
+        border-radius: 0px;
     }
 
     .details_hero .hero_main {
@@ -555,14 +561,18 @@
     }
 
     .details_page .main .right .title_section {
-        margin-top: 24px;
-        margin-left: 15px;
-        margin-right: 15px;
+        margin-top: 10px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .details_page .main .right .brand_top {
+        margin-top: 10px;
     }
 
     .details_page .main .right .title_section .txt {
         font-weight: 400;
-        font-size: 19px;
+        font-size: 16px;
         margin-right: 0px;
     }
 
@@ -571,11 +581,11 @@
     }
 
     .details_page .main .right .brand {
-        margin-top: 16px;
+        margin-top: 10px;
         font-weight: 600;
         font-size: 14px;
-        margin-left: 15px;
-        margin-right: 15px;
+        margin-left: 0px;
+        margin-right: 0px;
     }
 
     .details_page .main .right .sold_by {
@@ -595,6 +605,10 @@
         font-size: 10px;
     }
 
+    .details_page .main .right .share {
+        display: none;
+    }
+
     .details_page .price_hide_pn {
         display: none;
     }
@@ -603,7 +617,7 @@
         display: block;
         display: flex;
         justify-content: space-between;
-        margin: 20px 15px;
+        margin: 10px 0px;
     }
 
     .details_page .main .del_price {
@@ -624,13 +638,13 @@
     }
 
     .details_page .mobile_color .txt_cq {
-        margin-top: 5px;
-        margin-left: 15px;
+        margin-top: 10px;
+        margin-left: 0px;
     }
 
     .details_page .mobile_colors {
-        margin-left: 15px;
-        margin-right: 15px;
+        margin-left: 0px;
+        margin-right: 0px;
         overflow-y: scroll;
     }
 
@@ -707,7 +721,9 @@
     }
 
     .details_page .have_question {
-        margin-left: 15px;
+        margin-left: 0px;
+        margin-top: 14px;
+        font-size: 14px;
     }
 
     .details_page .call {
@@ -806,8 +822,8 @@
     }
 
     .details_page .short_details {
-        border-radius: 15px;
-        margin-top: 15px;
+        border-radius: 0px;
+        margin-top: 5px;
         padding: 15px;
     }
 

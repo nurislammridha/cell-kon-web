@@ -25,12 +25,19 @@ const ProductDetailsPage = ({ isLogin }) => {
         <>
             <div className='details_page'>
                 <ProductDetails data={productDetails} isLogin={isLogin} />
-                <ShortDetails data={productDetails?.shortDescriptions} />
-                <FullDetails
-                    data={productDetails?.longDescriptions}
-                    videoUrl={productDetails?.videoUrl}
-                />
-                {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />}
+                <div className='rel_top'>
+                    <div className='rel_top_left'>
+                        <ShortDetails data={productDetails?.shortDescriptions} />
+                        <FullDetails
+                            data={productDetails?.longDescriptions}
+                            videoUrl={productDetails?.videoUrl}
+                        />
+                    </div>
+                    <div className='rel_top_right'>
+                        <RelatedProducts arr={productDetails?.relatedProducts} />
+                    </div>
+                </div>
+                {/* {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />} */}
             </div>
         </>
     )

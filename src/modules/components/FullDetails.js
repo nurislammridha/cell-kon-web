@@ -16,17 +16,18 @@ const FullDetails = ({ data, videoUrl = [] }) => {
     console.log('videoUrl', videoUrl)
     return (
         <div className='full_details'>
-            <h2>Details</h2>
+            <h2>Product Details</h2>
             <div className='txt'>
-                <div className='video_container'>
-                    {videoUrl?.length > 0 && videoUrl.map((item, index) => (
+                {videoUrl?.length > 0 &&
+                    <div className='video_container'>
+                        {videoUrl.map((item, index) => (
 
-                        <div key={index} className='video_item'> <iframe src={item}></iframe></div>
+                            <div key={index} className='video_item'> <iframe src={item}></iframe></div>
 
-                    )
+                        )
 
-                    )}
-                </div>
+                        )}
+                    </div>}
                 <Markup content={data} />
             </div>
         </div>

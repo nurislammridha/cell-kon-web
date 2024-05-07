@@ -7,7 +7,7 @@ const RelatedProducts = ({ arr = [] }) => {
         <div className='home_all_products'>
             <div className='all_title'>
                 <h2 className='title'>Related Products</h2>
-                <a className='view_all' href>View All</a>
+                {/* <a className='view_all' href>View All</a> */}
             </div>
             <div className='products'>
                 {arr?.length > 0 && arr.map(({ value }, index) => (

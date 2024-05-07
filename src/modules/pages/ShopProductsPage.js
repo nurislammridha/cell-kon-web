@@ -96,7 +96,7 @@ const ShopProductsPage = ({ search, isLogin }) => {
                         </div>
                     </div>}
                     <Order
-                        count={pagination.count || 0}
+                        count={pagination?.count || 0}
                         setShortBy={setShortBy}
                         setShort={setShort}
                         shortName={shortName}
