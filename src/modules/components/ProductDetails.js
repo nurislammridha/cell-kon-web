@@ -115,190 +115,190 @@ const ProductDetails = ({ data, isLogin }) => {
                 </OwlCarousel>
             </div>
         </div>
-
-        <div className='main details_top_left'>
-            <div className='left'>
-                <div className='image'>
-                    <img src={fullImg} alt='product img' />
-                </div>
-                <div className='parent_img'>
-                    <div className='img'>
-                        <div className='images'>
-                            {multiImg?.length > 0 && multiImg.slice(start, multiImg?.length)?.map((item, index) => (
-                                <img
-                                    key={index}
-                                    src={item?.url}
-                                    className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
-                                    alt='product'
-                                    onClick={() => {
-                                        setFullImg(item?.url)
-                                        setColorName(item?.colorName)
-                                        setColorHexCode(item?.colorHexCode)
-                                    }}
-                                />
-                            ))}
-                        </div>
+        <div className='rel_top'>
+            <div className='main details_top_left'>
+                <div className='left'>
+                    <div className='image'>
+                        <img src={fullImg} alt='product img' />
                     </div>
-                    {multiImg?.length > 4 && (<div className='arrow'>
-                        <div
-                            className={page == 1 ? 'left_arrow vih' : "left_arrow"}
-                            onClick={() => setPage(page - 1)}
-                        ><i class='fas fa-chevron-left'></i></div>
-                        <div
-                            className={multiImg?.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
-                            onClick={() => setPage(page + 1)}
-                        >
-                            <i class='fas fa-chevron-right'></i>
+                    <div className='parent_img'>
+                        <div className='img'>
+                            <div className='images'>
+                                {multiImg?.length > 0 && multiImg.slice(start, multiImg?.length)?.map((item, index) => (
+                                    <img
+                                        key={index}
+                                        src={item?.url}
+                                        className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
+                                        alt='product'
+                                        onClick={() => {
+                                            setFullImg(item?.url)
+                                            setColorName(item?.colorName)
+                                            setColorHexCode(item?.colorHexCode)
+                                        }}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>)}
-                </div>
-            </div>
-
-            <div className='right'>
-                <div className='title_section'>
-                    <div className='txt'>{data?.productName}</div>
-
-                </div>
-                <div className='brand_top'>
-                    <div className='brand'>Brand: {data?.brandName} </div>
-                    <div className='share'>
-                        {/* <i class="fa fa-share-alt" aria-hidden="true"></i> */}
-                        <img src={shareIcon} />
+                        {multiImg?.length > 4 && (<div className='arrow'>
+                            <div
+                                className={page == 1 ? 'left_arrow vih' : "left_arrow"}
+                                onClick={() => setPage(page - 1)}
+                            ><i class='fas fa-chevron-left'></i></div>
+                            <div
+                                className={multiImg?.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
+                                onClick={() => setPage(page + 1)}
+                            >
+                                <i class='fas fa-chevron-right'></i>
+                            </div>
+                        </div>)}
                     </div>
                 </div>
-                {/* <div className='sold_by'>
+
+                <div className='right'>
+                    <div className='title_section'>
+                        <div className='txt'>{data?.productName}</div>
+
+                    </div>
+                    <div className='brand_top'>
+                        <div className='brand'>Brand: {data?.brandName} </div>
+                        <div className='share'>
+                            {/* <i class="fa fa-share-alt" aria-hidden="true"></i> */}
+                            <img src={shareIcon} />
+                        </div>
+                    </div>
+                    {/* <div className='sold_by'>
                         <span>Sold By: {data?.sellerInfo?.shopName}</span>
                         <a href
                             onClick={() => navigate(`/shop/${data?.sellerId}`)}>
                             Visit Store
                         </a>
                     </div> */}
-                <div className='price_hide_pn'>
-                    <div className='del_price'>&#2547;{data?.mrp}</div>
-                    <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
-                </div>
-                {/* for mobile sections */}
-                <div className='mobile_price'>
-                    <div>
+                    <div className='price_hide_pn'>
                         <div className='del_price'>&#2547;{data?.mrp}</div>
                         <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
-
                     </div>
-                    <div className='quantity_button'>
+                    {/* for mobile sections */}
+                    <div className='mobile_price'>
+                        <div>
+                            <div className='del_price'>&#2547;{data?.mrp}</div>
+                            <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
 
-                        <div
-                            className='btn minus'
-                            onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
-
-                        >
-                            <i class="fa fa-minus"></i>
                         </div>
-                        <div className='btn number'>{quantity}</div>
-                        <div
-                            className='btn plus'
-                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                        >
-                            <i class="fa fa-plus"></i>
-                        </div>
-                    </div>
-                </div>
+                        <div className='quantity_button'>
 
-                <div className='flex mobile_color'>
-                    <div>
-                        <div className='txt_cq'>Color</div>
-                        <div className='mobile_colors'>
-                            <div className='colors'>
-                                {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
-                                    {item?.colorName?.length > 0 && (<a
-                                        key={index}
-                                        href
-                                        className={colorName === item?.colorName ? 'active_border' : 'c_border'}
-                                        // style={{ backgroundColor: item?.colorHexCode }}
-                                        onClick={() => handleColor(item, index + 1)}
-                                    >
-                                        {item?.colorName}
-                                    </a>)}
-                                </>))}
+                            <div
+                                className='btn minus'
+                                onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
+
+                            >
+                                <i class="fa fa-minus"></i>
+                            </div>
+                            <div className='btn number'>{quantity}</div>
+                            <div
+                                className='btn plus'
+                                onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                            >
+                                <i class="fa fa-plus"></i>
                             </div>
                         </div>
                     </div>
-                    {data?.size?.length > 0 && <div className='ml30'>
-                        <div className='txt_cq'>Size</div>
-                        <div className='colors'>
-                            {data?.size?.length > 0 && data?.size?.map((item, index) => (
-                                <a
-                                    key={index}
-                                    href
-                                    className={item?.label === sizeName ? 'active_border' : 'c_border'}
-                                    onClick={() => setSizeName(item?.label)}
-                                >
-                                    {item?.label}
-                                </a>
-                            ))}
-                        </div>
-                    </div>}
-                </div>
-                <div className='m_quantity'>
-                    <div className='txt_cq'>Quantity</div>
-                    <div className='quantity_button'>
-                        <div
-                            className='btn minus'
-                            onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
-                        >
-                            <i class="fa fa-minus"></i>
+                    <div className='flex mobile_color'>
+                        <div>
+                            <div className='txt_cq'>Color</div>
+                            <div className='mobile_colors'>
+                                <div className='colors'>
+                                    {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
+                                        {item?.colorName?.length > 0 && (<a
+                                            key={index}
+                                            href
+                                            className={colorName === item?.colorName ? 'active_border' : 'c_border'}
+                                            // style={{ backgroundColor: item?.colorHexCode }}
+                                            onClick={() => handleColor(item, index + 1)}
+                                        >
+                                            {item?.colorName}
+                                        </a>)}
+                                    </>))}
+                                </div>
+                            </div>
                         </div>
+                        {data?.size?.length > 0 && <div className='ml30'>
+                            <div className='txt_cq'>Size</div>
+                            <div className='colors'>
+                                {data?.size?.length > 0 && data?.size?.map((item, index) => (
+                                    <a
+                                        key={index}
+                                        href
+                                        className={item?.label === sizeName ? 'active_border' : 'c_border'}
+                                        onClick={() => setSizeName(item?.label)}
+                                    >
+                                        {item?.label}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>}
+                    </div>
+                    <div className='m_quantity'>
+                        <div className='txt_cq'>Quantity</div>
+                        <div className='quantity_button'>
+                            <div
+                                className='btn minus'
+                                onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
-                        <div className='btn number'>{quantity}</div>
-                        <div
-                            className='btn plus'
-                            onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                        >
-                            <i class="fa fa-plus"></i>
+                            >
+                                <i class="fa fa-minus"></i>
+                            </div>
+
+                            <div className='btn number'>{quantity}</div>
+                            <div
+                                className='btn plus'
+                                onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                            >
+                                <i class="fa fa-plus"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='btn_buy'>
-                    <a
-                        href
-                        className='btn cart cp'
-                        onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
-                    >
-                        {isCartAdded ? "Already Added" : isCartLoading ? "Adding to Cart" : "Add to Cart"}
+                    <div className='btn_buy'>
+                        <a
+                            href
+                            className='btn cart cp'
+                            onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
+                        >
+                            {isCartAdded ? "Already Added" : isCartLoading ? "Adding to Cart" : "Add to Cart"}
 
-                    </a>
-                    <a href
-                        className='btn buy cp'
-                        onClick={() => handleBuyNow()}
-                    >
-                        Buy Now
-                    </a>
-                </div>
-                <div className='mobile_buy'>
-                    <a
-                        href
-                        className='btn cart cp'
-                        style={!isCartAdded && !isCartLoading ? { opacity: "1" } : { opacity: "1" }}
-                        onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : navigate('/cart')}
-                    >
-                        {isCartAdded ? <small>Added</small> : isCartLoading ? <i class="fa fa-refresh fa-spin"></i> : <img src={cartIcon} />}
-                    </a>
-                    <a href
-                        className='btn buy cp'
-                        onClick={() => handleBuyNow()}
-                    >
-                        Buy Now
-                    </a>
-                </div>
-                <div className='have_question'>Have any question? Please contact us 01784528799</div>
-                {/* <div className='call'>
+                        </a>
+                        <a href
+                            className='btn buy cp'
+                            onClick={() => handleBuyNow()}
+                        >
+                            Buy Now
+                        </a>
+                    </div>
+                    <div className='mobile_buy'>
+                        <a
+                            href
+                            className='btn cart cp'
+                            style={!isCartAdded && !isCartLoading ? { opacity: "1" } : { opacity: "1" }}
+                            onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : navigate('/cart')}
+                        >
+                            {isCartAdded ? <small>Added</small> : isCartLoading ? <i class="fa fa-refresh fa-spin"></i> : <img src={cartIcon} />}
+                        </a>
+                        <a href
+                            className='btn buy cp'
+                            onClick={() => handleBuyNow()}
+                        >
+                            Buy Now
+                        </a>
+                    </div>
+                    <div className='have_question'>Have any question? Please contact us 01784528799</div>
+                    {/* <div className='call'>
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span>+8801784528799</span>
                     </div> */}
+                </div>
             </div>
+            <ProductDetailsSeller data={data?.sellerInfo || {}} sellerId={data?.sellerId} />
         </div>
-        <ProductDetailsSeller />
-
     </>)
 }
 

@@ -14,7 +14,7 @@ const ProductDetailsPage = ({ isLogin }) => {
     const productDetails = useSelector((state) => state.homeInfo.productDetails);
     // const { categoriesList, data, popularProducts,
     //     sellKonMallProducts, shopsList, trendingProducts } = productDetails || {}
-    // console.log('productDetails', productDetails)
+    console.log('productDetails', productDetails)
     useEffect(() => {
         dispatch(ProductDetailsById(id));
     }, [id])
@@ -37,7 +37,9 @@ const ProductDetailsPage = ({ isLogin }) => {
                         <RelatedProducts arr={productDetails?.relatedProducts} />
                     </div>
                 </div>
-                {/* {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />} */}
+                <div className='mobile_rel_top_right'>
+                    {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />}
+                </div>
             </div>
         </>
     )

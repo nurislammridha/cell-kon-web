@@ -5,7 +5,10 @@ import locationIcon from "../../assets/images/icons/location.png"
 import deliveryIcon from "../../assets/images/icons/delivery.png"
 import periodIcon from "../../assets/images/icons/period.png"
 import starFillIcon from "../../assets/images/icons/startFill.png"
-const ProductDetailsSeller = () => {
+import { useNavigate } from 'react-router-dom'
+const ProductDetailsSeller = ({ data, sellerId = "" }) => {
+    const navigate = useNavigate()
+    const { deliveryPeriod, sellerAddress, shopName, shopLogo, } = data || {}
     return (
         <>
             <div className='details_top_right'>
@@ -13,9 +16,9 @@ const ProductDetailsSeller = () => {
                     Sold By
                 </div>
                 <div className='top_info'>
-                    <img className='top_info_img' src={shopIcon} />
+                    <img className='top_info_img' src={shopLogo?.url} />
                     <div>
-                        <p>RS FASHION CLUB</p>
+                        <p>{shopName}</p>
                         <div className='star'>
                             <img src={starFillIcon} />
                             <img src={starFillIcon} />
@@ -28,17 +31,17 @@ const ProductDetailsSeller = () => {
                 </div>
                 <div className='seller_info'>
                     <img src={locationIcon} />
-                    <p>South Keraniganj, Dhaka.</p>
+                    <p>{sellerAddress}</p>
                 </div>
                 <div className='seller_info'>
                     <img src={periodIcon} />
-                    <p>Delivery in 1 to 3 Days</p>
+                    <p>Delivery in {deliveryPeriod}</p>
                 </div>
                 <div className='seller_info'>
                     <img src={deliveryIcon} />
-                    <p>Delivery in 1 to 3 Days</p>
+                    <p>&#2547; 50 (100 Outside Area)</p>
                 </div>
-                <a>
+                <a onClick={() => navigate(`/shop/${sellerId}`)}>
                     Visit Store
                 </a>
             </div>

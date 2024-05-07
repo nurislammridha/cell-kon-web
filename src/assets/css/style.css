@@ -400,8 +400,11 @@ body {
 }
 
 .footer_in {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
+    display: grid;
+    grid-template-columns: 300px 300px auto 270px;
+    column-gap: 10px;
 }
 
 .footer_img img {
@@ -410,7 +413,8 @@ body {
 }
 
 .footer_left {
-    width: 367px;
+    /* width: 367px; */
+    margin-right: 10px;
 }
 
 .footer_left .text {
@@ -418,7 +422,7 @@ body {
 }
 
 .footer_middle {
-    width: 367px;
+    /* width: 367px; */
 }
 
 .footer_contact_us,
@@ -450,7 +454,7 @@ body {
 }
 
 .footer_right {
-    width: 279px;
+    /* width: 270px; */
 }
 
 .footer_store {
@@ -503,6 +507,16 @@ body {
 .youtube,
 .instagram {
     background-color: #F44336;
+}
+
+.footer_bottom {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #C4C4C4;
+    background-color: #000;
 }
 
 /* owl carousel */
@@ -1103,7 +1117,7 @@ body {
 
 .details_page .details_top_right .seller_info p {
     font-size: 13px;
-    margin-right: 4px;
+    margin-left: 4px;
 }
 
 .details_page .details_top_right a {
@@ -1118,9 +1132,9 @@ body {
     border-radius: 5px;
 }
 
-.details_page .details_top_right {}
+/* .details_page .details_top_right {}
 
-.details_page .details_top_right {}
+.details_page .details_top_right {} */
 
 .details_page .main {
     display: grid;
@@ -1386,6 +1400,10 @@ body {
     grid-template-columns: auto 225px;
     column-gap: 10px;
     margin-top: 10px;
+}
+
+.details_page .mobile_rel_top_right {
+    display: none;
 }
 
 .details_page .rel_top_right {
@@ -2901,3 +2919,70 @@ body {
 .m_filter_container {
     display: none;
 }
+
+.campaign_pro {
+    margin-top: 24px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.campaign_pro .home_products {
+    background-color: #000;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.campaign_pro .products .product_cart {
+    background-color: #FFF;
+}
+
+.campaign_pro .title_top {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.campaign_pro .title_top .title {
+    color: #FFF;
+}
+
+.campaign_pro .title_top a {
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.campaign_pro .heat_img {
+    width: 100%;
+    height: 150px;
+}
+
+.campaign_pro .heat_img img {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.campaign_pro .home_products {
+    margin-top: 0px;
+    padding: 12px 16px 18px 16px;
+}
+
+.campaign_pro .product_cart .product_img {
+    width: 127px;
+    height: 127px;
+}
+
+.campaign_gif {
+    margin-top: 10px;
+    width: 100%;
+    height: 150px;
+}
+
+.campaign_gif img {
+    width: 100%;
+    height: 100%;
+}
+
+.campaign_pro {}

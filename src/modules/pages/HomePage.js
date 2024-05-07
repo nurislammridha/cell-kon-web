@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MobileFooter from '../components/MobileFooter'
 import MobileHeader from '../components/MobileHeader'
 import MobileMenu from '../components/MobileMenu'
+import Campaign from '../components/Campaign'
 
 const HomePage = ({ isLogin, search, setSearch }) => {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const HomePage = ({ isLogin, search, setSearch }) => {
             {/* hero */}
             <Hero arr={subCategoriesList} loading={isHomePageLoading} />
             <MobileMenu />
+            {/* Campaign Products */}
+            <Campaign arr={sellKonMallProducts} loading={isHomePageLoading} />
             {/* Mall Products */}
             <Mall arr={sellKonMallProducts} loading={isHomePageLoading} />
             {/* Trending */}

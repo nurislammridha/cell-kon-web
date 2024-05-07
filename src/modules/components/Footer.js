@@ -5,7 +5,8 @@ import sellConWhite from '../../assets/images/other/SellKonWhite.png'
 import { useNavigate } from 'react-router-dom'
 const Footer = () => {
     const navigate = useNavigate()
-    return (
+    const d = new Date()
+    return (<div className='footer_parent'>
         <div className='footer'>
             <div className='w-1176'>
                 <div className='footer_in'>
@@ -22,8 +23,6 @@ const Footer = () => {
                     </div>
                     <div className='footer_middle'>
                         <h2 className='footer_contact_us'>Contact Us</h2>
-                        <div className='footer_link cp'><a onClick={() => navigate('/terms-and-conditions')} href>Terms And Conditions</a></div>
-                        <div className='footer_link cp'><a onClick={() => navigate('/return-and-refund')} href>Return And Refund Policy</a></div>
                         <div className='footer_address'>
                             House #1757, Road-3, Block A,
                             Bashundhara riverview, keraniganj, Dhaka.
@@ -34,6 +33,13 @@ const Footer = () => {
                         <div className='footer_contact'>
                             Contact no: +8801784528799
                         </div>
+                    </div>
+                    <div className='footer_middle'>
+                        <h2 className='footer_contact_us'>About Us</h2>
+                        <div className='footer_link cp footer_address'><a onClick={() => navigate('/terms-and-conditions')} href>Terms And Conditions</a></div>
+                        <div className='footer_link cp'><a onClick={() => navigate('/return-and-refund')} href>Return And Refund Policy</a></div>
+                        <div className='footer_link cp'><a onClick={() => navigate('/privacy-policy')} href>Privacy Policy</a></div>
+
                     </div>
                     <div className='footer_right'>
                         <h2 className='foter_download'>Download</h2>
@@ -52,6 +58,10 @@ const Footer = () => {
                 </div>
             </div>
         </div>
+        <div className='footer_bottom'>
+            {d.getFullYear()} Sellkon.com All rights reserved.
+        </div>
+    </div>
     )
 }
 
