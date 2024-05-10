@@ -1,7 +1,7 @@
 import React from 'react'
 import appStore from '../../assets/images/other/appstore.png'
 import playStore from '../../assets/images/other/playstore.png'
-import sellConWhite from '../../assets/images/other/SellKonWhite.png'
+import sellConWhite from '../../assets/images/other/SellkonBlack.png'
 import { useNavigate } from 'react-router-dom'
 const Footer = () => {
     const navigate = useNavigate()
@@ -27,7 +27,7 @@ const Footer = () => {
                             House #1757, Road-3, Block A,
                             Bashundhara riverview, keraniganj, Dhaka.
                         </div>
-                        <div className='footer_email mt20'>
+                        <div className='footer_email'>
                             Email: support@sellkon.com
                         </div>
                         <div className='footer_contact'>
@@ -42,7 +42,7 @@ const Footer = () => {
 
                     </div>
                     <div className='footer_right'>
-                        <h2 className='foter_download'>Download</h2>
+                        <h2 className='foter_download'>Upcoming App</h2>
                         <div className='footer_store'>
                             <img src={appStore} className='app_store' />
                             <img src={playStore} className='play_store' />

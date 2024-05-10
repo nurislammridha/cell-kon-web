@@ -392,8 +392,8 @@ body {
 
 /* footer */
 .footer {
-    padding-top: 92px;
-    padding-bottom: 133px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     background-color: #333333;
     font-size: 16px;
     color: #C5C5C5;
@@ -403,22 +403,22 @@ body {
     /* display: flex;
     justify-content: space-between; */
     display: grid;
-    grid-template-columns: 300px 300px auto 270px;
-    column-gap: 10px;
+    grid-template-columns: 318px 300px auto 270px;
+    column-gap: 24px;
 }
 
 .footer_img img {
-    width: 202px;
-    height: 44px;
+    width: 133px;
+    height: 31px;
 }
 
 .footer_left {
     /* width: 367px; */
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
 .footer_left .text {
-    margin-top: 27px;
+    margin-top: 15px;
 }
 
 .footer_middle {
@@ -434,7 +434,7 @@ body {
 }
 
 .footer_link {
-    margin-top: 5px;
+    margin-bottom: 12px;
 }
 
 .footer_link:hover {
@@ -445,8 +445,12 @@ body {
     margin-top: 10px;
 }
 
+.footer_email {
+    margin-top: 12px;
+}
+
 .footer_contact {
-    margin-top: 27px;
+    margin-top: 12px;
 }
 
 .footer_address {
@@ -458,7 +462,7 @@ body {
 }
 
 .footer_store {
-    margin-top: 28px;
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
 }
@@ -477,13 +481,13 @@ body {
 }
 
 .footer .join_us {
-    margin-top: 44px;
+    margin-top: 25px;
 }
 
 .footer .footer_social {
-    margin-top: 28px;
+    margin-top: 14px;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .footer .social {
@@ -496,6 +500,7 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-right: 15px;
 }
 
 .facebook,
@@ -679,7 +684,8 @@ body {
 }
 
 .hero_main .owl-theme .owl-dots .owl-dot.active span {
-    background: #000000 !important;
+    /* background: #000000 !important; */
+    background: #FFF !important;
     width: 48px !important;
     height: 12px;
     border-radius: 30px !important;
@@ -2927,13 +2933,20 @@ body {
 }
 
 .campaign_pro .home_products {
-    background-color: #000;
+    background-color: #151820;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
 
 .campaign_pro .products .product_cart {
     background-color: #FFF;
+    height: 262px;
+    padding: 10px;
+    margin-right: 24px !important;
+}
+
+.campaign_pro .product_cart .product_price {
+    margin-top: 2px;
 }
 
 .campaign_pro .title_top {
