@@ -359,9 +359,9 @@ export const FalseCartCalled = () => (dispatch) => {
   dispatch({ type: Types.IS_CART_LIST_CALLED, payload: false });
 }
 export const AddToCart = (data) => (dispatch) => {
-  const { buyerId, productId, quantity, colorName, colorHexCode, sizeName, fullImg } = data
+  const { buyerId, productId, quantity, colorName, colorHexCode, sizeName, fullImg, campaignId, campaignEndTime, campaignEndDate, campaignPrice } = data
   const postData = {
-    buyerId, buyerInfo: buyerId, productInfo: [{ productDetails: productId, productId, quantity, colorName, colorHexCode, sizeName, productImgUrl: fullImg }]
+    buyerId, buyerInfo: buyerId, productInfo: [{ productDetails: productId, productId, quantity, colorName, colorHexCode, sizeName, productImgUrl: fullImg, campaignId, campaignEndTime, campaignEndDate, campaignPrice }]
   }
   const url = `${process.env.REACT_APP_API_URL}cart`;
   dispatch({ type: Types.IS_CART_LOADING, payload: true })

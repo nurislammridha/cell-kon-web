@@ -6,12 +6,13 @@ import Order from '../components/Order'
 import Ts from '../../assets/images/other/Heatwave_logo_design.gif'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetBrands, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import filterIcon from '../../assets/images/icons/filter.png'
 import searchIcon from '../../assets/images/icons/search.png'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import MobileFilter from '../components/MobileFilter'
 const CampaignProductsPage = ({ search, setSearch }) => {
+    const { id } = useParams();
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation();
@@ -52,7 +53,7 @@ const CampaignProductsPage = ({ search, setSearch }) => {
         dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page, limit: 20 }));
     };
     useEffect(() => {
-        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
+        // dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
         dispatch(GetCategories())
         dispatch(GetBrands())
     }, [])
@@ -68,9 +69,10 @@ const CampaignProductsPage = ({ search, setSearch }) => {
         // if (location?.state?.isFromCategory) {
         //     setCategoriesId(location?.state?.categoryId)
         // }
-        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20 }))
-    }, [categoriesId, brandsId, short, location, search])
-    // console.log('categoriesId sellersId', categoriesId, sellersId)
+        dispatch(GetFilterProduct({ categoriesId, subCategoryId, brandsId, isShortBy, short, search, page: 1, limit: 20, campaignId: id }))
+    }, [categoriesId, brandsId, short, location, search, id])
+    // console.log('categoriesId sellersId', categoriesId, sellersId)///campaign-product
+    console.log('location', location.pathname.substring(0, 17))
     return (
         <>
             <div className='campaign_gif'>

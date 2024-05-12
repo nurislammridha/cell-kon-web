@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
 import { initialVal } from '../../assets/function/globalFunction'
@@ -9,6 +9,8 @@ import OwlCarousel from "react-owl-carousel";
 import shareIcon from '../../assets/images/icons/share_icon.png'
 import ProductDetailsSeller from './ProductDetailsSeller'
 const ProductDetails = ({ data, isLogin }) => {
+    const location = useLocation()
+    const { isFromCampaign, campaignId, campaignEndDate, campaignEndTime, campaignPrice } = location?.state || {}
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const isCartAdded = useSelector((state) => state.homeInfo.isCartAdded);
@@ -25,7 +27,9 @@ const ProductDetails = ({ data, isLogin }) => {
     const [page, setPage] = useState(1)
     const [start, setStart] = useState(0)
     const handleAddCart = () => {
-        const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
+        let camData = {}
+        isFromCampaign ? camData = { campaignId, campaignEndTime, campaignEndDate, campaignPrice } : camData = {}
+        const postData = { ...camData, buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
         !isLogin && localStorage.setItem('redirect_details', data._id)
         !isLogin && localStorage.setItem('redirect_url', "product_details")
@@ -175,13 +179,13 @@ const ProductDetails = ({ data, isLogin }) => {
                     </div> */}
                     <div className='price_hide_pn'>
                         <div className='del_price'>&#2547;{data?.mrp}</div>
-                        <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+                        <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
                     </div>
                     {/* for mobile sections */}
                     <div className='mobile_price'>
                         <div>
                             <div className='del_price'>&#2547;{data?.mrp}</div>
-                            <div className='product_price'>&#2547;{Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+                            <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
 
                         </div>
                         <div className='quantity_button'>

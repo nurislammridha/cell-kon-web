@@ -22,8 +22,8 @@ const Campaign = ({ arr = [], loading }) => {
         // setWidth(window.innerWidth)
     }, [])
 
-    console.log('arrarr', arr)
-    console.log('see', arr.slice(initialVal(arr, page), arr?.length + 1))
+    // console.log('arcam', arr)
+    // console.log('see', arr.slice(initialVal(arr, page), arr?.length + 1))
     return (<div className='campaign_pro'>
         <div className='heat_img'>
             <img src={Ts} />
@@ -32,14 +32,14 @@ const Campaign = ({ arr = [], loading }) => {
 
             <div className='title_top'>
                 <h2 className='title'>Products</h2>
-                <a className='cp' onClick={() => navigate('/campaign-products')}>View All</a>
+                <a className='cp' onClick={() => navigate(`/campaign-products/${"663ce90f78e1a91648fd6eb3"}`)}>View All</a>
             </div>
             <div className='products'>
                 {!loading ? arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
                     <div
                         key={index}
                         className="product_cart"
-                        onClick={() => navigate(`/product-details/${item?._id}`)}
+                        onClick={() => navigate(`/product-details/${item?._id}`, { state: { isFromCampaign: true, campaignId: item.campaignId, campaignEndDate: item.campaign.campaignEndDate, campaignEndTime: item.campaign.campaignEndTime, campaignPrice: item.campaignDiscount } })}
                     >
                         <div>
                             <div className='product_img'>
@@ -57,7 +57,7 @@ const Campaign = ({ arr = [], loading }) => {
                                 &#2547;{item?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;{Math.floor(item?.mrp - item?.mrp * item?.regularDiscount * 0.01)}
+                                &#2547;{item?.campaignDiscount}
                             </div>
                         </div>
                     </div>

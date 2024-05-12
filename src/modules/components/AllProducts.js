@@ -1,7 +1,8 @@
 import React from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 const AllProducts = ({ list = [] }) => {
+    const location = useLocation();
     const navigate = useNavigate()
     return (
         <div className='products ms_products'>
@@ -9,7 +10,7 @@ const AllProducts = ({ list = [] }) => {
                 <div
                     key={index}
                     className="product_cart cp"
-                    onClick={() => navigate(`/product-details/${item?._id}`)}
+                    onClick={() => location.pathname.substring(0, 17) === "/campaign-product" ? navigate(`/product-details/${item?._id}`, { state: { isFromCampaign: true, campaignId: item.campaignId, campaignEndDate: item.campaign.campaignEndDate, campaignEndTime: item.campaign.campaignEndTime, campaignPrice: item.campaignDiscount } }) : navigate(`/product-details/${item?._id}`)}
                 >
                     <div>
                         <div className='product_img'>
@@ -27,7 +28,7 @@ const AllProducts = ({ list = [] }) => {
                             &#2547;{item?.mrp}
                         </div>
                         <div className='product_price'>
-                            &#2547;{Math.floor(item?.mrp - item?.mrp * item?.regularDiscount * 0.01)}
+                            &#2547;{location.pathname.substring(0, 17) === "/campaign-product" ? item.campaignDiscount : Math.floor(item?.mrp - item?.mrp * item?.regularDiscount * 0.01)}
                         </div>
                     </div>
                 </div>

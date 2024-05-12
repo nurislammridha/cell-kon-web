@@ -32,12 +32,47 @@ export const locationOption = (list) => {
     }
     return arr
 }
+export const isCampaign = (endTime = "22:12", endDate = "11/5/2000") => {
+    let cam = false
+    const d = new Date()
 
+    const hour = endTime.split(":")[0] || 0
+    const min = endTime.split(":")[1] || 0
+    const day = endDate.split("/")[0] || 0
+    const month = endDate.split("/")[1] || 0
+    const year = endDate.split("/")[2] || 9999
+    const cYear = d.getFullYear()
+    const cMonth = d.getMonth() + 1
+    const cDay = d.getDate()
+    const cHour = d.getHours()
+    const cMin = d.getMinutes()
+    const server = new Date(month + "/" + day + "/" + year + " " + endTime + ":10")
+    const current = new Date(cMonth + "/" + cDay + "/" + cYear + " " + cHour + ":" + cMin + ":10")
+    // console.log('hour,min,day,month,year', hour, min, day, month, year)
+    // console.log('cHour,cMin,cDay,cMonth,cYear', cHour, cMin, cDay, cMonth, cYear)
+    // if (parseInt(year) <= cYear && parseInt(month) <= cMonth && parseInt(day) <= cDay && parseInt(hour) <= cHour && parseInt(min) <= cMin) {
+    //     cam = true
+    // }
+    console.log('server', server)
+    console.log('current', current)
+    if (current.getTime() <= server.getTime()) {
+        cam = true
+    } else {
+        cam = false
+    }
+    console.log('cam', cam)
+    return cam
+}
 export const getSubTotal = (list = []) => {
     let total = 0
     if (list?.length > 0) {
         list.forEach(item => {
-            total = total + item.quantity * (Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01))
+            if (isCampaign(item.campaignEndTime, item.campaignEndDate)) {
+                total = total + item.quantity * item.campaignPrice
+            } else {
+                total = total + item.quantity * (Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01))
+            }
+
         });
     }
     return total
