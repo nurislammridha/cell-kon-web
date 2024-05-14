@@ -543,7 +543,7 @@ const makeProductList = (list = []) => {
         productId: item.productId,
         quantity: item.quantity,
         colorHexCodesize: item.colorHexCode,
-        sellPrice: Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01),
+        sellPrice: item?.productDetails?.regularDiscount,
         pastRp: item?.productDetails?.rp,
         colorName: item.colorName,
         sizeName: item.sizeName

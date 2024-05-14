@@ -40,7 +40,7 @@ const Trending = ({ arr = [], loading }) => {
                                 &#2547;{item?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;{Math.floor(item?.mrp - item?.mrp * item?.regularDiscount * 0.01)}
+                                &#2547;{item?.regularDiscount}
                             </div>
                         </div>
                     </div>

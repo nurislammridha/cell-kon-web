@@ -28,7 +28,7 @@ const AllProducts = ({ list = [] }) => {
                             &#2547;{item?.mrp}
                         </div>
                         <div className='product_price'>
-                            &#2547;{location.pathname.substring(0, 17) === "/campaign-product" ? item.campaignDiscount : Math.floor(item?.mrp - item?.mrp * item?.regularDiscount * 0.01)}
+                            &#2547;{location.pathname.substring(0, 17) === "/campaign-product" ? item.campaignDiscount : item?.regularDiscount}
                         </div>
                     </div>
                 </div>

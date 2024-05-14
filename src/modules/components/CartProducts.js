@@ -68,7 +68,7 @@ const CartProducts = ({ obj = {}, isQuantityLoading, handleSelect, selected }) =
                             <div className='cart_amount'>
                                 <div className='cart_taka'>
                                     <div className='cart_taka_1'>&#2547;{item?.productDetails?.mrp}</div>
-                                    <div className='cart_taka_2'>&#2547;{isCampaign(item?.campaignEndTime, item.campaignEndDate) ? item?.campaignPrice : Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01)}</div>
+                                    <div className='cart_taka_2'>&#2547;{isCampaign(item?.campaignEndTime, item.campaignEndDate) ? item?.campaignPrice : item?.productDetails?.regularDiscount}</div>
                                 </div>
                                 <div className='quantity_button'>
                                     <div

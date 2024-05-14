@@ -60,7 +60,7 @@ const CheckoutProducts = ({ list, addressList, addressInfo }) => {
                                     <span>Color: {item.colorName}</span>
                                 </div>
                                 <div className='cart_taka_3 taka_r'>
-                                    <span>&#2547;{Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01)}</span>
+                                    <span>&#2547;{item?.productDetails?.regularDiscount}</span>
                                     <span>Size: {item.sizeName}</span>
                                 </div>
 

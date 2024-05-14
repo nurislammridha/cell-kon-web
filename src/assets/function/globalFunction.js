@@ -25,8 +25,18 @@ export const isLastPage = (arr, page, number) => {
 export const locationOption = (list) => {
     let arr = []
     if (list?.length > 0) {
-        list?.forEach(item => {
+        list?.sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
             let obj = { value: item.id, label: item.name }
+            arr.push(obj)
+        });
+    }
+    return arr
+}
+export const nearestAreaOption = (list) => {
+    let arr = []
+    if (list?.length > 0) {
+        list?.sort((a, b) => a.ecourierArea.localeCompare(b.ecourierArea)).forEach(item => {
+            let obj = { value: item.id, label: item.ecourierArea }
             arr.push(obj)
         });
     }
@@ -70,7 +80,7 @@ export const getSubTotal = (list = []) => {
             if (isCampaign(item.campaignEndTime, item.campaignEndDate)) {
                 total = total + item.quantity * item.campaignPrice
             } else {
-                total = total + item.quantity * (Math.floor(item?.productDetails?.mrp - item?.productDetails?.mrp * item?.productDetails?.regularDiscount * 0.01))
+                total = total + item.quantity * item?.productDetails?.regularDiscount
             }
 
         });

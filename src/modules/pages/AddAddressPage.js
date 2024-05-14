@@ -6,8 +6,8 @@ import orderIcon from "../../assets/images/icons/order.png"
 import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
 import { useLocation, useNavigate } from 'react-router-dom'
-import { district, division, union, upazilla } from '../../assets/function/locationService'
-import { locationOption } from '../../assets/function/globalFunction'
+import { district, division, nearestArea, union, upazilla } from '../../assets/function/locationService'
+import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseAddressCreated, GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
@@ -21,6 +21,7 @@ function AddAddressPage() {
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
     const [unions, setUnions] = useState([])
+    const [nearest, setNearest] = useState([])
     const handleChange = (name, value) => {
         dispatch(GetAddressInput(name, value))
     }
@@ -36,7 +37,9 @@ function AddAddressPage() {
         }
         if (addressInput.upazilla.length > 0) {
             setUnions(locationOption(union(addressInput.upazillaId)))
+            setNearest(nearestAreaOption(nearestArea(addressInput.upazillaId)))
         }
+
 
     }, [addressInput])
     useEffect(() => {
@@ -136,10 +139,6 @@ function AddAddressPage() {
                                 />
                             </div>
                         </div>
-
-
-                    </div>
-                    <div className='input_right'>
                         <div className='mmt24'>
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
                             <div className='user_select mt12'>
@@ -155,8 +154,12 @@ function AddAddressPage() {
                                 />
                             </div>
                         </div>
+
+                    </div>
+                    <div className='input_right'>
+
                         {!addressInput.isMetropolitan && (
-                            <div className='mt24'>
+                            <div className=''>
                                 <p className='clr959595 fs16 fm'>Union<span>*</span></p>
                                 <div className='user_select mt12'>
                                     <Select
@@ -171,11 +174,11 @@ function AddAddressPage() {
                                 </div>
                             </div>
                         )}
-                        {/* <div className='mt24'>
+                        <div className={!addressInput.isMetropolitan && "mt24"}>
                             <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
                             <div className='user_select mt12'>
                                 <Select
-                                    options={[{ label: "Male", value: 1 }, { label: "Female", value: 1 }]}
+                                    options={nearest}
                                     name='nearest_area'
                                     value={{ label: addressInput.nearestArea }}
                                     onChange={(e) => {
@@ -184,7 +187,7 @@ function AddAddressPage() {
                                     }}
                                 />
                             </div>
-                        </div> */}
+                        </div>
                         {/* <div>
                             <p className='clr959595 fs16 fm'>Nearest Area<span>*</span></p>
                             <input

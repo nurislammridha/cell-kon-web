@@ -179,13 +179,13 @@ const ProductDetails = ({ data, isLogin }) => {
                     </div> */}
                     <div className='price_hide_pn'>
                         <div className='del_price'>&#2547;{data?.mrp}</div>
-                        <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+                        <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : data?.regularDiscount}</div>
                     </div>
                     {/* for mobile sections */}
                     <div className='mobile_price'>
                         <div>
                             <div className='del_price'>&#2547;{data?.mrp}</div>
-                            <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : Math.floor(data?.mrp - data?.mrp * data?.regularDiscount * 0.01)}</div>
+                            <div className='product_price'>&#2547;{isFromCampaign ? campaignPrice : data?.regularDiscount}</div>
 
                         </div>
                         <div className='quantity_button'>
