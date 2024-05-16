@@ -17,12 +17,14 @@ const ProductDetails = ({ data, isLogin }) => {
     const isCartLoading = useSelector((state) => state.homeInfo.isCartLoading);
     const [buyerData, setBuyerData] = useState({})
     const multiImg = data?.productImgColor || []
+    const availableQuantity = data?.availableQuantity
     // console.log('multiIim/g', multiImg[0]?.url)
     const [fullImg, setFullImg] = useState(null)
     const [sizeName, setSizeName] = useState(null)
     const [colorName, setColorName] = useState(null)
     const [colorHexCode, setColorHexCode] = useState(null)
     // console.log('fullImg', fullImg)
+    // console.log('data', availableQuantity)
     const [quantity, setQuantity] = useState(1)
     const [page, setPage] = useState(1)
     const [start, setStart] = useState(0)
@@ -68,19 +70,6 @@ const ProductDetails = ({ data, isLogin }) => {
     }, [page])
     // console.log('data', data)
     return (<>
-        {/* mobile carousel */}
-        {/* <div className='details_top'>
-            <div
-                className='l_arrow'
-                onClick={() => navigate(-1)}
-            >
-                <i class="fas fa-arrow-left"></i>
-            </div>
-            <div className='share2'>
-                <i class="fa fa-share-alt" aria-hidden="true"></i>
-              
-            </div>
-        </div> */}
         <div className='details_hero'>
             <div className='hero_main'>
                 <OwlCarousel
@@ -189,21 +178,21 @@ const ProductDetails = ({ data, isLogin }) => {
 
                         </div>
                         <div className='quantity_button'>
-
-                            <div
+                            {availableQuantity <= 0 && <p>STOCK OUT</p>}
+                            {availableQuantity > 0 && <> <div
                                 className='btn minus'
                                 onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
                             >
                                 <i class="fa fa-minus"></i>
                             </div>
-                            <div className='btn number'>{quantity}</div>
-                            <div
-                                className='btn plus'
-                                onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
-                            >
-                                <i class="fa fa-plus"></i>
-                            </div>
+                                <div className='btn number'>{quantity}</div>
+                                <div
+                                    className='btn plus'
+                                    onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                                >
+                                    <i class="fa fa-plus"></i>
+                                </div></>}
                         </div>
                     </div>
 
@@ -244,7 +233,7 @@ const ProductDetails = ({ data, isLogin }) => {
                     </div>
                     <div className='m_quantity'>
                         <div className='txt_cq'>Quantity</div>
-                        <div className='quantity_button'>
+                        {availableQuantity > 0 && <div className='quantity_button'>
                             <div
                                 className='btn minus'
                                 onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
@@ -260,9 +249,12 @@ const ProductDetails = ({ data, isLogin }) => {
                             >
                                 <i class="fa fa-plus"></i>
                             </div>
-                        </div>
+                        </div>}
+                        {availableQuantity <= 0 && <div className='quantity_button'>
+                            <p>STOCK OUT</p>
+                        </div>}
                     </div>
-                    <div className='btn_buy'>
+                    {availableQuantity > 0 && <div className='btn_buy'>
                         <a
                             href
                             className='btn cart cp'
@@ -277,8 +269,16 @@ const ProductDetails = ({ data, isLogin }) => {
                         >
                             Buy Now
                         </a>
-                    </div>
-                    <div className='mobile_buy'>
+                    </div>}
+                    {availableQuantity <= 0 && <div className='btn_stock_out'>
+                        <a href
+                            className='btn cp'
+                        // onClick={() => handleBuyNow()}
+                        >
+                            Add to wishlist
+                        </a>
+                    </div>}
+                    {availableQuantity > 0 && <div className='mobile_buy'>
                         <a
                             href
                             className='btn cart cp'
@@ -293,7 +293,16 @@ const ProductDetails = ({ data, isLogin }) => {
                         >
                             Buy Now
                         </a>
-                    </div>
+
+                    </div>}
+                    {availableQuantity <= 0 && <div className='mobile_buy_checkout'>
+                        <a href
+                            className='btn cart cp'
+                            onClick={() => handleBuyNow()}
+                        >
+                            Add to wishlist
+                        </a>
+                    </div>}
                     <div className='have_question'>Have any question? Please contact us 01784528799</div>
                     {/* <div className='call'>
                         <i class="fa fa-phone" aria-hidden="true"></i>

@@ -589,7 +589,7 @@ export const SubmitOrder = (list, address, isFromDetails = false) => (dispatch) 
     buyerName, buyerId, buyerInfo: buyerId, productInfo: makeProductList(list), orderStatus: "Created",
     deliveryAddressInfo: address, isCreated: true, createdAt: date, paymentMethodName: "COD", subTotal, shippingFee
   }
-  // console.log('postdata', subTotal, shippingFee)
+  // console.log('postdata', postData)
   // return 0
   const url = `${process.env.REACT_APP_API_URL}order`;
   dispatch({ type: Types.IS_ORDER_LOADING, payload: true })

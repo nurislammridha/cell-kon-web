@@ -678,6 +678,10 @@
         display: none;
     }
 
+    .details_page .btn_stock_out {
+        display: none;
+    }
+
     .details_page .mobile_buy {
         display: flex;
         height: 44px;
@@ -688,6 +692,26 @@
         bottom: 10px;
         width: 100%;
         z-index: 9999;
+    }
+
+    .details_page .mobile_buy_checkout {
+        display: flex;
+        height: 44px;
+        margin-top: 20px;
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        z-index: 9999;
+    }
+
+    .details_page .mobile_buy_checkout .cart {
+        width: 94%;
+        /* margin-right: 10px; */
+        border-radius: 5px;
+        background-color: #FF9E28;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .details_page .mobile_buy .cart {

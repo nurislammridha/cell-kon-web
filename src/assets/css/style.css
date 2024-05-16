@@ -1363,6 +1363,12 @@ body {
     color: #FFF;
 }
 
+.details_page .quantity_button p {
+    color: #CC0000;
+    font-weight: 500;
+    font-size: 14px;
+}
+
 .details_page .btn_buy {
     margin-top: 32px;
     display: flex;
@@ -1384,6 +1390,23 @@ body {
 .details_page .btn_buy .buy {
     background-color: #FF9E28;
 }
+
+.details_page .btn_stock_out {
+    margin-top: 32px;
+}
+
+.details_page .btn_stock_out .btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #FFF;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 12px 0px;
+    border-radius: 5px;
+    background-color: #EBC274;
+}
+
 
 .details_page .have_question {
     margin-top: 25px;
@@ -2825,6 +2848,10 @@ body {
 }
 
 .details_page .mobile_buy {
+    display: none;
+}
+
+.details_page .mobile_buy_checkout {
     display: none;
 }
 
