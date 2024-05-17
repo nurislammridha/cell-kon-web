@@ -4,7 +4,7 @@ import slide1 from '../../assets/images/other/slide1.png' //1176 443
 import slide2 from '../../assets/images/other/slide2.png' //1176 443
 import slide3 from '../../assets/images/other/slide3.png' //1176 443
 import slide4 from '../../assets/images/other/slide4.png' //1176 443
-import ts from '../../assets/images/other/TS.png' //1176 443
+import ts from '../../assets/images/other/smallBanner.png' //1176 443
 import rightArrow from '../../assets/images/icons/right_arrow.png'
 // import WomensGirlsFashion from '../../assets/images/icons/cat/WomensGirlsFashion.png'
 // import WatchesBagsJewellery from '../../assets/images/icons/cat/WatchesBagsJewellery.png'

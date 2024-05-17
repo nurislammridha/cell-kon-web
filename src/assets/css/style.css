@@ -22,7 +22,8 @@ body {
     /* background-color: #FFFFFF; */
     width: 1920;
     font-family: "Inter";
-    background-color: #FAFAFA;
+    /* background-color: #FAFAFA; */
+    background-color: #F3F3F3;
 }
 
 /* margin */
@@ -1498,7 +1499,8 @@ body {
 .product_page {}
 
 .product_page .order_section {
-    background-color: #FAFAFA;
+    /* background-color: #FAFAFA; */
+    background-color: #F3F3F3;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -3023,6 +3025,7 @@ body {
 .campaign_gif img {
     width: 100%;
     height: 100%;
+    border-radius: 10px;
 }
 
 .campaign_pro {}

@@ -32,7 +32,7 @@ const Campaign = ({ arr = [], loading }) => {
 
             <div className='title_top'>
                 <h2 className='title'>Products</h2>
-                <a className='cp' onClick={() => navigate(`/campaign-products/${"663ce90f78e1a91648fd6eb3"}`)}>View All</a>
+                <a className='cp' onClick={() => navigate(`/campaign-products/${"6642d16d4f1f26396015ff5b"}`)}>View All</a>
             </div>
             <div className='products'>
                 {!loading ? arr?.length > 0 && arr.slice(initialVal(arr, page), arr?.length).map((item, index) => (
