@@ -181,9 +181,6 @@
         height: 24px;
     }
 
-
-
-
     .hero_main {
         margin-top: 39px;
         padding: 0px 15px;
@@ -200,7 +197,7 @@
 
     .hero_carousel img {
         width: calc(100vw - 30px) !important;
-        height: auto !important;
+        height: 124px !important;
         border-radius: 5px;
     }
 
@@ -1703,7 +1700,7 @@
         margin-top: 0px;
         display: grid;
         grid-template-columns: 50% auto;
-        column-gap: 3px;
+        column-gap: 5px;
         padding-left: 15px;
         padding-right: 15px;
         background: #fff;

@@ -6,7 +6,7 @@ import PrivacyPolicyEnglish from '../components/PrivacyPolicyEnglish'
 import PrivacyPolicyBangla from '../components/PrivacyPolicyBangla'
 const PrivacyPolicyPage = () => {
     const { pathname } = useLocation();
-    const [lan, setLan] = useState('en')
+    const [lan, setLan] = useState('bn')
     const navigate = useNavigate()
     useEffect(() => {
         window.scrollTo(0, 0)

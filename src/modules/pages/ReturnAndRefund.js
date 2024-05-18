@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const ReturnAndRefund = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate()
-    const [lan, setLan] = useState('en')
+    const [lan, setLan] = useState('bn')
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [pathname])
