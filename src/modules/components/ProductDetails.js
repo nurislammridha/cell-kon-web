@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
 import { initialVal } from '../../assets/function/globalFunction'
-import cartIcon from '../../assets/images/icons/cart.png'
+import cartIcon from '../../assets/images/icons/cartDetails.png'
 import OwlCarousel from "react-owl-carousel";
 import shareIcon from '../../assets/images/icons/share_icon.png'
 import ProductDetailsSeller from './ProductDetailsSeller'

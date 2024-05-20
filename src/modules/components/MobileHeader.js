@@ -47,6 +47,16 @@ const MobileHeader = ({ search, setSearch }) => {
             setShowSearchIcon(false)
             setShowLogo(false)
             setShowLongLogo(false)
+        } else if (pathname.substring(0, 18) === '/campaign-products') {
+            //true
+            setShowShareIcon(false)
+            setShowBackIcon(true)
+            //false
+            setShowNotification(false)
+            setShowSearch(true)
+            setShowSearchIcon(false)
+            setShowLogo(false)
+            setShowLongLogo(false)
         } else {
             //true
             setShowBackIcon(true)

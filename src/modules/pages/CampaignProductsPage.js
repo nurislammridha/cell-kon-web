@@ -78,7 +78,7 @@ const CampaignProductsPage = ({ search, setSearch }) => {
             <div className='campaign_gif'>
                 <img src={Ts} />
             </div>
-            <div className='all_product_filter_container'>
+            <div className='all_product_filter_container campaign_top_fix'>
                 <MobileFilter
                     number={products?.length}
                     setShortBy={setShortBy}

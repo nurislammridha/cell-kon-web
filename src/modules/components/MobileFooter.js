@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import cartIcon from '../../assets/images/icons/cart11.png'
+import cartIcon from '../../assets/images/icons/cartFooter.png'
 import homeIcon from '../../assets/images/icons/home11.png'
 import campaignIcon from '../../assets/images/icons/campaign11.png'
 import userLogo from '../../assets/images/icons/userIcon.png'

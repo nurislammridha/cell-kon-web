@@ -40,7 +40,10 @@ const Header = ({ isLogin, search, setSearch }) => {
         setUserImgUrl(JSON.parse(localStorage.getItem("buyerData"))?.buyerImgUrl)
     }, [loggedOut])
     useEffect(() => {
-        if (search.length > 0 && pathname !== "all-products" && pathname.substring(0, 5) !== "/shop") {
+        if (search.length > 0 && pathname !== "all-products"
+            && pathname.substring(0, 5) !== "/shop"
+            && pathname.substring(0, 18) !== "/campaign-products"
+        ) {
             navigate('/all-products')
         }
         console.log('search', search)

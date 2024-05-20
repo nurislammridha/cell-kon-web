@@ -7,7 +7,8 @@ const MobileFilter = ({ number, setShortBy, setShort, isShortBy, short, setClose
         <>
             <div className='m_filter_container m_filter shop_page_filter'>
                 <div className='title'>
-                    Showing {number} Product
+                    {/* Showing {number} Product */}
+                    Showing All Products
                 </div>
                 <div className='filter'>
                     <div>
