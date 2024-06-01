@@ -40,7 +40,7 @@ const Popular = ({ arr = [], loading }) => {
                                 &#2547;{item?.mrp}
                             </div>
                             <div className='product_price'>
-                                &#2547;{item?.regularDiscount}
+                                &#2547;{item?.isCampaign ? item?.campaignDiscount : item?.regularDiscount}
                             </div>
                         </div>
                     </div>
