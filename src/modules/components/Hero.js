@@ -24,8 +24,8 @@ const Hero = ({ arr, loading }) => {
     const list = flatToNestedArr(arr) || []
     const [subList, setSubList] = useState([])
     const [hover, setHover] = useState(-1)
-    console.log('listtttt', list)
-    console.log('subList', subList)
+    // console.log('listtttt', list)
+    // console.log('subList', subList)
     return (<div className='hero_parent'>
         <div className='hero_category'>
             {!loading && list?.length > 0 && (
@@ -62,7 +62,7 @@ const Hero = ({ arr, loading }) => {
                         {subList.length > 0 && subList.map((item, index) => (
                             <li
                                 key={index}
-                                onClick={() => navigate(`/all-products`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
+                                onClick={() => navigate(`/category/${item._id}`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
                             >
                                 <div>{item.subCategoryName}</div>
                                 <img className='right_arrow' src={rightArrow} />
