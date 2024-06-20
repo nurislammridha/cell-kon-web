@@ -4,6 +4,7 @@ import AllProducts from '../components/AllProducts'
 import Filter from '../components/Filter'
 import Order from '../components/Order'
 import Ts from '../../assets/images/other/Heatwave_logo_design.gif'
+import Eid from '../../assets/images/other/EIDWebBanner.gif'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetAllProduct, GetBrands, GetCategories, GetFilterProduct, GetSellers } from '../_redux/CommonAction'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -76,7 +77,7 @@ const CampaignProductsPage = ({ search, setSearch }) => {
     return (
         <>
             <div className='campaign_gif'>
-                <img src={Ts} />
+                <img src={id === "66706ae51363cf04677a4e06" ? Eid : Ts} />
             </div>
             <div className='all_product_filter_container campaign_top_fix'>
                 <MobileFilter

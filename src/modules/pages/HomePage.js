@@ -13,13 +13,14 @@ import MobileHeader from '../components/MobileHeader'
 import MobileMenu from '../components/MobileMenu'
 import Campaign from '../components/Campaign'
 import { isCampaign } from 'src/assets/function/globalFunction'
+import EidCampaign from '../components/EidCampaign'
 
 const HomePage = ({ isLogin, search, setSearch }) => {
     const dispatch = useDispatch();
     const isHomePageLoading = useSelector((state) => state.homeInfo.isHomePageLoading);
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
-        sellKonMallProducts, shopsList, trendingProducts, subCategoriesList, campaign } = homeDataList || {}
+        sellKonMallProducts, shopsList, trendingProducts, subCategoriesList, campaign, eidCampaign } = homeDataList || {}
     // console.log('homeDataList', homeDataList)
     useEffect(() => {
         dispatch(GetHomePageData());
@@ -31,6 +32,7 @@ const HomePage = ({ isLogin, search, setSearch }) => {
             <Hero arr={subCategoriesList} loading={isHomePageLoading} />
             <MobileMenu />
             {/* Campaign Products */}
+            {eidCampaign && eidCampaign.length > 0 && (<EidCampaign arr={eidCampaign} loading={isHomePageLoading} />)}
             {campaign && campaign.length > 0 && (<Campaign arr={campaign} loading={isHomePageLoading} />)}
             {/* Mall Products */}
             <Mall arr={sellKonMallProducts} loading={isHomePageLoading} />

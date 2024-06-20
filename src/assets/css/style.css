@@ -2978,6 +2978,13 @@ body {
     border-top-right-radius: 0px;
 }
 
+.eid_camp_pro .home_products {
+    background-color: #FFF;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: none;
+}
+
 .campaign_pro .products .product_cart {
     background-color: #FFF;
     height: 262px;
@@ -2999,8 +3006,18 @@ body {
     color: #FFF;
 }
 
+.eid_camp_pro .title_top .title {
+    color: #000;
+}
+
 .campaign_pro .title_top a {
     color: #FFF;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.eid_camp_pro .title_top a {
+    color: #000;
     font-size: 20px;
     font-weight: 400;
 }
