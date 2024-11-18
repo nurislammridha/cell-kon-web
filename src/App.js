@@ -36,6 +36,8 @@ import ForgetPasswordOtpPage from './modules/pages/ForgetPasswordOtpPage';
 import PrivacyPolicyPage from './modules/pages/PrivacyPolicyPage';
 import CampaignProductsPage from './modules/pages/CampaignProductsPage';
 import CategoryProductsPage from './modules/pages/CategoryProductsPage';
+import CreateUserPage from './modules/pages/CreateUserPgae';
+import PhonePage from './modules/pages/PhonePage';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [search, setSearch] = useState("")
@@ -74,6 +76,8 @@ function App() {
               <Route path="/user-info" element={<UserInfoPage isLogin={isLogin} />} />
               <Route path="/user-address" element={<UserAddressPage />} />
               <Route path="/add-address" element={<AddAddressPage />} />
+              <Route path="/create-user" element={<CreateUserPage />} />
+              <Route path="/phone" element={<PhonePage />} />
               <Route path="/edit-address/:id" element={<EditAddressPage />} />
               <Route path="/shop/:id" element={<ShopProductsPage search={search} isLogin={isLogin} />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditions />} />

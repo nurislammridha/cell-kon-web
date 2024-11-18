@@ -42,7 +42,8 @@ const ProductDetails = ({ data, isLogin }) => {
         data.quantity = quantity
         const obj = { productDetails: data }
         const newData = { ...obj, ...postData }
-        isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
+        // isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
+        isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/phone', { state: { selected: [newData], isFromDetails: true } })
         !isLogin && localStorage.setItem('redirect_details', data._id)
         !isLogin && localStorage.setItem('redirect_url', "product_details")
     }

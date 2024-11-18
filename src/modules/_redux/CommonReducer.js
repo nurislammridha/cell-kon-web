@@ -93,6 +93,8 @@ const initialState = {
   isSetPasswordComplete: false,
   sellerDetails: null,
   isAddressCreated: false,
+  isPhoneLoading: false,
+  userInfo: null
 };
 const CommonReducer = (state = initialState, action) => {
   const newState = { ...state };
@@ -383,6 +385,21 @@ const CommonReducer = (state = initialState, action) => {
       return {
         ...state,
         sellerDetails: action.payload,
+      };
+    case Types.IS_PHONE_LOADING:
+      return {
+        ...state,
+        isPhoneLoading: action.payload,
+      };
+    case Types.IS_PHONE_LOADING:
+      return {
+        ...state,
+        isPhoneLoading: action.payload,
+      };
+    case Types.USER_INFO:
+      return {
+        ...state,
+        userInfo: action.payload,
       };
 
 
