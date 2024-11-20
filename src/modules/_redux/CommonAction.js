@@ -516,10 +516,10 @@ export const CreateUser = (data) => (dispatch) => {
     showToast("error", "Please select a union!")
     return 0
   }
-  else if (detailsAddress.length === 0) {
-    showToast("error", "house/holding, plot, road/para, block/Avenue should n't be empty!")
-    return 0
-  }
+  // else if (detailsAddress.length === 0) {
+  //   showToast("error", "house/holding, plot, road/para, block/Avenue should n't be empty!")
+  //   return 0
+  // }
 
   dispatch({ type: Types.IS_ADDRESS_LOADING, payload: true });
   const url = `${process.env.REACT_APP_API_URL}buyer/create-user`;

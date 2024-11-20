@@ -58,7 +58,7 @@ function CreateUserPage() {
                 <div className='user_input mt32'>
                     <div className='input_left'>
                         <div >
-                            <p className='clr959595 fs16 fm'>Phone Number<span>*</span></p>
+                            <p className='clr959595 fs16 fm'>Phone Number<span style={{ color: "red" }}>*</span></p>
                             <input
                                 disabled
                                 className='mt12'
@@ -70,7 +70,7 @@ function CreateUserPage() {
                             />
                         </div>
                         <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>Full Name<span>*</span></p>
+                            <p className='clr959595 fs16 fm'>Full Name<span style={{ color: "red" }}>*</span></p>
                             <input
                                 className='mt12'
                                 type='text'
@@ -104,7 +104,7 @@ function CreateUserPage() {
                             </div>
                         </div>
                         <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>Division<span>*</span></p>
+                            <p className='clr959595 fs16 fm'>Division<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
                                     options={locationOption(division())}
@@ -122,7 +122,7 @@ function CreateUserPage() {
                         </div>
 
                         <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>District<span>*</span></p>
+                            <p className='clr959595 fs16 fm'>District<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
                                     options={districts}
@@ -138,8 +138,8 @@ function CreateUserPage() {
                                 />
                             </div>
                         </div>
-                        <div className='mmt24'>
-                            <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
+                        <div className='mt24'>
+                            <p className='clr959595 fs16 fm'>Sub District (Upazila)<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
                                     options={upazillas}
@@ -159,7 +159,7 @@ function CreateUserPage() {
 
                         {!addressInput.isMetropolitan && (
                             <div className=''>
-                                <p className='clr959595 fs16 fm'>Union<span>*</span></p>
+                                <p className='clr959595 fs16 fm'>Union<span style={{ color: "red" }}>*</span></p>
                                 <div className='user_select mt12'>
                                     <Select
                                         options={unions}
@@ -201,11 +201,12 @@ function CreateUserPage() {
                             />
                         </div> */}
                         <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>House/Holding?Plot, Road/Para, Block/Avenue<span>*</span></p>
-                            <input
+                            <p className='clr959595 fs16 fm'>Address direction or notes<span></span></p>
+                            <textarea
+                                style={{ width: '100%', height: 80, padding: 15 }}
                                 className='mt12'
                                 type='text'
-                                placeholder='house/holding, plot, road/para, block/Avenue'
+                                placeholder='Address direction or notes'
                                 name='details_address'
                                 value={addressInput.detailsAddress}
                                 onChange={(e) => {
@@ -213,7 +214,7 @@ function CreateUserPage() {
                                 }}
                             />
                         </div>
-                        <div className='mt24'>
+                        {/* <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Postal Code</p>
                             <input
                                 className='mt12'
@@ -223,7 +224,7 @@ function CreateUserPage() {
                                 value={addressInput.postalCode}
                                 onChange={(e) => handleChange("postalCode", e.target.value)}
                             />
-                        </div>
+                        </div> */}
                         <div
                             className='mt40 save_changes cp'
                             onClick={() => isAddressLoading ? {} : handleSubmit()}

@@ -33,7 +33,7 @@ const PhonePage = () => {
         <div className='sign_up_container'>
             {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
-                <p className='fs20 fm mfs14'>Add Your ActivePhone Number.</p>
+                <p className='fs20 fm mfs14'>Add Your Phone Number</p>
                 <div className='mt24'>
                     <p className='clr959595 mfs12 fs16 fm'>Phone Number</p>
                     <input
