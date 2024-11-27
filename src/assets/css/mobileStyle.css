@@ -1795,6 +1795,20 @@
         height: 100%;
         border-radius: 4px;
     }
+    .place .btn{
+        background-color: #000;
+        color: #FFF;
+        height: 48px;
+        font-size: 16;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        position: fixed;
+        bottom: 20px;
+        width: 95%;
+        cursor: pointer;
+    }
 }
 
 /* @media (max-width: 360px) {} */

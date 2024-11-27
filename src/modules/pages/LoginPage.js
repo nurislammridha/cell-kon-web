@@ -3,7 +3,7 @@ import facebookIcon from "../../assets/images/icons/facebook.png"
 import googleIcon from "../../assets/images/icons/google.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
+import { FalseIsLoginComplete, GetSignUpInput, LoginSubmit, PhoneSubmit, SocialLoginSubmit } from '../_redux/CommonAction'
 import MobileCommonHeader from '../components/MobileCommonHeader'
 import { auth, facebookAuthProvider, googleAuthProvider } from "../../assets/function/firebase";
 import show from '../../assets/images/icons/password_show.png'
@@ -19,11 +19,13 @@ const LoginPage = () => {
     const loginInput = useSelector((state) => state.homeInfo.signUpInput);
     const isLoginLoading = useSelector((state) => state.homeInfo.isLoginLoading);
     const isLoginComplete = useSelector((state) => state.homeInfo.isLoginComplete);
+    const userInfo = useSelector((state) => state.homeInfo.userInfo);
+    const [createPassword, setCreatePassword] = useState(false)
     const handleChange = (name, value) => {
         dispatch(GetSignUpInput(name, value))
     }
     const handleSubmit = () => {
-        dispatch(LoginSubmit(loginInput))
+        dispatch(LoginSubmit(loginInput, createPassword))
     }
     const googleLogin = async () => {
         setGoogle(true)
@@ -76,25 +78,45 @@ const LoginPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [pathname])
-    console.log('show', isShow)
+    useEffect(() => {
+        let phone = loginInput.mailOrPhone
+        if (phone.substring(0, 2) == "01" && phone.length == 11) {
+            dispatch(PhoneSubmit(phone))
+        }
+    }, [loginInput.mailOrPhone])
+    const decision = () => {
+        let createPassword = false
+        if (userInfo && userInfo?.isPresent) {
+
+            if (userInfo?.result?.isPassword === false) {
+                createPassword = true
+            }
+        }
+        return createPassword
+    }
+    useEffect(() => {
+        setCreatePassword(decision())
+    }, [userInfo])
+
     return (
         <div className='sign_up_container'>
             {/* <MobileCommonHeader isShare={false} /> */}
             <div className='sign_up'>
                 <p className='fs20 fm mfs14'>Welcome back, we missed you!</p>
                 <div className='mt24'>
-                    <p className='clr959595 mfs12 fs16 fm'>Email</p>
+                    <p className='clr959595 mfs12 fs16 fm'>Phone/Email</p>
                     <input
                         className='mt12 mmt8'
                         type='text'
-                        placeholder='enter email'
+                        placeholder='enter 01XXXXXXXX / email'
                         name='mailOrPhone'
                         value={loginInput.mailOrPhone}
                         onChange={(e) => handleChange("mailOrPhone", e.target.value)}
                     />
                 </div>
+
                 <div className='mt24 mmt16'>
-                    <p className='clr959595 fs16 fm mfs12'>Password</p>
+                    <p className='clr959595 fs16 fm mfs12'>{createPassword ? 'Create New Password' : 'password'}</p>
                     <div className='pass_show'>
                         <input
                             className='mt12 mmt8'

@@ -144,7 +144,7 @@ export const GetLoginInput = (name, value) => (dispatch) => {
   const formValue = { name, value }
   dispatch({ type: Types.GET_LOGIN_INPUT, payload: formValue });
 };
-export const LoginSubmit = (data) => (dispatch) => {
+export const LoginSubmit = (data, createPassword) => (dispatch) => {
   const { mailOrPhone, password } = data
   // console.log('data', data)
   if (mailOrPhone.length === 0) {
@@ -160,7 +160,7 @@ export const LoginSubmit = (data) => (dispatch) => {
   let buyerEmail = ""
   let buyerPhone = ""
   mailOrPhone.substring(0, 2) === "01" ? buyerPhone = mailOrPhone : buyerEmail = mailOrPhone
-  const postData = { password, buyerEmail, buyerPhone }
+  const postData = { password, buyerEmail, buyerPhone, createPassword }
 
   const url = `${process.env.REACT_APP_API_URL}buyer/login`;
   dispatch({ type: Types.IS_LOGIN_LOADING, payload: true })

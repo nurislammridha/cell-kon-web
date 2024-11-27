@@ -38,6 +38,7 @@ import CampaignProductsPage from './modules/pages/CampaignProductsPage';
 import CategoryProductsPage from './modules/pages/CategoryProductsPage';
 import CreateUserPage from './modules/pages/CreateUserPgae';
 import PhonePage from './modules/pages/PhonePage';
+import PlaceOrder from './modules/pages/PlaceOrder';
 function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [search, setSearch] = useState("")
@@ -84,6 +85,7 @@ function App() {
               <Route path="/return-and-refund" element={<ReturnAndRefund />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/email" element={<EmailPage />} />
+              <Route path="/place-order" element={<PlaceOrder />} />
               <Route path="/create-password" element={<CreatePasswordPage />} />
               <Route path="/forget-password-otp" element={<ForgetPasswordOtpPage />} />
               <Route path="/*" element={<div>No page found</div>} />
