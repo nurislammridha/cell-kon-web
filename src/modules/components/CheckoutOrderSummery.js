@@ -15,20 +15,21 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
     const isOrderLoading = useSelector((state) => state.homeInfo.isOrderLoading);
     const location = useLocation();
     const orderCon = () => {
-        confirmAlert({
-            title: "Confirm To Order",
-            message: `Are you sure to order this product(s)?`,
-            closeOnEscape: true,
-            buttons: [
-                {
-                    label: "Yes",
-                    onClick: () => { dispatch(SubmitOrder(list, addressList, isFromDetails)) },
-                },
-                {
-                    label: "No",
-                },
-            ],
-        });
+        dispatch(SubmitOrder(list, addressList, isFromDetails))
+        // confirmAlert({
+        //     title: "Confirm To Order",
+        //     message: `Are you sure to order this product(s)?`,
+        //     closeOnEscape: true,
+        //     buttons: [
+        //         {
+        //             label: "Yes",
+        //             onClick: () => { dispatch(SubmitOrder(list, addressList, isFromDetails)) },
+        //         },
+        //         {
+        //             label: "No",
+        //         },
+        //     ],
+        // });
     };
     useEffect(() => {
         if (isOrderCreated) {
@@ -79,7 +80,7 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
                     *Order Delivery Policy for this order can be found <a href>here</a>
                 </div>
                 <div className='cp cart_checkout' onClick={() => { !isOrderLoading && handleOrder() }}>
-                    Please Order
+                    {isOrderLoading ? "Ordering..." : "Please Order"}
                 </div>
             </div>
         </div>

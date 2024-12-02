@@ -55,12 +55,16 @@ const CheckoutProducts = ({ list, addressList, addressInfo }) => {
                                 <div className='cart_title'>
                                     {item?.productDetails?.productName}
                                 </div>
-                                <div className='cart_taka_3 taka_q'>
-                                    <span>&#2547;{item?.productDetails?.mrp}</span>
+                                <div className='cart_taka_3 taka_q' >
+                                    <span style={{ textDecoration: 'line-through' }}>&#2547;{item?.productDetails?.mrp}</span>
                                     <span>Color: {item.colorName}</span>
                                 </div>
                                 <div className='cart_taka_3 taka_r'>
-                                    <span>&#2547;{item?.productDetails?.regularDiscount}</span>
+                                    <span>
+                                        &#2547;
+                                        {
+                                            item?.productDetails?.isCampaign ? item?.productDetails?.campaignDiscount : item?.productDetails?.regularDiscount}
+                                    </span>
                                     <span>Size: {item.sizeName}</span>
                                 </div>
 

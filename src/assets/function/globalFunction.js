@@ -77,7 +77,11 @@ export const getSubTotal = (list = []) => {
     let total = 0
     if (list?.length > 0) {
         list.forEach(item => {
-            if (isCampaign(item.campaignEndTime, item.campaignEndDate)) {
+            console.log('sssss', item)
+            if (item?.productDetails?.isCampaign) {
+                total = total + item.quantity * item.productDetails?.campaignDiscount
+            }
+            else if (isCampaign(item.campaignEndTime, item.campaignEndDate)) {
                 total = total + item.quantity * item.campaignPrice
             } else {
                 total = total + item.quantity * item?.productDetails?.regularDiscount
