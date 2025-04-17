@@ -22,8 +22,8 @@ const Mall = ({ arr = [], loading }) => {
         // setWidth(window.innerWidth)
     }, [])
 
-    console.log('arrarr', arr)
-    console.log('see', arr.slice(initialVal(arr, page), arr?.length + 1))
+    // console.log('arrarr', arr)
+    // console.log('see', arr.slice(initialVal(arr, page), arr?.length + 1))
     return (
         <div className='home_products'>
             <h2 className='title'>Sellkon Mall</h2>

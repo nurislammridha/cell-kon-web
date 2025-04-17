@@ -14,6 +14,7 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
     const isOrderCreated = useSelector((state) => state.homeInfo.isOrderCreated);
     const isOrderLoading = useSelector((state) => state.homeInfo.isOrderLoading);
     const location = useLocation();
+
     const orderCon = () => {
         dispatch(SubmitOrder(list, addressList, isFromDetails))
         // confirmAlert({
