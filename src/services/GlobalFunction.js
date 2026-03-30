@@ -38,19 +38,43 @@ export const conTwoDigitString = (val) => {
 
 
 // console.log(grouped)
-const getGroup = (groups, categoryName, categoryId) => {
+const getGroup = (groups, categoryName, categoryId, categoryMap) => {
     let group = groups.find(g => g.categoryId === categoryId);
     if (!group) {
-        let iconName = categoryName.replace(/[^a-zA-Z]+/g, '')
-        group = ({ iconName, categoryName, categoryId, children: [] });
+        const safeName = categoryName || ""
+        let iconName = safeName.replace(/[^a-zA-Z]+/g, '')
+        const category = categoryMap ? categoryMap.get(categoryId) : null;
+        group = ({
+            iconName,
+            categoryName: safeName,
+            categoryId,
+            categoryIcon: category?.categoryIcon || "",
+            categoryHoverIcon: category?.categoryHoverIcon || "",
+            children: []
+        });
         groups.push(group);
     }
     return group;
 }
-export const flatToNestedArr = (arr) => {
+export const flatToNestedArr = (arr, categories = []) => {
     let grouped = []
-    arr && arr.length > 0 && arr.forEach(item => getGroup(grouped, item.categoryName, item.categoryId).children.push(item))
-    console.log('grouped', grouped)
+    const categoryMap = new Map();
+    Array.isArray(categories) && categories.forEach((item) => {
+        if (item?._id) {
+            categoryMap.set(item._id, item);
+            const safeName = item.categoryName || ""
+            const iconName = safeName.replace(/[^a-zA-Z]+/g, '')
+            grouped.push({
+                iconName,
+                categoryName: safeName,
+                categoryId: item._id,
+                categoryIcon: item?.categoryIcon || "",
+                categoryHoverIcon: item?.categoryHoverIcon || "",
+                children: []
+            })
+        }
+    })
+    arr && arr.length > 0 && arr.forEach(item => getGroup(grouped, item.categoryName, item.categoryId, categoryMap).children.push(item))
     //  let r = "AA18 n's & fg,hj".replace(/[^a-zA-Z]+/g, '');
     return grouped
 }

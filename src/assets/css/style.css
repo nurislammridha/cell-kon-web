@@ -576,13 +576,15 @@ body {
     position: absolute;
     top: 0;
     left: 215px;
-    margin-top: 24px;
+    margin-top: 16px;
     z-index: 100;
     display: none;
+    column-gap: 12px;
+    align-items: flex-start;
 }
 
 .hero_category:hover .subcategory__block {
-    display: block;
+    display: flex;
 }
 
 /* .subcategory__block {
@@ -598,6 +600,25 @@ body {
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.subcategory_hover.is-empty {
+    display: none;
+}
+
+.subsubcategory_hover {
+    padding: 14px 0px;
+    border-radius: 12px;
+    background-color: #FFF;
+    height: 416px;
+    width: 220px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.subsubcategory_hover.is-empty {
+    display: none;
 }
 
 .hero_category ul {

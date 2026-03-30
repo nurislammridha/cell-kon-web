@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import demo from '../../assets/images/icons/home11.png' //1176 443
 import slide1 from '../../assets/images/other/slide1.png' //1176 443
 import slide2 from '../../assets/images/other/slide2.png' //1176 443
@@ -20,34 +20,65 @@ import rightArrow from '../../assets/images/icons/right_arrow.png'
 import OwlCarousel from "react-owl-carousel";
 import { flatToNestedArr } from 'src/services/GlobalFunction'
 import { useNavigate } from 'react-router-dom'
-const Hero = ({ arr, loading }) => {
+const Hero = ({ arr, categories = [], subSubCategories = [], loading }) => {
     const navigate = useNavigate()
-    const list = flatToNestedArr(arr) || []
+    const list = flatToNestedArr(arr, categories) || []
     const [subList, setSubList] = useState([])
+    const [subSubList, setSubSubList] = useState([])
     const [hover, setHover] = useState(-1)
+    const subSubMap = useMemo(() => {
+        const map = new Map()
+        if (Array.isArray(subSubCategories)) {
+            subSubCategories.forEach((item) => {
+                if (!item?.subCategoryId) return
+                if (!map.has(item.subCategoryId)) {
+                    map.set(item.subCategoryId, [])
+                }
+                map.get(item.subCategoryId).push(item)
+            })
+        }
+        return map
+    }, [subSubCategories])
+    const getIconUrl = (icon) => {
+        if (!icon) return ""
+        if (typeof icon === "string") {
+            return icon.startsWith("http") || icon.startsWith("/") ? icon : ""
+        }
+        if (typeof icon === "object") {
+            return icon.url || ""
+        }
+        return ""
+    }
     // console.log('listtttt', list)
     // console.log('subList', subList)
     return (<div className='hero_parent'>
         <div className='hero_category'>
             {!loading && list?.length > 0 && (
                 <ul >
-                    {list.map((item, index) => (
-                        <li
-                            key={index}
-                            onMouseEnter={() => {
-                                setSubList(item.children)
-                                setHover(index)
-                            }}
-                            onMouseLeave={() => setHover(-1)}
-                        // onClick={() => navigate(`/all-products`, { state: { isFromCategory: true, categoryId: item.categoryId, categoryName: item.categoryName } })}
-                        >
-                            <div className='cat_nam'>
-                                <img src={require(`../../assets/images/icons/cat/${hover === index ? item.iconName + "Hover" : item.iconName}.png`)} />
-                                <div>{item?.categoryName}</div>
-                            </div>
-                            <img className='right_arrow' src={rightArrow} />
-                        </li>
-                    ))}
+                    {list.map((item, index) => {
+                        const hasChildren = Array.isArray(item.children) && item.children.length > 0
+                        return (
+                            <li
+                                key={index}
+                                onMouseEnter={() => {
+                                    setSubList(item.children)
+                                    setSubSubList([])
+                                    setHover(index)
+                                }}
+                                onMouseLeave={() => setHover(-1)}
+                            // onClick={() => navigate(`/all-products`, { state: { isFromCategory: true, categoryId: item.categoryId, categoryName: item.categoryName } })}
+                            >
+                                <div className='cat_nam'>
+                                    <img
+                                        src={getIconUrl(hover === index ? item.categoryHoverIcon : item.categoryIcon) || getIconUrl(item.categoryIcon) || demo}
+                                        alt={item?.categoryName || "Category"}
+                                    />
+                                    <div>{item?.categoryName}</div>
+                                </div>
+                                {hasChildren && <img className='right_arrow' src={rightArrow} />}
+                            </li>
+                        )
+                    })}
                 </ul>
             )}
             {loading && list?.length == 0 && (
@@ -58,15 +89,34 @@ const Hero = ({ arr, loading }) => {
                     </li>))}
                 </ul>)}
             <div className='subcategory_hover_parent subcategory__block'>
-                <div className='subcategory_hover'>
+                <div className={`subcategory_hover ${subList.length === 0 ? "is-empty" : ""}`}>
                     <ul >
-                        {subList.length > 0 && subList.map((item, index) => (
+                        {subList.length > 0 && subList.map((item, index) => {
+                            const nextList = subSubMap.get(item._id) || []
+                            const hasSubSub = nextList.length > 0
+                            return (
+                                <li
+                                    key={index}
+                                    onMouseEnter={() => {
+                                        setSubSubList(nextList)
+                                    }}
+                                    onClick={() => navigate(`/category/${item._id}`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
+                                >
+                                    <div>{item.subCategoryName}</div>
+                                    {hasSubSub && <img className='right_arrow' src={rightArrow} />}
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </div>
+                <div className={`subsubcategory_hover ${subSubList.length === 0 ? "is-empty" : ""}`}>
+                    <ul>
+                        {subSubList.length > 0 && subSubList.map((item, index) => (
                             <li
                                 key={index}
-                                onClick={() => navigate(`/category/${item._id}`, { state: { isFromSubCategory: true, subCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName } })}
+                                onClick={() => navigate(`/category/${item.subCategoryId}`, { state: { isFromSubSubCategory: true, subSubCategoryId: item._id, categoryName: item.categoryName, subCategoryName: item.subCategoryName, subSubCategoryName: item.subSubCategoryName } })}
                             >
-                                <div>{item.subCategoryName}</div>
-                                <img className='right_arrow' src={rightArrow} />
+                                <div>{item.subSubCategoryName}</div>
                             </li>
                         ))}
                     </ul>

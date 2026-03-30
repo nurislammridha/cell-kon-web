@@ -20,7 +20,7 @@ const HomePage = ({ isLogin, search, setSearch }) => {
     const isHomePageLoading = useSelector((state) => state.homeInfo.isHomePageLoading);
     const homeDataList = useSelector((state) => state.homeInfo.homeData);
     const { categoriesList, data, popularProducts,
-        sellKonMallProducts, shopsList, trendingProducts, subCategoriesList, campaign, eidCampaign } = homeDataList || {}
+        sellKonMallProducts, shopsList, trendingProducts, subCategoriesList, subSubCategoriesList, campaign, eidCampaign } = homeDataList || {}
     // console.log('homeDataList', homeDataList)
     useEffect(() => {
         dispatch(GetHomePageData());
@@ -29,7 +29,12 @@ const HomePage = ({ isLogin, search, setSearch }) => {
         <>
             {/* <MobileHeader search={search} setSearch={setSearch} /> */}
             {/* hero */}
-            <Hero arr={subCategoriesList} loading={isHomePageLoading} />
+            <Hero
+                arr={subCategoriesList}
+                categories={categoriesList}
+                subSubCategories={subSubCategoriesList}
+                loading={isHomePageLoading}
+            />
             <MobileMenu />
             {/* Campaign Products */}
             {eidCampaign && eidCampaign.length > 0 && (<EidCampaign arr={eidCampaign} loading={isHomePageLoading} />)}
