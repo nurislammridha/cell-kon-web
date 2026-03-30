@@ -1489,11 +1489,16 @@ body {
 
 .details_page .short_details .txt pre {
     font-family: Inter;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    margin: 0;
 }
 
 .details_page .short_details .txt {
     margin-top: 20px;
     font-size: 15px;
+    overflow-wrap: anywhere;
 }
 
 .details_page .short_details a {
@@ -2753,7 +2758,7 @@ body {
     width: 100%;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
-    height: 122px;
+    height: 180px;
 }
 
 .shop .shop_info_parent {

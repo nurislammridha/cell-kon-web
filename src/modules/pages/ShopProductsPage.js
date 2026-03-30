@@ -77,7 +77,7 @@ const ShopProductsPage = ({ search, isLogin }) => {
                 <div className='product_page'>
                     {/* order section */}
                     {sellerDetails !== null && <div className='shop'>
-                        <img src={banner} className='banner_img' />
+                        <img src={sellerDetails?.shopBanner?.url ? sellerDetails.shopBanner.url : banner} className='banner_img' />
                         <div className='shop_info_parent'>
                             <img src={sellerDetails.shopLogo.url} className='seller_icon' alt='shop icon' />
                             <div className='shop_info'>
