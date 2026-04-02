@@ -1342,6 +1342,20 @@ body {
     margin-top: 5px;
 }
 
+.details_page .main .stock_status {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.details_page .main .stock_status.in_stock {
+    color: #008000;
+}
+
+.details_page .main .stock_status.out_stock {
+    color: #CC0000;
+}
+
 .details_page .txt_cq {
     margin-top: 20px;
     font-weight: 700;

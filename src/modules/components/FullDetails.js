@@ -1,34 +1,36 @@
 import { Markup } from 'interweave'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 const FullDetails = ({ data, videoUrl = [] }) => {
-    const showVideo = (x = "") => {
-        const txt = x
+    const videoList = Array.isArray(videoUrl)
+        ? videoUrl
+            .map((item) => {
+                if (typeof item === 'string') {
+                    return item.trim();
+                }
+                if (item && typeof item === 'object') {
+                    return typeof item.url === 'string' ? item.url.trim() : '';
+                }
+                return '';
+            })
+            .filter(Boolean)
+        : (typeof videoUrl === 'string' && videoUrl.trim().length > 0 ? [videoUrl] : []);
 
-        let video = false
-        if (txt.includes("<iframe")) {
-            let start = txt.indexOf(`height="auto" src="`) + 19
-            let end = txt.indexOf(`.mp4"`) + 4
-            video = txt.substring(start, end)
-        }
-        return video
-    }
-    console.log('videoUrl', videoUrl)
     return (
         <div className='full_details'>
             <h2>Product Details</h2>
             <div className='txt'>
-                {videoUrl[0]?.length > 0 &&
+                {videoList.length > 0 &&
                     <div className='video_container'>
-                        {videoUrl.map((item, index) => (
+                        {videoList.map((item, index) => (
 
-                            <div key={index} className='video_item'> <iframe src={item}></iframe></div>
+                            <div key={index} className='video_item'> <iframe src={item} title={`product-video-${index + 1}`}></iframe></div>
 
                         )
 
                         )}
                     </div>}
-                <Markup content={data} />
+                <Markup content={typeof data === 'string' ? data : ''} />
             </div>
         </div>
     )
