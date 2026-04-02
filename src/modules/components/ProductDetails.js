@@ -1,13 +1,211 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
-import { initialVal } from '../../assets/function/globalFunction'
 import cartIcon from '../../assets/images/icons/cartDetails.png'
 import OwlCarousel from "react-owl-carousel";
 import shareIcon from '../../assets/images/icons/share_icon.png'
 import ProductDetailsSeller from './ProductDetailsSeller'
+
+const THUMBNAILS_PER_PAGE = 4;
+const MAX_SELECTABLE_QUANTITY = 5;
+
+const asArray = (value) => {
+    if (Array.isArray(value)) {
+        return value;
+    }
+    if (value === null || value === undefined || value === '') {
+        return [];
+    }
+    return [value];
+};
+
+const toNumber = (value, fallback = 0) => {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const toBoolean = (value, fallback = false) => {
+    if (typeof value === 'boolean') {
+        return value;
+    }
+    if (typeof value === 'number') {
+        return value === 1;
+    }
+    if (typeof value === 'string') {
+        const normalized = value.trim().toLowerCase();
+        if (['true', '1', 'yes', 'on'].includes(normalized)) {
+            return true;
+        }
+        if (['false', '0', 'no', 'off'].includes(normalized)) {
+            return false;
+        }
+    }
+    return fallback;
+};
+
+const uniqueList = (list = []) => [...new Set(asArray(list).filter(Boolean))];
+
+const getColorKey = (colorVariant = {}, index = 0) => {
+    const colorId = String(colorVariant?.color_id || colorVariant?.colorId || '').trim();
+    const colorName = String(colorVariant?.color_name || colorVariant?.colorName || '').trim();
+
+    if (colorId) {
+        return `id-${colorId}`;
+    }
+    if (colorName) {
+        return `name-${colorName.toLowerCase()}`;
+    }
+
+    return `index-${index}`;
+};
+
+const getSizeKey = (sizeVariant = {}, index = 0) => {
+    const variantId = sizeVariant?.variant_id;
+    if (variantId !== undefined && variantId !== null && String(variantId).trim() !== '') {
+        return `variant-${variantId}`;
+    }
+
+    const sizeId = String(sizeVariant?.size_id || sizeVariant?.sizeId || '').trim();
+    const sizeName = String(sizeVariant?.size_name || sizeVariant?.sizeName || sizeVariant?.label || '').trim();
+
+    if (sizeId) {
+        return `id-${sizeId}`;
+    }
+    if (sizeName) {
+        return `name-${sizeName.toLowerCase()}`;
+    }
+
+    return `index-${index}`;
+};
+
+const getDefaultColorVariant = (colorVariants = []) => {
+    if (!Array.isArray(colorVariants) || colorVariants.length === 0) {
+        return null;
+    }
+    return colorVariants.find((item) => item?.is_default) || colorVariants[0];
+};
+
+const getDefaultSizeVariant = (sizeVariants = []) => {
+    if (!Array.isArray(sizeVariants) || sizeVariants.length === 0) {
+        return null;
+    }
+    return sizeVariants.find((item) => item?.is_default) || sizeVariants[0];
+};
+
+const getLegacyColorVariants = (data = {}) => {
+    const fallbackPrice = Math.max(0, toNumber(data?.mrp, 0));
+    const fallbackSalePrice = Math.max(0, toNumber(data?.regularDiscount, fallbackPrice));
+    const fallbackDiscount = Math.max(0, fallbackPrice - fallbackSalePrice);
+    const fallbackStock = Math.max(0, toNumber(data?.availableQuantity, 0));
+
+    let fallbackSizes = asArray(data?.size).map((item, index) => ({
+        variant_id: index + 1,
+        size_id: String(item?.value || '').trim(),
+        size_name: String(item?.label || '').trim(),
+        price: fallbackPrice,
+        discount: fallbackDiscount,
+        stock: fallbackStock,
+        is_default: index === 0,
+        is_active: true,
+    }));
+
+    if (fallbackSizes.length === 0) {
+        fallbackSizes = [{
+            variant_id: 1,
+            size_id: '',
+            size_name: '',
+            price: fallbackPrice,
+            discount: fallbackDiscount,
+            stock: fallbackStock,
+            is_default: true,
+            is_active: true,
+        }];
+    }
+
+    const legacyColors = asArray(data?.productImgColor);
+    if (legacyColors.length === 0) {
+        return [{
+            color_id: '',
+            color_name: '',
+            color_hex_code: '',
+            color_images: uniqueList([data?.productIcon?.url, data?.thumbnail]),
+            is_default: true,
+            size_variants: fallbackSizes,
+        }];
+    }
+
+    const groupedColor = legacyColors.reduce((accumulator, item, index) => {
+        const colorId = String(item?.colorId || '').trim();
+        const colorName = String(item?.colorName || '').trim();
+        const key = colorId || colorName ? `${colorId}::${colorName}` : `index-${index}`;
+        if (!accumulator[key]) {
+            accumulator[key] = {
+                color_id: colorId,
+                color_name: colorName,
+                color_hex_code: String(item?.colorHexCode || '').trim(),
+                color_images: [],
+                is_default: Object.keys(accumulator).length === 0,
+                size_variants: fallbackSizes,
+            };
+        }
+
+        const imageUrl = String(item?.url || '').trim();
+        if (imageUrl) {
+            accumulator[key].color_images.push(imageUrl);
+        }
+
+        return accumulator;
+    }, {});
+
+    return Object.values(groupedColor).map((item) => ({
+        ...item,
+        color_images: uniqueList(item.color_images),
+    }));
+};
+
+const normalizeColorVariants = (data = {}) => {
+    const colorVariants = asArray(data?.color_variants);
+    if (colorVariants.length === 0) {
+        return getLegacyColorVariants(data);
+    }
+
+    const fallbackSizes = getLegacyColorVariants(data)[0]?.size_variants || [];
+
+    return colorVariants.map((colorVariant, colorIndex) => {
+        const imageAssets = asArray(colorVariant?.color_image_assets)
+            .map((item) => item?.url)
+            .filter(Boolean);
+        const normalizedImages = uniqueList([...asArray(colorVariant?.color_images), ...imageAssets]);
+
+        const rawSizeVariants = asArray(colorVariant?.size_variants)
+            .map((sizeVariant, sizeIndex) => ({
+                ...sizeVariant,
+                variant_id: sizeVariant?.variant_id !== undefined ? sizeVariant.variant_id : sizeIndex + 1,
+                size_id: String(sizeVariant?.size_id || sizeVariant?.sizeId || '').trim(),
+                size_name: String(sizeVariant?.size_name || sizeVariant?.sizeName || '').trim(),
+                price: Math.max(0, toNumber(sizeVariant?.price, toNumber(data?.mrp, 0))),
+                discount: Math.max(0, toNumber(sizeVariant?.discount, 0)),
+                stock: Math.max(0, parseInt(sizeVariant?.stock, 10) || 0),
+                is_default: toBoolean(sizeVariant?.is_default, false),
+                is_active: toBoolean(sizeVariant?.is_active, true),
+            }))
+            .filter((sizeVariant) => sizeVariant.is_active !== false);
+
+        const sizeVariants = rawSizeVariants.length > 0 ? rawSizeVariants : fallbackSizes;
+
+        return {
+            color_id: String(colorVariant?.color_id || colorVariant?.colorId || '').trim(),
+            color_name: String(colorVariant?.color_name || colorVariant?.colorName || '').trim(),
+            color_hex_code: String(colorVariant?.color_hex_code || colorVariant?.colorHexCode || '').trim(),
+            color_images: normalizedImages,
+            is_default: colorVariant?.is_default !== undefined ? toBoolean(colorVariant?.is_default, false) : colorIndex === 0,
+            size_variants: sizeVariants,
+        };
+    });
+};
+
 const ProductDetails = ({ data, isLogin }) => {
     const location = useLocation()
     const { isFromCampaign, campaignId, campaignEndDate, campaignEndTime, campaignPrice } = location?.state || {}
@@ -16,60 +214,190 @@ const ProductDetails = ({ data, isLogin }) => {
     const isCartAdded = useSelector((state) => state.homeInfo.isCartAdded);
     const isCartLoading = useSelector((state) => state.homeInfo.isCartLoading);
     const [buyerData, setBuyerData] = useState({})
-    const multiImg = data?.productImgColor || []
-    const availableQuantity = data?.availableQuantity
-    // console.log('multiIim/g', multiImg[0]?.url)
-    const [fullImg, setFullImg] = useState(null)
-    const [sizeName, setSizeName] = useState(null)
-    const [colorName, setColorName] = useState(null)
-    const [colorHexCode, setColorHexCode] = useState(null)
-    // console.log('fullImg', fullImg)
-    // console.log('data', availableQuantity)
+    const [fullImg, setFullImg] = useState('')
+    const [selectedColorKey, setSelectedColorKey] = useState('')
+    const [selectedSizeKey, setSelectedSizeKey] = useState('')
     const [quantity, setQuantity] = useState(1)
     const [page, setPage] = useState(1)
-    const [start, setStart] = useState(0)
+
+    const colorVariants = useMemo(() => normalizeColorVariants(data), [data]);
+
+    const selectedColorVariant = useMemo(() => {
+        if (colorVariants.length === 0) {
+            return null;
+        }
+
+        const selected = colorVariants.find((item, index) => getColorKey(item, index) === selectedColorKey);
+        return selected || getDefaultColorVariant(colorVariants);
+    }, [colorVariants, selectedColorKey]);
+
+    const colorImages = useMemo(() => {
+        const selectedImages = uniqueList(selectedColorVariant?.color_images);
+        if (selectedImages.length > 0) {
+            return selectedImages;
+        }
+
+        return uniqueList([data?.productIcon?.url, data?.thumbnail]);
+    }, [selectedColorVariant, data]);
+
+    const sizeVariants = useMemo(() => asArray(selectedColorVariant?.size_variants), [selectedColorVariant]);
+
+    const selectedSizeVariant = useMemo(() => {
+        if (sizeVariants.length === 0) {
+            return null;
+        }
+
+        const selected = sizeVariants.find((item, index) => getSizeKey(item, index) === selectedSizeKey);
+        return selected || getDefaultSizeVariant(sizeVariants);
+    }, [sizeVariants, selectedSizeKey]);
+
+    const colorName = selectedColorVariant?.color_name || '';
+    const colorHexCode = selectedColorVariant?.color_hex_code || '';
+    const sizeName = selectedSizeVariant?.size_name || '';
+
+    const variantPrice = Math.max(0, toNumber(selectedSizeVariant?.price, toNumber(data?.mrp, 0)));
+    const variantDiscount = Math.max(
+        0,
+        toNumber(selectedSizeVariant?.discount, Math.max(0, variantPrice - toNumber(data?.regularDiscount, variantPrice)))
+    );
+    const discountedPrice = Math.max(0, variantPrice - variantDiscount);
+    const salePrice = isFromCampaign ? Math.max(0, toNumber(campaignPrice, discountedPrice)) : discountedPrice;
+
+    const availableQuantity = Math.max(0, parseInt(selectedSizeVariant?.stock ?? data?.availableQuantity, 10) || 0);
+    const isInStock = availableQuantity > 0;
+    const maxQuantity = isInStock ? Math.min(MAX_SELECTABLE_QUANTITY, availableQuantity) : 0;
+
+    const totalGalleryPages = Math.max(1, Math.ceil(colorImages.length / THUMBNAILS_PER_PAGE));
+    const thumbnailStart = (page - 1) * THUMBNAILS_PER_PAGE;
+    const visibleImages = colorImages.slice(thumbnailStart, thumbnailStart + THUMBNAILS_PER_PAGE);
+
     const handleAddCart = () => {
+        if (!isInStock) {
+            return;
+        }
+
         let camData = {}
         isFromCampaign ? camData = { campaignId, campaignEndTime, campaignEndDate, campaignPrice } : camData = {}
-        const postData = { ...camData, buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
+        const postData = {
+            ...camData,
+            buyerId: buyerData?._id,
+            productId: data?._id,
+            quantity,
+            colorName,
+            colorHexCode,
+            sizeName,
+            fullImg: fullImg || colorImages[0] || data?.productIcon?.url || '',
+        }
         isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
         !isLogin && localStorage.setItem('redirect_details', data._id)
         !isLogin && localStorage.setItem('redirect_url', "product_details")
     }
+
     const handleBuyNow = () => {
-        const postData = { buyerId: buyerData?._id, productId: data?._id, quantity, colorName, colorHexCode, sizeName, fullImg }
-        postData.productImgUrl = fullImg
-        data.quantity = quantity
-        const obj = { productDetails: data }
+        if (!isInStock) {
+            return;
+        }
+
+        const selectedImg = fullImg || colorImages[0] || data?.productIcon?.url || '';
+        const postData = {
+            buyerId: buyerData?._id,
+            productId: data?._id,
+            quantity,
+            colorName,
+            colorHexCode,
+            sizeName,
+            fullImg: selectedImg,
+            productImgUrl: selectedImg,
+        }
+        const obj = { productDetails: { ...data, quantity } }
         const newData = { ...obj, ...postData }
-        // isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/login')
         isLogin ? navigate('/checkout', { state: { selected: [newData], isFromDetails: true } }) : navigate('/phone', { state: { selected: [newData], isFromDetails: true } })
         !isLogin && localStorage.setItem('redirect_details', data._id)
         !isLogin && localStorage.setItem('redirect_url', "product_details")
     }
+
     const handleColor = (item, index) => {
-        setColorName(item?.colorName)
-        setColorHexCode(item?.colorHexCode)
-        setFullImg(item?.url)
-        setPage(Math.floor(index / 4) + 1)
-    }
-    useEffect(() => {
-        setBuyerData(JSON.parse(localStorage.getItem('buyerData')))
-        dispatch(FalseCartAdded())
-    }, [])
-    useEffect(() => {
-        setFullImg(multiImg[0]?.url)
-        setColorHexCode(multiImg[0]?.colorHexCode)
-        setColorName(multiImg[0]?.colorName)
-        if (data?.size?.length > 0) {
-            setSizeName(data?.size[0]?.label)
+        setSelectedColorKey(getColorKey(item, index))
+        const nextColorImages = uniqueList(item?.color_images)
+        setFullImg(nextColorImages[0] || data?.productIcon?.url || '')
+
+        const nextSizes = asArray(item?.size_variants)
+        const defaultSize = getDefaultSizeVariant(nextSizes)
+        if (defaultSize) {
+            const sizeIndex = nextSizes.findIndex((sizeItem) => sizeItem === defaultSize)
+            setSelectedSizeKey(getSizeKey(defaultSize, sizeIndex >= 0 ? sizeIndex : 0))
+        } else {
+            setSelectedSizeKey('')
         }
 
-    }, [data])
+        setPage(1)
+        setQuantity(1)
+    }
+
+    const handleSizeChange = (item, index) => {
+        setSelectedSizeKey(getSizeKey(item, index))
+    }
+
     useEffect(() => {
-        setStart(initialVal(multiImg, page, 4))
-    }, [page])
-    // console.log('data', data)
+        setBuyerData(JSON.parse(localStorage.getItem('buyerData')) || {})
+        dispatch(FalseCartAdded())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (colorVariants.length === 0) {
+            setSelectedColorKey('')
+            setSelectedSizeKey('')
+            setFullImg(data?.productIcon?.url || '')
+            setPage(1)
+            setQuantity(1)
+            return
+        }
+
+        const defaultColor = getDefaultColorVariant(colorVariants)
+        const colorIndex = colorVariants.findIndex((item) => item === defaultColor)
+        setSelectedColorKey(getColorKey(defaultColor, colorIndex >= 0 ? colorIndex : 0))
+
+        const defaultSize = getDefaultSizeVariant(asArray(defaultColor?.size_variants))
+        if (defaultSize) {
+            const sizeIndex = asArray(defaultColor?.size_variants).findIndex((item) => item === defaultSize)
+            setSelectedSizeKey(getSizeKey(defaultSize, sizeIndex >= 0 ? sizeIndex : 0))
+        } else {
+            setSelectedSizeKey('')
+        }
+
+        setFullImg(uniqueList(defaultColor?.color_images)[0] || data?.productIcon?.url || '')
+        setPage(1)
+        setQuantity(1)
+    }, [colorVariants, data])
+
+    useEffect(() => {
+        if (colorImages.length === 0) {
+            setPage(1)
+            return
+        }
+
+        if (!fullImg || !colorImages.includes(fullImg)) {
+            setFullImg(colorImages[0])
+        }
+
+        if (page > totalGalleryPages) {
+            setPage(totalGalleryPages)
+        }
+    }, [colorImages, fullImg, page, totalGalleryPages])
+
+    useEffect(() => {
+        if (!isInStock) {
+            if (quantity !== 1) {
+                setQuantity(1)
+            }
+            return
+        }
+
+        if (quantity > maxQuantity) {
+            setQuantity(maxQuantity)
+        }
+    }, [isInStock, maxQuantity, quantity])
+
     return (<>
         <div className='details_hero'>
             <div className='hero_main'>
@@ -83,19 +411,17 @@ const ProductDetails = ({ data, isLogin }) => {
                     autoplayHoverPause={true}
                 >
                     {
-                        multiImg?.length > 0 && multiImg.map((item) => {
+                        colorImages?.length > 0 && colorImages.map((item, index) => {
                             return (
                                 <>
 
-                                    <div class="item hero_carousel">
+                                    <div className="item hero_carousel" key={`carousel-${index}`}>
                                         <img
-                                            src={item?.url}
+                                            src={item || pro3}
                                             className="img-fluid"
                                             alt=""
                                             onClick={() => {
-                                                setFullImg(item?.url)
-                                                setColorName(item?.colorName)
-                                                setColorHexCode(item?.colorHexCode)
+                                                setFullImg(item)
                                             }}
                                         />
                                     </div>
@@ -113,36 +439,34 @@ const ProductDetails = ({ data, isLogin }) => {
             <div className='main details_top_left'>
                 <div className='left'>
                     <div className='image'>
-                        <img src={fullImg} alt='product img' />
+                        <img src={fullImg || pro3} alt='product img' />
                     </div>
                     <div className='parent_img'>
                         <div className='img'>
                             <div className='images'>
-                                {multiImg?.length > 0 && multiImg.slice(start, multiImg?.length)?.map((item, index) => (
+                                {visibleImages?.length > 0 && visibleImages.map((item, index) => (
                                     <img
                                         key={index}
-                                        src={item?.url}
-                                        className={fullImg === item?.url ? 'cp active_border' : 'cp c_border'}
+                                        src={item || pro3}
+                                        className={fullImg === item ? 'cp active_border' : 'cp c_border'}
                                         alt='product'
                                         onClick={() => {
-                                            setFullImg(item?.url)
-                                            setColorName(item?.colorName)
-                                            setColorHexCode(item?.colorHexCode)
+                                            setFullImg(item)
                                         }}
                                     />
                                 ))}
                             </div>
                         </div>
-                        {multiImg?.length > 4 && (<div className='arrow'>
+                        {colorImages?.length > THUMBNAILS_PER_PAGE && (<div className='arrow'>
                             <div
-                                className={page == 1 ? 'left_arrow vih' : "left_arrow"}
-                                onClick={() => setPage(page - 1)}
-                            ><i class='fas fa-chevron-left'></i></div>
+                                className={page === 1 ? 'left_arrow vih' : "left_arrow"}
+                                onClick={() => page > 1 ? setPage(page - 1) : {}}
+                            ><i className='fas fa-chevron-left'></i></div>
                             <div
-                                className={multiImg?.length / 4 >= page ? "right_arrow" : "right_arrow vih"}
-                                onClick={() => setPage(page + 1)}
+                                className={page < totalGalleryPages ? "right_arrow" : "right_arrow vih"}
+                                onClick={() => page < totalGalleryPages ? setPage(page + 1) : {}}
                             >
-                                <i class='fas fa-chevron-right'></i>
+                                <i className='fas fa-chevron-right'></i>
                             </div>
                         </div>)}
                     </div>
@@ -150,14 +474,14 @@ const ProductDetails = ({ data, isLogin }) => {
 
                 <div className='right'>
                     <div className='title_section'>
-                        <div className='txt'>{data?.productName}</div>
+                        <div className='txt'>{data?.product_name || data?.productName}</div>
 
                     </div>
                     <div className='brand_top'>
-                        <div className='brand'>Brand: {data?.brandName} </div>
+                        <div className='brand'>Brand: {data?.brand?.name || data?.brandName} </div>
                         <div className='share'>
                             {/* <i class="fa fa-share-alt" aria-hidden="true"></i> */}
-                            <img src={shareIcon} />
+                            <img src={shareIcon} alt='share' />
                         </div>
                     </div>
                     {/* <div className='sold_by'>
@@ -168,31 +492,37 @@ const ProductDetails = ({ data, isLogin }) => {
                         </a>
                     </div> */}
                     <div className='price_hide_pn'>
-                        <div className='del_price'>&#2547;{data?.mrp}</div>
-                        <div className='product_price'> &#2547;{data?.isCampaign ? data?.campaignDiscount : data?.regularDiscount}</div>
+                        <div className='del_price'>&#2547;{variantPrice}</div>
+                        <div className='product_price'> &#2547;{salePrice}</div>
+                        <div className={isInStock ? 'stock_status in_stock' : 'stock_status out_stock'}>
+                            {isInStock ? `In Stock (${availableQuantity})` : 'STOCK OUT'}
+                        </div>
                     </div>
                     {/* for mobile sections */}
                     <div className='mobile_price'>
                         <div>
-                            <div className='del_price'>&#2547;{data?.mrp}</div>
-                            <div className='product_price'> &#2547;{data?.isCampaign ? data?.campaignDiscount : data?.regularDiscount}</div>
+                            <div className='del_price'>&#2547;{variantPrice}</div>
+                            <div className='product_price'> &#2547;{salePrice}</div>
+                            <div className={isInStock ? 'stock_status in_stock' : 'stock_status out_stock'}>
+                                {isInStock ? `In Stock (${availableQuantity})` : 'STOCK OUT'}
+                            </div>
 
                         </div>
                         <div className='quantity_button'>
-                            {availableQuantity <= 0 && <p>STOCK OUT</p>}
-                            {availableQuantity > 0 && <> <div
+                            {!isInStock && <p>STOCK OUT</p>}
+                            {isInStock && <> <div
                                 className='btn minus'
                                 onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
                             >
-                                <i class="fa fa-minus"></i>
+                                <i className="fa fa-minus"></i>
                             </div>
                                 <div className='btn number'>{quantity}</div>
                                 <div
                                     className='btn plus'
-                                    onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                                    onClick={() => quantity < maxQuantity ? setQuantity(quantity + 1) : {}}
                                 >
-                                    <i class="fa fa-plus"></i>
+                                    <i className="fa fa-plus"></i>
                                 </div></>}
                         </div>
                     </div>
@@ -202,31 +532,36 @@ const ProductDetails = ({ data, isLogin }) => {
                             <div className='txt_cq'>Color</div>
                             <div className='mobile_colors'>
                                 <div className='colors'>
-                                    {multiImg?.length > 0 && multiImg?.map((item, index) => (<>
-                                        {item?.colorName?.length > 0 && (<a
-                                            key={index}
-                                            href
-                                            className={colorName === item?.colorName ? 'active_border' : 'c_border'}
-                                            // style={{ backgroundColor: item?.colorHexCode }}
-                                            onClick={() => handleColor(item, index + 1)}
+                                    {colorVariants?.length > 0 && colorVariants?.map((item, index) => (
+                                        <a
+                                            key={getColorKey(item, index)}
+                                            href='#!'
+                                            className={selectedColorKey === getColorKey(item, index) ? 'active_border' : 'c_border'}
+                                            onClick={(event) => {
+                                                event.preventDefault();
+                                                handleColor(item, index);
+                                            }}
                                         >
-                                            {item?.colorName}
-                                        </a>)}
-                                    </>))}
+                                            {item?.color_name || `Color ${index + 1}`}
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
                         </div>
-                        {data?.size?.length > 0 && <div className='ml30'>
+                        {sizeVariants?.length > 0 && <div className='ml30'>
                             <div className='txt_cq'>Size</div>
                             <div className='colors'>
-                                {data?.size?.length > 0 && data?.size?.map((item, index) => (
+                                {sizeVariants?.map((item, index) => (
                                     <a
-                                        key={index}
-                                        href
-                                        className={item?.label === sizeName ? 'active_border' : 'c_border'}
-                                        onClick={() => setSizeName(item?.label)}
+                                        key={getSizeKey(item, index)}
+                                        href='#!'
+                                        className={selectedSizeKey === getSizeKey(item, index) ? 'active_border' : 'c_border'}
+                                        onClick={(event) => {
+                                            event.preventDefault();
+                                            handleSizeChange(item, index);
+                                        }}
                                     >
-                                        {item?.label}
+                                        {item?.size_name || item?.label || `Size ${index + 1}`}
                                     </a>
                                 ))}
                             </div>
@@ -234,72 +569,86 @@ const ProductDetails = ({ data, isLogin }) => {
                     </div>
                     <div className='m_quantity'>
                         <div className='txt_cq'>Quantity</div>
-                        {availableQuantity > 0 && <div className='quantity_button'>
+                        {isInStock && <div className='quantity_button'>
                             <div
                                 className='btn minus'
                                 onClick={() => quantity > 1 ? setQuantity(quantity - 1) : {}}
 
                             >
-                                <i class="fa fa-minus"></i>
+                                <i className="fa fa-minus"></i>
                             </div>
 
                             <div className='btn number'>{quantity}</div>
                             <div
                                 className='btn plus'
-                                onClick={() => quantity < 5 ? setQuantity(quantity + 1) : {}}
+                                onClick={() => quantity < maxQuantity ? setQuantity(quantity + 1) : {}}
                             >
-                                <i class="fa fa-plus"></i>
+                                <i className="fa fa-plus"></i>
                             </div>
                         </div>}
-                        {availableQuantity <= 0 && <div className='quantity_button'>
+                        {!isInStock && <div className='quantity_button'>
                             <p>STOCK OUT</p>
                         </div>}
                     </div>
-                    {availableQuantity > 0 && <div className='btn_buy'>
+                    {isInStock && <div className='btn_buy'>
                         <a
-                            href
+                            href='#!'
                             className='btn cart cp'
-                            onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : ""}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                if (!isCartAdded && !isCartLoading) {
+                                    handleAddCart();
+                                }
+                            }}
                         >
                             {isCartAdded ? "Already Added" : isCartLoading ? "Adding to Cart" : "Add to Cart"}
 
                         </a>
-                        <a href
+                        <a href='#!'
                             className='btn buy cp'
-                            onClick={() => handleBuyNow()}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                handleBuyNow();
+                            }}
                         >
                             Buy Now
                         </a>
                     </div>}
-                    {availableQuantity <= 0 && <div className='btn_stock_out'>
-                        <a href
+                    {!isInStock && <div className='btn_stock_out'>
+                        <a href='#!'
                             className='btn cp'
-                        // onClick={() => handleBuyNow()}
+                            onClick={(event) => event.preventDefault()}
                         >
                             Add to wishlist
                         </a>
                     </div>}
-                    {availableQuantity > 0 && <div className='mobile_buy'>
+                    {isInStock && <div className='mobile_buy'>
                         <a
-                            href
+                            href='#!'
                             className='btn cart cp'
                             style={!isCartAdded && !isCartLoading ? { opacity: "1" } : { opacity: "1" }}
-                            onClick={() => !isCartAdded && !isCartLoading ? handleAddCart() : navigate('/cart')}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                !isCartAdded && !isCartLoading ? handleAddCart() : navigate('/cart');
+                            }}
                         >
-                            {isCartAdded ? <small>Added</small> : isCartLoading ? <i class="fa fa-refresh fa-spin"></i> : <img src={cartIcon} />}
+                            {isCartAdded ? <small>Added</small> : isCartLoading ? <i className="fa fa-refresh fa-spin"></i> : <img src={cartIcon} alt='cart' />}
                         </a>
-                        <a href
+                        <a href='#!'
                             className='btn buy cp'
-                            onClick={() => handleBuyNow()}
+                            onClick={(event) => {
+                                event.preventDefault();
+                                handleBuyNow();
+                            }}
                         >
                             Buy Now
                         </a>
 
                     </div>}
-                    {availableQuantity <= 0 && <div className='mobile_buy_checkout'>
-                        <a href
+                    {!isInStock && <div className='mobile_buy_checkout'>
+                        <a href='#!'
                             className='btn cart cp'
-                            onClick={() => handleBuyNow()}
+                            onClick={(event) => event.preventDefault()}
                         >
                             Add to wishlist
                         </a>

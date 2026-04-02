@@ -12,12 +12,10 @@ const ProductDetailsPage = ({ isLogin }) => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const productDetails = useSelector((state) => state.homeInfo.productDetails);
-    // const { categoriesList, data, popularProducts,
-    //     sellKonMallProducts, shopsList, trendingProducts } = productDetails || {}
-    console.log('productDetails', productDetails)
+
     useEffect(() => {
         dispatch(ProductDetailsById(id));
-    }, [id])
+    }, [dispatch, id])
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [pathname])
@@ -27,10 +25,10 @@ const ProductDetailsPage = ({ isLogin }) => {
                 <ProductDetails data={productDetails} isLogin={isLogin} />
                 <div className='rel_top'>
                     <div className='rel_top_left'>
-                        <ShortDetails data={productDetails?.shortDescriptions} />
+                        <ShortDetails data={productDetails?.short_description || productDetails?.shortDescriptions} />
                         <FullDetails
-                            data={productDetails?.longDescriptions}
-                            videoUrl={productDetails?.videoUrl}
+                            data={productDetails?.full_description || productDetails?.longDescriptions}
+                            videoUrl={productDetails?.video_urls || productDetails?.videoUrl}
                         />
                     </div>
                     <div className='rel_top_right'>
