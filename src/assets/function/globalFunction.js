@@ -193,6 +193,8 @@ export const getBg = (item) => {
         bg = "delivered_bg"
     } else if (item === "Processing") {
         bg = "processing_bg"
+    } else if (item === "Returned" || item === "Failed") {
+        bg = "cancelled_bg"
     }
     return bg
 }
