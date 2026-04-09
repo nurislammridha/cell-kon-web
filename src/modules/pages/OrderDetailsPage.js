@@ -73,7 +73,7 @@ const OrderDetailsPage = () => {
                                 <span className='item'>{processedAt && moment(processedAt).format('lll')}</span>
                             </div>
                             <div className='status_item'>
-                                <p>Picked</p>
+                                <p>Pickup</p>
                                 <span className='item'>{pickedAt && moment(pickedAt).format('lll')}</span>
                             </div>
                             <div className='status_item'>

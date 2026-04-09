@@ -70,7 +70,7 @@ const ReturnRefundEnglish = () => {
             <div className='txt'>
                 <ul>
                     <li>Orders can be canceled before an admin of Sellkon.com “Confirm” it.</li>
-                    <li>After an order is confirmed, and you want to cancel it, you have to contact us before your product is “Picked” by a delivery man. Once your product is picked, you can not cancel it. In such cases, you may initiate a return following our standard return policy.</li>
+                    <li>After an order is confirmed, and you want to cancel it, you have to contact us before your product reaches the “Pickup” stage with the delivery man. Once your product is in pickup stage, you can not cancel it. In such cases, you may initiate a return following our standard return policy.</li>
                 </ul>
             </div>
             <div className='title'>8. Contact Us:</div>

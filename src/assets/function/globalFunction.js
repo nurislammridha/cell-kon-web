@@ -178,31 +178,42 @@ export const getYear = () => {
     ]
 }
 export const getBg = (item) => {
+    const normalized = String(item || "").toLowerCase()
     let bg = ""
-    if (item === "Created") {
+    if (normalized === "created") {
         bg = "created_bg"
-    } else if (item === "Confirmed") {
+    } else if (normalized === "confirmed") {
         bg = "confirm_bg"
-    } else if (item === "Cancelled") {
+    } else if (normalized === "cancelled" || normalized === "canceled") {
         bg = "cancelled_bg"
-    } else if (item === "Picked") {
+    } else if (normalized === "pickup" || normalized === "picked") {
         bg = "picked_bg"
-    } else if (item === "Shipped") {
+    } else if (normalized === "shipped") {
         bg = "shipped_bg"
-    } else if (item === "Delivered") {
+    } else if (normalized === "delivered") {
         bg = "delivered_bg"
-    } else if (item === "Processing") {
+    } else if (normalized === "processing") {
         bg = "processing_bg"
-    } else if (item === "Returned" || item === "Failed") {
+    } else if (normalized === "returned" || normalized === "return" || normalized === "failed") {
         bg = "cancelled_bg"
     }
     return bg
 }
 export const orderByStatus = (list, status) => {
+    const canonicalStatus = (value) => {
+        const normalized = String(value || "").toLowerCase().trim()
+        if (normalized === "picked" || normalized === "pickup") return "pickup"
+        if (normalized === "return" || normalized === "returned") return "returned"
+        if (normalized === "in transit" || normalized === "in_transit") return "shipped"
+        return normalized
+    }
+
     let arr = []
+    const normalizedStatus = canonicalStatus(status)
     if (status !== "All" && list?.length > 0) {
         list.forEach(val => {
-            if (val.orderStatus === status) {
+            const currentStatus = canonicalStatus(val.orderStatus)
+            if (currentStatus === normalizedStatus) {
                 arr.push(val)
             }
         });

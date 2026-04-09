@@ -44,9 +44,9 @@ const OrderListPage = ({ isLogin }) => {
                         <span>Processing</span>
                         <div className={tab === "Processing" ? 'up_icon active' : 'up_icon'}> <img src={upIcon} /></div>
                     </div>
-                    <div className='nav_item cp' onClick={() => setTab("Picked")}>
-                        <span>Picked</span>
-                        <div className={tab === "Picked" ? 'up_icon active' : 'up_icon'}> <img src={upIcon} /></div>
+                    <div className='nav_item cp' onClick={() => setTab("Pickup")}>
+                        <span>Pickup</span>
+                        <div className={tab === "Pickup" ? 'up_icon active' : 'up_icon'}> <img src={upIcon} /></div>
                     </div>
                     <div className='nav_item cp' onClick={() => setTab("Shipped")}>
                         <span>Shipped</span>
@@ -66,7 +66,7 @@ const OrderListPage = ({ isLogin }) => {
                         <div key={index} className='cp products' onClick={() => navigate(`/order-details/${item._id}`)}>
                             <div className='order_id'>
                                 <div>Order ID:<span>{item.orderId}</span></div>
-                                <a className={getBg(item.orderStatus)}>{item.orderStatus}</a>
+                                <a className={getBg(item.orderStatus)}>{item.orderStatus === "Picked" ? "Pickup" : item.orderStatus}</a>
                             </div>
                             <div className='taka_section'>
                                 <span className='taka'>&#2547;{item.shippingFee + item.subTotal}</span>
