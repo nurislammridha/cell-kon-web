@@ -3,13 +3,24 @@ import pro3 from '../../assets/images/other/pro3.jpg'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddToCart, FalseCartAdded } from '../_redux/CommonAction'
+import Axios from 'axios'
+import { showToast } from '../../utils/ToastHelper'
 import cartIcon from '../../assets/images/icons/cartDetails.png'
 import OwlCarousel from "react-owl-carousel";
 import shareIcon from '../../assets/images/icons/share_icon.png'
+import wishIcon from '../../assets/images/icons/wishg.png'
+import wishedIcon from '../../assets/images/icons/wished.png'
+import starFillIcon from '../../assets/images/icons/startFill.png'
+import messengerIcon from '../../assets/images/icons/messenger.png'
+import whatsappIcon from '../../assets/images/icons/whatsapp.png'
+import imoIcon from '../../assets/images/icons/imo.png'
 import ProductDetailsSeller from './ProductDetailsSeller'
 
 const THUMBNAILS_PER_PAGE = 4;
 const MAX_SELECTABLE_QUANTITY = 5;
+const ORDER_WHATSAPP_NUMBER = '01775299702';
+const ORDER_IMO_NUMBER = '01775299702';
+const ORDER_MESSENGER_LINK = 'https://www.messenger.com/t/248809078314633';
 
 const asArray = (value) => {
     if (Array.isArray(value)) {
@@ -92,6 +103,20 @@ const getDefaultSizeVariant = (sizeVariants = []) => {
         return null;
     }
     return sizeVariants.find((item) => item?.is_default) || sizeVariants[0];
+};
+
+const hasVisibleSizeLabel = (sizeVariant = {}) =>
+    String(sizeVariant?.size_name || sizeVariant?.sizeName || sizeVariant?.label || '').trim().length > 0;
+
+const getPreferredSizeVariant = (sizeVariants = []) => {
+    const normalizedSizes = asArray(sizeVariants);
+    const visibleSizes = normalizedSizes.filter(hasVisibleSizeLabel);
+
+    if (visibleSizes.length > 0) {
+        return getDefaultSizeVariant(visibleSizes) || visibleSizes[0];
+    }
+
+    return getDefaultSizeVariant(normalizedSizes);
 };
 
 const getLegacyColorVariants = (data = {}) => {
@@ -219,6 +244,10 @@ const ProductDetails = ({ data, isLogin }) => {
     const [selectedSizeKey, setSelectedSizeKey] = useState('')
     const [quantity, setQuantity] = useState(1)
     const [page, setPage] = useState(1)
+    const [isShareMenuOpen, setIsShareMenuOpen] = useState(false)
+    const [isWished, setIsWished] = useState(false)
+    const [isWishLoading, setIsWishLoading] = useState(false)
+    const [isMobileOrderFabOpen, setIsMobileOrderFabOpen] = useState(true)
 
     const colorVariants = useMemo(() => normalizeColorVariants(data), [data]);
 
@@ -241,6 +270,7 @@ const ProductDetails = ({ data, isLogin }) => {
     }, [selectedColorVariant, data]);
 
     const sizeVariants = useMemo(() => asArray(selectedColorVariant?.size_variants), [selectedColorVariant]);
+    const visibleSizeVariants = useMemo(() => sizeVariants.filter(hasVisibleSizeLabel), [sizeVariants]);
 
     const selectedSizeVariant = useMemo(() => {
         if (sizeVariants.length === 0) {
@@ -248,7 +278,7 @@ const ProductDetails = ({ data, isLogin }) => {
         }
 
         const selected = sizeVariants.find((item, index) => getSizeKey(item, index) === selectedSizeKey);
-        return selected || getDefaultSizeVariant(sizeVariants);
+        return selected || getPreferredSizeVariant(sizeVariants);
     }, [sizeVariants, selectedSizeKey]);
 
     const colorName = selectedColorVariant?.color_name || '';
@@ -266,10 +296,183 @@ const ProductDetails = ({ data, isLogin }) => {
     const availableQuantity = Math.max(0, parseInt(selectedSizeVariant?.stock ?? data?.availableQuantity, 10) || 0);
     const isInStock = availableQuantity > 0;
     const maxQuantity = isInStock ? Math.min(MAX_SELECTABLE_QUANTITY, availableQuantity) : 0;
+    const discountPercent = variantPrice > 0 ? Math.max(0, Math.round(((variantPrice - salePrice) / variantPrice) * 100)) : 0;
+    const hasDiscount = variantPrice > salePrice && discountPercent > 0;
 
     const totalGalleryPages = Math.max(1, Math.ceil(colorImages.length / THUMBNAILS_PER_PAGE));
     const thumbnailStart = (page - 1) * THUMBNAILS_PER_PAGE;
     const visibleImages = colorImages.slice(thumbnailStart, thumbnailStart + THUMBNAILS_PER_PAGE);
+    const brandName = (data?.brand?.name || data?.brandName || '').trim();
+    const hasBrand = brandName.length > 0;
+    const isFreeDelivery = toBoolean(data?.is_free_delivery !== undefined ? data?.is_free_delivery : data?.isFreeDelivery, false);
+    const reviewCount = asArray(data?.commentsInfo).length;
+    const averageRating = Math.max(0, toNumber(data?.sellerRatings, 0));
+
+    const requireLoginForAction = () => {
+        localStorage.setItem('redirect_details', data?._id || '')
+        localStorage.setItem('redirect_url', "product_details")
+        navigate('/login')
+    }
+
+    const getProductDetailsUrl = () => data?._id
+        ? `${window.location.origin}${window.location.pathname}#/product-details/${data._id}`
+        : window.location.href;
+
+    const getOrderMessage = () => {
+        const productTitle = (data?.product_name || data?.productName || 'Product').trim();
+        const productDetailsUrl = getProductDetailsUrl();
+
+        return `Hi, I want to order this product: ${productTitle} and here is the link of the product: ${productDetailsUrl}`;
+    }
+
+    const openOrderOnWhatsapp = () => {
+        const normalizedNumber = ORDER_WHATSAPP_NUMBER.replace(/\D/g, '');
+        const whatsappNumber = normalizedNumber.startsWith('0') ? `88${normalizedNumber}` : normalizedNumber;
+        const orderMessage = encodeURIComponent(getOrderMessage());
+
+        window.open(`https://wa.me/${whatsappNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
+    }
+
+    const openOrderOnImo = () => {
+        const normalizedNumber = ORDER_IMO_NUMBER.replace(/\D/g, '');
+        const imoNumber = normalizedNumber.startsWith('0') ? `+88${normalizedNumber}` : `+${normalizedNumber}`;
+        const orderMessageRaw = getOrderMessage();
+        const orderMessage = encodeURIComponent(orderMessageRaw);
+
+        if (navigator?.clipboard?.writeText) {
+            navigator.clipboard.writeText(orderMessageRaw)
+                .then(() => showToast('success', 'Order message copied. Paste it in imo.'))
+                .catch(() => null);
+        }
+
+        window.open(`https://imo.im/${imoNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
+    }
+
+    const openOrderOnMessenger = () => {
+        const orderMessageRaw = getOrderMessage();
+        const orderMessage = encodeURIComponent(orderMessageRaw);
+        const separator = ORDER_MESSENGER_LINK.includes('?') ? '&' : '?';
+
+        if (navigator?.clipboard?.writeText) {
+            navigator.clipboard.writeText(orderMessageRaw)
+                .then(() => showToast('success', 'Order message copied. Paste it in Messenger.'))
+                .catch(() => null);
+        }
+
+        window.open(
+            `${ORDER_MESSENGER_LINK}${separator}text=${orderMessage}`,
+            '_blank',
+            'noopener,noreferrer'
+        );
+    }
+
+    const openShareLink = (platform) => {
+        const productDetailsUrl = getProductDetailsUrl();
+
+        const productTitleRaw = (data?.product_name || data?.productName || 'Sellkon product').trim();
+        const shareMessageRaw = `${productTitleRaw} ${productDetailsUrl}`;
+
+        const productUrl = encodeURIComponent(productDetailsUrl);
+        const shareMessage = encodeURIComponent(shareMessageRaw);
+
+        if (platform === 'messenger') {
+            const messengerAppId = process.env.REACT_APP_FACEBOOK_APP_ID || '291494419107518';
+            const redirectUrl = encodeURIComponent(productDetailsUrl);
+
+            window.open(
+                `https://www.facebook.com/dialog/send?app_id=${messengerAppId}&link=${productUrl}&redirect_uri=${redirectUrl}`,
+                '_blank',
+                'noopener,noreferrer'
+            );
+            return;
+        }
+
+        if (platform === 'whatsapp') {
+            window.open(
+                `https://wa.me/?text=${shareMessage}`,
+                '_blank',
+                'noopener,noreferrer'
+            );
+            return;
+        }
+
+        if (platform === 'facebook') {
+            window.open(
+                `https://www.facebook.com/sharer/sharer.php?u=${productUrl}&quote=${shareMessage}`,
+                '_blank',
+                'noopener,noreferrer'
+            );
+            return;
+        }
+
+        if (platform === 'linkedin') {
+            window.open(
+                `https://www.linkedin.com/feed/?shareActive=true&text=${shareMessage}`,
+                '_blank',
+                'noopener,noreferrer'
+            );
+            return;
+        }
+
+        if (platform === 'instagram') {
+            if (navigator?.clipboard?.writeText) {
+                navigator.clipboard.writeText(shareMessageRaw)
+                    .then(() => showToast('success', 'Product details link copied. Paste it in Instagram.'))
+                    .catch(() => null);
+            }
+            window.open(`https://www.instagram.com/`, '_blank', 'noopener,noreferrer');
+        }
+    }
+
+    const fetchWishStatus = () => {
+        const buyerInfo = JSON.parse(localStorage.getItem('buyerData') || '{}');
+        const buyerId = buyerInfo?._id;
+
+        if (!isLogin || !buyerId || !data?._id) {
+            setIsWished(false)
+            return;
+        }
+
+        Axios.get(`${process.env.REACT_APP_API_URL}love/status/${buyerId}/${data._id}`)
+            .then((res) => {
+                if (res?.data?.status) {
+                    setIsWished(!!res?.data?.result?.isWished)
+                }
+            })
+            .catch(() => {
+                setIsWished(false)
+            })
+    }
+
+    const handleWishToggle = () => {
+        const buyerInfo = JSON.parse(localStorage.getItem('buyerData') || '{}');
+        const buyerId = buyerInfo?._id;
+
+        if (!isLogin || !buyerId) {
+            requireLoginForAction()
+            return;
+        }
+
+        if (!data?._id || isWishLoading) {
+            return;
+        }
+
+        setIsWishLoading(true)
+
+        Axios.post(`${process.env.REACT_APP_API_URL}love/toggle`, {
+            buyerId,
+            buyerName: buyerInfo?.buyerName || '',
+            productId: data?._id,
+        }).then((res) => {
+            if (res?.data?.status) {
+                setIsWished(!!res?.data?.result?.isWished)
+            }
+        }).catch(() => {
+            showToast('error', 'Failed to update wishlist')
+        }).finally(() => {
+            setIsWishLoading(false)
+        })
+    }
 
     const handleAddCart = () => {
         if (!isInStock) {
@@ -288,9 +491,7 @@ const ProductDetails = ({ data, isLogin }) => {
             sizeName,
             fullImg: fullImg || colorImages[0] || data?.productIcon?.url || '',
         }
-        isLogin ? dispatch(AddToCart(postData)) : navigate('/login')
-        !isLogin && localStorage.setItem('redirect_details', data._id)
-        !isLogin && localStorage.setItem('redirect_url', "product_details")
+        isLogin ? dispatch(AddToCart(postData)) : requireLoginForAction()
     }
 
     const handleBuyNow = () => {
@@ -322,7 +523,7 @@ const ProductDetails = ({ data, isLogin }) => {
         setFullImg(nextColorImages[0] || data?.productIcon?.url || '')
 
         const nextSizes = asArray(item?.size_variants)
-        const defaultSize = getDefaultSizeVariant(nextSizes)
+        const defaultSize = getPreferredSizeVariant(nextSizes)
         if (defaultSize) {
             const sizeIndex = nextSizes.findIndex((sizeItem) => sizeItem === defaultSize)
             setSelectedSizeKey(getSizeKey(defaultSize, sizeIndex >= 0 ? sizeIndex : 0))
@@ -341,7 +542,7 @@ const ProductDetails = ({ data, isLogin }) => {
     useEffect(() => {
         setBuyerData(JSON.parse(localStorage.getItem('buyerData')) || {})
         dispatch(FalseCartAdded())
-    }, [dispatch])
+    }, [dispatch, isLogin])
 
     useEffect(() => {
         if (colorVariants.length === 0) {
@@ -357,7 +558,7 @@ const ProductDetails = ({ data, isLogin }) => {
         const colorIndex = colorVariants.findIndex((item) => item === defaultColor)
         setSelectedColorKey(getColorKey(defaultColor, colorIndex >= 0 ? colorIndex : 0))
 
-        const defaultSize = getDefaultSizeVariant(asArray(defaultColor?.size_variants))
+        const defaultSize = getPreferredSizeVariant(asArray(defaultColor?.size_variants))
         if (defaultSize) {
             const sizeIndex = asArray(defaultColor?.size_variants).findIndex((item) => item === defaultSize)
             setSelectedSizeKey(getSizeKey(defaultSize, sizeIndex >= 0 ? sizeIndex : 0))
@@ -384,6 +585,10 @@ const ProductDetails = ({ data, isLogin }) => {
             setPage(totalGalleryPages)
         }
     }, [colorImages, fullImg, page, totalGalleryPages])
+
+    useEffect(() => {
+        fetchWishStatus()
+    }, [isLogin, data?._id])
 
     useEffect(() => {
         if (!isInStock) {
@@ -477,13 +682,75 @@ const ProductDetails = ({ data, isLogin }) => {
                         <div className='txt'>{data?.product_name || data?.productName}</div>
 
                     </div>
-                    <div className='brand_top'>
-                        <div className='brand'>Brand: {data?.brand?.name || data?.brandName} </div>
-                        <div className='share'>
-                            {/* <i class="fa fa-share-alt" aria-hidden="true"></i> */}
-                            <img src={shareIcon} alt='share' />
+                    <div className='product_meta_row'>
+                        <div className='rating_review_meta'>
+                            <img src={starFillIcon} alt='rating' />
+                            <span>Ratings {averageRating.toFixed(1)}/5.0 ({reviewCount} reviews)</span>
+                        </div>
+                        <div className='share_wish_wrap'>
+                            <div
+                                className='share_dropdown_wrap'
+                                onMouseEnter={() => setIsShareMenuOpen(true)}
+                                onMouseLeave={() => setIsShareMenuOpen(false)}
+                            >
+                                <button
+                                    type='button'
+                                    className='action_icon_btn'
+                                    onClick={() => setIsShareMenuOpen((prev) => !prev)}
+                                >
+                                    <img src={shareIcon} alt='share' />
+                                </button>
+                                {isShareMenuOpen && <div className='share_hover_modal'>
+                                    <div className='share_modal_title'>Share Via:</div>
+                                    <div className='share_modal_actions'>
+                                        <button type='button' className='social_action messenger' onClick={() => openShareLink('messenger')}>
+                                            <img src={messengerIcon} alt='messenger' />
+                                        </button>
+                                        <button type='button' className='social_action whatsapp' onClick={() => openShareLink('whatsapp')}>
+                                            <img src={whatsappIcon} alt='whatsapp' />
+                                        </button>
+                                        <button type='button' className='social_action facebook' onClick={() => openShareLink('facebook')}>
+                                            <i className='fa fa-facebook'></i>
+                                        </button>
+                                        <button type='button' className='social_action linkedin' onClick={() => openShareLink('linkedin')}>
+                                            <i className='fa fa-linkedin'></i>
+                                        </button>
+                                        <button type='button' className='social_action instagram' onClick={() => openShareLink('instagram')}>
+                                            <i className='fa fa-instagram'></i>
+                                        </button>
+                                    </div>
+                                </div>}
+                            </div>
+                            <button
+                                type='button'
+                                className='action_icon_btn wish_btn'
+                                onClick={handleWishToggle}
+                                disabled={isWishLoading}
+                            >
+                                <img src={isWished ? wishedIcon : wishIcon} alt='wishlist' />
+                            </button>
                         </div>
                     </div>
+
+                    {(hasBrand || isFreeDelivery) && <div className={`brand_top ${!hasBrand && isFreeDelivery ? 'brand_top_free_only' : ''}`}>
+                        <div className='brand'>
+                            {hasBrand && <>
+                                <span>Brand: {brandName}</span>
+                                <a
+                                    href='#!'
+                                    className='more_brand_products'
+                                    onClick={(event) => {
+                                        event.preventDefault();
+                                        navigate('/all-products')
+                                    }}
+                                >
+                                    More Products from {brandName}
+                                </a>
+                            </>}
+                            {!hasBrand && isFreeDelivery && <span className='free_delivery_text'>Free delivery</span>}
+                        </div>
+                        {hasBrand && isFreeDelivery && <div className='free_delivery_text'>Free delivery</div>}
+                    </div>}
                     {/* <div className='sold_by'>
                         <span>Sold By: {data?.sellerInfo?.shopName}</span>
                         <a href
@@ -492,8 +759,11 @@ const ProductDetails = ({ data, isLogin }) => {
                         </a>
                     </div> */}
                     <div className='price_hide_pn'>
-                        <div className='del_price'>&#2547;{variantPrice}</div>
-                        <div className='product_price'> &#2547;{salePrice}</div>
+                        <div className='price_inline_row'>
+                            <div className='product_price'>&#2547;{salePrice}</div>
+                            {hasDiscount && <div className='del_price'>&#2547;{variantPrice}</div>}
+                            {hasDiscount && <div className='discount_percent'>{discountPercent}%</div>}
+                        </div>
                         <div className={isInStock ? 'stock_status in_stock' : 'stock_status out_stock'}>
                             {isInStock ? `In Stock (${availableQuantity})` : 'STOCK OUT'}
                         </div>
@@ -501,8 +771,11 @@ const ProductDetails = ({ data, isLogin }) => {
                     {/* for mobile sections */}
                     <div className='mobile_price'>
                         <div>
-                            <div className='del_price'>&#2547;{variantPrice}</div>
-                            <div className='product_price'> &#2547;{salePrice}</div>
+                            <div className='price_inline_row'>
+                                <div className='product_price'>&#2547;{salePrice}</div>
+                                {hasDiscount && <div className='del_price'>&#2547;{variantPrice}</div>}
+                                {hasDiscount && <div className='discount_percent'>{discountPercent}%</div>}
+                            </div>
                             <div className={isInStock ? 'stock_status in_stock' : 'stock_status out_stock'}>
                                 {isInStock ? `In Stock (${availableQuantity})` : 'STOCK OUT'}
                             </div>
@@ -548,10 +821,10 @@ const ProductDetails = ({ data, isLogin }) => {
                                 </div>
                             </div>
                         </div>
-                        {sizeVariants?.length > 0 && <div className='ml30'>
+                        {visibleSizeVariants?.length > 0 && <div className='ml30'>
                             <div className='txt_cq'>Size</div>
                             <div className='colors'>
-                                {sizeVariants?.map((item, index) => (
+                                {visibleSizeVariants?.map((item, index) => (
                                     <a
                                         key={getSizeKey(item, index)}
                                         href='#!'
@@ -614,6 +887,30 @@ const ProductDetails = ({ data, isLogin }) => {
                             Buy Now
                         </a>
                     </div>}
+                    {isInStock && <div className='btn_order_social'>
+                        <a
+                            href='#!'
+                            className='btn order_whatsapp cp'
+                            onClick={(event) => {
+                                event.preventDefault();
+                                openOrderOnWhatsapp();
+                            }}
+                        >
+                            <img src={whatsappIcon} alt='whatsapp' />
+                            <span>Order on WhatsApp</span>
+                        </a>
+                        <a
+                            href='#!'
+                            className='btn order_messenger cp'
+                            onClick={(event) => {
+                                event.preventDefault();
+                                openOrderOnMessenger();
+                            }}
+                        >
+                            <img src={messengerIcon} alt='messenger' />
+                            <span>Order on Messenger</span>
+                        </a>
+                    </div>}
                     {!isInStock && <div className='btn_stock_out'>
                         <a href='#!'
                             className='btn cp'
@@ -653,7 +950,39 @@ const ProductDetails = ({ data, isLogin }) => {
                             Add to wishlist
                         </a>
                     </div>}
-                    <div className='have_question'>Have any question? Please contact us 01784528799</div>
+                    {isInStock && <div className='mobile_order_fab'>
+                        <div className={`mobile_order_fab_actions ${isMobileOrderFabOpen ? 'open' : ''}`}>
+                            <button
+                                type='button'
+                                className='mobile_fab_action messenger'
+                                onClick={openOrderOnMessenger}
+                            >
+                                <img src={messengerIcon} alt='messenger' />
+                            </button>
+                            <button
+                                type='button'
+                                className='mobile_fab_action imo'
+                                onClick={openOrderOnImo}
+                            >
+                                <img src={imoIcon} alt='imo' />
+                            </button>
+                            <button
+                                type='button'
+                                className='mobile_fab_action whatsapp'
+                                onClick={openOrderOnWhatsapp}
+                            >
+                                <img src={whatsappIcon} alt='whatsapp' />
+                            </button>
+                        </div>
+                        <button
+                            type='button'
+                            className='mobile_order_fab_toggle'
+                            onClick={() => setIsMobileOrderFabOpen((prev) => !prev)}
+                        >
+                            <i className={`fa ${isMobileOrderFabOpen ? 'fa-times' : 'fa-commenting'}`}></i>
+                        </button>
+                    </div>}
+                    <div className='have_question'>Have any question? Please contact us 01775299702</div>
                     {/* <div className='call'>
                         <i class="fa fa-phone" aria-hidden="true"></i>
                         <span>+8801784528799</span>

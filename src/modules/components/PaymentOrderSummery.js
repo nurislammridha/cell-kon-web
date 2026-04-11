@@ -1,8 +1,9 @@
 import React from 'react'
 import { getSubTotal } from 'src/assets/function/globalFunction'
+import { getShippingFeeByAddress } from '../../assets/function/shippingFee'
 
 const PaymentOrderSummery = ({ list, addressList }) => {
-    const { district } = addressList || {}
+    const shippingFee = getShippingFeeByAddress(addressList || {})
     return (
         <div>
             <div className='cart_summery'>
@@ -16,7 +17,7 @@ const PaymentOrderSummery = ({ list, addressList }) => {
 
                 <div className='cart_total'>
                     <span>Total</span>
-                    <span>&#2547;{getSubTotal(list) + (district === "Dhaka" ? 50 : 100)}</span>
+                    <span>&#2547;{getSubTotal(list) + shippingFee}</span>
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 import { getSubTotal } from "../../assets/function/globalFunction";
+import { getShippingFeeByAddress } from "../../assets/function/shippingFee";
 import { showToast } from "../../utils/ToastHelper";
 import * as Types from "./Types";
 import Axios from "axios";
@@ -659,7 +660,7 @@ export const SubmitOrder = (list, address, isFromDetails = false) => (dispatch) 
   const { buyerName, _id: buyerId } = buyerData
   delete address._id
   const subTotal = getSubTotal(list)
-  const shippingFee = address?.upazilla === "Dhaka" ? 50 : 100
+  const shippingFee = getShippingFeeByAddress(address || {})
 
   const postData = {
     buyerName, buyerId, buyerInfo: buyerId, productInfo: makeProductList(list), orderStatus: "Created",

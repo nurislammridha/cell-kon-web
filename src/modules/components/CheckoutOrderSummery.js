@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getSubTotal } from '../../assets/function/globalFunction'
+import { getShippingFeeByAddress } from '../../assets/function/shippingFee'
 import { showToast } from 'src/utils/ToastHelper'
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -9,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
     const dispatch = useDispatch();
     const [isPromo, setPromo] = useState(false)
-    const { district } = addressList || {}
+    const shippingFee = getShippingFeeByAddress(addressList || {})
     const navigate = useNavigate()
     const isOrderCreated = useSelector((state) => state.homeInfo.isOrderCreated);
     const isOrderLoading = useSelector((state) => state.homeInfo.isOrderLoading);
@@ -60,14 +61,14 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
                 </div>
                 <div className='cart_subtotal'>
                     <span>Shipping Fee</span>
-                    <span>&#2547;{district === "Dhaka" ? 50 : 100}</span>
+                    <span>&#2547;{shippingFee}</span>
                 </div>
-                <div
+                {/* <div
                     className='coupon_code'
                     onClick={() => setPromo(true)}
                 >
                     Have a coupon code?
-                </div>
+                </div> */}
                 {isPromo && (<>
                     <div className='promo_code'>
                         <input type="text" />
@@ -75,7 +76,7 @@ const CheckoutOrderSummery = ({ list, addressList, isFromDetails }) => {
                     </div></>)}
                 <div className='cart_total'>
                     <span>Total</span>
-                    <span>&#2547;{getSubTotal(list) + (district === "Dhaka" ? 50 : 100)}</span>
+                    <span>&#2547;{getSubTotal(list) + shippingFee}</span>
                 </div>
                 <div className='order_policy'>
                     *Order Delivery Policy for this order can be found <a href>here</a>

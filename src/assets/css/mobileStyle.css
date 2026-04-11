@@ -574,8 +574,76 @@
         margin-right: 0px;
     }
 
+    .details_page .main .right .product_meta_row {
+        margin-top: 8px;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .details_page .main .right .rating_review_meta {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .details_page .main .right .rating_review_meta img {
+        width: 14px;
+        height: 14px;
+    }
+
+    .details_page .main .right .share_wish_wrap {
+        gap: 6px;
+    }
+
+    .details_page .main .right .action_icon_btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+    }
+
+    .details_page .main .right .action_icon_btn img {
+        width: 19px;
+        height: 19px;
+    }
+
+    .details_page .main .right .share_hover_modal {
+        top: calc(100% + 4px);
+        right: 0;
+        padding: 6px;
+        gap: 6px;
+    }
+
+    .details_page .main .right .share_hover_modal::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 0;
+        right: 0;
+        height: 6px;
+    }
+
+    .details_page .main .right .share_hover_modal .social_action {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+
+    .details_page .main .right .share_hover_modal .social_action img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .details_page .main .right .share_hover_modal .share_modal_title {
+        font-size: 11px;
+    }
+
+    .details_page .main .right .share_hover_modal .share_modal_actions {
+        gap: 6px;
+    }
+
     .details_page .main .right .brand_top {
         margin-top: 10px;
+        padding-bottom: 8px;
+        gap: 8px;
     }
 
     .details_page .main .right .title_section .txt {
@@ -584,16 +652,21 @@
         margin-right: 0px;
     }
 
-    .details_page .main .right .title_section .share {
-        display: none;
-    }
-
     .details_page .main .right .brand {
-        margin-top: 10px;
+        margin-top: 0px;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 13px;
         margin-left: 0px;
         margin-right: 0px;
+        gap: 6px;
+    }
+
+    .details_page .main .right .brand .more_brand_products {
+        font-size: 12px;
+    }
+
+    .details_page .main .right .free_delivery_text {
+        font-size: 12px;
     }
 
     .details_page .main .right .sold_by {
@@ -613,10 +686,6 @@
         font-size: 10px;
     }
 
-    .details_page .main .right .share {
-        display: none;
-    }
-
     .details_page .price_hide_pn {
         display: none;
     }
@@ -631,13 +700,27 @@
     .details_page .main .del_price {
         margin-top: 0px;
         font-weight: 400;
-        font-size: 14px;
+        font-size: 12px;
+        padding-bottom: 2px;
     }
 
     .details_page .main .product_price {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 700;
-        margin-top: 5px;
+        margin-top: 0;
+    }
+
+    .details_page .price_inline_row {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .details_page .main .discount_percent {
+        font-size: 12px;
+        font-weight: 700;
+        color: #F54C54;
+        padding-bottom: 2px;
     }
 
     .details_page .quantity_button .btn {
@@ -690,6 +773,100 @@
         display: none;
     }
 
+    .details_page .btn_order_social {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .details_page .btn_order_social .btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 5px;
+        padding: 11px 12px;
+        color: #FFF;
+        text-decoration: none;
+    }
+
+    .details_page .btn_order_social .btn img {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+    }
+
+    .details_page .btn_order_social .order_whatsapp {
+        background-color: #1FA855;
+    }
+
+    .details_page .btn_order_social .order_messenger {
+        background-color: #1E88E5;
+    }
+
+    .details_page .mobile_order_fab {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        position: fixed;
+        right: 12px;
+        bottom: 64px;
+        z-index: 10000;
+    }
+
+    .details_page .mobile_order_fab_toggle {
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background-color: #151820;
+        color: #FFF;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+    }
+
+    .details_page .mobile_order_fab_actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        opacity: 0;
+        transform: translateY(12px) scale(0.92);
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .details_page .mobile_order_fab_actions.open {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .details_page .mobile_fab_action {
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%;
+        background-color: #FFFFFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .details_page .mobile_fab_action img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+    }
+
     .details_page .mobile_buy {
         display: flex;
         height: 44px;
@@ -730,6 +907,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        text-decoration: none;
 
     }
 
@@ -750,6 +928,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        text-decoration: none;
+    }
+
+    .details_page .mobile_buy_checkout .cart {
+        text-decoration: none;
     }
 
     .details_page .have_question {
