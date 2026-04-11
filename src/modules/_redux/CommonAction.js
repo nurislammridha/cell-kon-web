@@ -4,6 +4,8 @@ import { showToast } from "../../utils/ToastHelper";
 import * as Types from "./Types";
 import Axios from "axios";
 
+const toHttpsUrl = (url = "") => String(url).replace(/^http:\/\//i, "https://");
+
 export const GetHomePageData = () => (dispatch) => {
   const url = `${process.env.REACT_APP_API_URL}product/home-page`;
   dispatch({ type: Types.IS_HOME_LOADING, payload: true });
@@ -773,7 +775,7 @@ const UploadCloudinary = (img, x) => (dispatch) => {
       dispatch({ type: Types.IS_BUYER_UPDATE_LOADING, payload: true })
       const postData = {
         buyerImgUrl: {
-          url: res?.data?.url,
+          url: toHttpsUrl(res?.data?.secure_url || res?.data?.url),
           publicId: res?.data?.public_id
         }
       }
