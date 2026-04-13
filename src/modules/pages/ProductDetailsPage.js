@@ -95,7 +95,7 @@ const ProductDetailsPage = ({ isLogin }) => {
                     {productDetails?.relatedProducts?.length > 0 && <RelatedProducts arr={productDetails?.relatedProducts} />}
                 </div>
                 <div id={CUSTOMER_REVIEWS_SECTION_ID} className='details_section_anchor' style={{ marginBottom: "20px" }}>
-                    <RatingsReviewsSection data={productDetails} />
+                    <RatingsReviewsSection data={productDetails} isLogin={isLogin} />
                 </div>
             </div>
         </>

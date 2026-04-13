@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import pro3 from '../../assets/images/other/pro3.jpg'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetOrderById } from '../_redux/CommonAction';
 import moment from 'moment';
 import MobileCommonHeader from '../components/MobileCommonHeader';
+import Axios from 'axios';
+import { showToast } from '../../utils/ToastHelper';
 const OrderDetailsPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const orderDetailsLoading = useSelector((state) => state.homeInfo.orderDetailsLoading);
     const orderDetails = useSelector((state) => state.homeInfo.orderDetails);
@@ -14,6 +17,186 @@ const OrderDetailsPage = () => {
         processedAt, shippedAt, cancelAt, productInfo, isCancel, isConfirm, isCreated, isDelivered, isFullPaid, isPicked,
         isProcessing, isShipped, subTotal, shippingFee, orderId } = orderDetails || {}
     const { buyerName, buyerPhone, detailsAddress, district, division, upazilla, union } = deliveryAddressInfo || {}
+
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+    const [selectedOrderItem, setSelectedOrderItem] = useState(null)
+    const [myReview, setMyReview] = useState(null)
+    const [eligibility, setEligibility] = useState({ canCreate: false, message: '' })
+    const [isReviewDataLoading, setIsReviewDataLoading] = useState(false)
+    const [isReviewSubmitting, setIsReviewSubmitting] = useState(false)
+    const [isReviewDeleting, setIsReviewDeleting] = useState(false)
+    const [isEditingReview, setIsEditingReview] = useState(false)
+    const [ratingInput, setRatingInput] = useState(0)
+    const [reviewInput, setReviewInput] = useState('')
+
+    const isLogin = localStorage.getItem('isLogin') === 'true'
+    const reviewApiBase = `${process.env.REACT_APP_API_URL}review`
+
+    const getSelectedProductId = () => String(selectedOrderItem?.products?._id || selectedOrderItem?.productId || '')
+
+    const resetReviewModal = () => {
+        setMyReview(null)
+        setEligibility({ canCreate: false, message: '' })
+        setIsReviewDataLoading(false)
+        setIsReviewSubmitting(false)
+        setIsReviewDeleting(false)
+        setIsEditingReview(false)
+        setRatingInput(0)
+        setReviewInput('')
+    }
+
+    const closeReviewModal = () => {
+        setIsReviewModalOpen(false)
+        setSelectedOrderItem(null)
+        resetReviewModal()
+    }
+
+    const loadReviewData = async (orderItem) => {
+        const productId = String(orderItem?.products?._id || orderItem?.productId || '')
+
+        if (!productId) {
+            showToast('error', 'Product information is missing for review.')
+            return
+        }
+
+        setIsReviewDataLoading(true)
+
+        try {
+            const [myReviewRes, eligibilityRes] = await Promise.all([
+                Axios.get(`${reviewApiBase}/product/${productId}/mine`),
+                Axios.get(`${reviewApiBase}/eligibility/${productId}`),
+            ])
+
+            const fetchedMyReview = myReviewRes?.data?.result || null
+            const fetchedEligibility = eligibilityRes?.data?.result || { canCreate: false, message: '' }
+
+            setMyReview(fetchedMyReview)
+            setEligibility(fetchedEligibility)
+
+            if (fetchedMyReview) {
+                setRatingInput(Number(fetchedMyReview?.rating || 0))
+                setReviewInput(String(fetchedMyReview?.review || ''))
+            } else {
+                setRatingInput(0)
+                setReviewInput('')
+            }
+        } catch (error) {
+            const message = error?.response?.data?.message || 'Failed to load review information.'
+            showToast('error', message)
+            setMyReview(null)
+            setEligibility({ canCreate: false, message })
+        } finally {
+            setIsReviewDataLoading(false)
+        }
+    }
+
+    const openReviewModal = async (orderItem) => {
+        if (!isLogin) {
+            showToast('error', 'Please login to submit a review.')
+            navigate('/login')
+            return
+        }
+
+        setSelectedOrderItem(orderItem)
+        setIsReviewModalOpen(true)
+        await loadReviewData(orderItem)
+    }
+
+    const refreshOpenModalData = async () => {
+        if (!selectedOrderItem) {
+            return
+        }
+
+        await loadReviewData(selectedOrderItem)
+    }
+
+    const handleSubmitReview = async (event) => {
+        event.preventDefault()
+
+        const productId = getSelectedProductId()
+        if (!productId) {
+            return
+        }
+
+        if (!ratingInput && reviewInput.trim().length > 0) {
+            showToast('error', 'Please provide a rating along with your review.')
+            return
+        }
+
+        if (!ratingInput) {
+            showToast('error', 'Please provide a rating.')
+            return
+        }
+
+        setIsReviewSubmitting(true)
+
+        try {
+            const payload = {
+                productId,
+                rating: ratingInput,
+                review: reviewInput.trim(),
+            }
+
+            const url = myReview && isEditingReview
+                ? `${reviewApiBase}/${myReview?._id}`
+                : `${reviewApiBase}`
+
+            const req = myReview && isEditingReview
+                ? Axios.put(url, payload)
+                : Axios.post(url, payload)
+
+            const res = await req
+
+            if (res?.data?.status) {
+                showToast('success', res?.data?.message || 'Review submitted successfully.')
+                setIsEditingReview(false)
+                await refreshOpenModalData()
+            }
+        } catch (error) {
+            const message = error?.response?.data?.message || 'Failed to submit review.'
+            showToast('error', message)
+        } finally {
+            setIsReviewSubmitting(false)
+        }
+    }
+
+    const handleDeleteReview = async () => {
+        if (!myReview?._id || myReview?.status === 'approved') {
+            return
+        }
+
+        const isConfirmed = window.confirm('Are you sure you want to delete your review?')
+        if (!isConfirmed) {
+            return
+        }
+
+        setIsReviewDeleting(true)
+
+        try {
+            const res = await Axios.delete(`${reviewApiBase}/${myReview._id}`)
+
+            if (res?.data?.status) {
+                showToast('success', res?.data?.message || 'Review deleted successfully.')
+                setIsEditingReview(false)
+                setRatingInput(0)
+                setReviewInput('')
+                await refreshOpenModalData()
+            }
+        } catch (error) {
+            const message = error?.response?.data?.message || 'Failed to delete review.'
+            showToast('error', message)
+        } finally {
+            setIsReviewDeleting(false)
+        }
+    }
+
+    const canEditOrDelete = Boolean(myReview && myReview?.status !== 'approved')
+    const shouldDisableForm = isReviewDataLoading
+        || isReviewSubmitting
+        || isReviewDeleting
+        || (myReview?.status === 'approved')
+        || (myReview && !isEditingReview)
+        || (!myReview && eligibility?.canCreate === false)
     useEffect(() => {
         dispatch(GetOrderById(id))
     }, [id])
@@ -116,6 +299,15 @@ const OrderDetailsPage = () => {
                                         <span>&#2547;{item.sellPrice}X{item.quantity}</span>
                                         <span>Size: {item.sizeName}</span>
                                     </div>
+                                    <div className='order_review_button_wrap'>
+                                        <button
+                                            type='button'
+                                            className='order_review_button'
+                                            onClick={() => openReviewModal(item)}
+                                        >
+                                            Reviews
+                                        </button>
+                                    </div>
 
                                 </div>
                             </div>
@@ -159,6 +351,99 @@ const OrderDetailsPage = () => {
                 </div>
             </div>
         </div>
+
+        {isReviewModalOpen && <div className='review_modal_overlay' onClick={closeReviewModal}>
+            <div className='review_modal' onClick={(event) => event.stopPropagation()}>
+                <div className='review_modal_header'>
+                    <h3>Rate & Review</h3>
+                    <button type='button' onClick={closeReviewModal}><i className='fa fa-times'></i></button>
+                </div>
+
+                <div className='review_modal_product'>
+                    <strong>{selectedOrderItem?.products?.productName || 'Product'}</strong>
+                </div>
+
+                {myReview && <div className='review_modal_status'>
+                    Status: <span className={`status_${myReview?.status}`}>{String(myReview?.status || 'disapproved')}</span>
+                </div>}
+
+                {!myReview && eligibility?.canCreate === false && <div className='review_modal_message warning'>
+                    {eligibility?.message || 'You are not eligible to review this product yet.'}
+                </div>}
+
+                {myReview && myReview?.status === 'approved' && <div className='review_modal_message warning'>
+                    This review is approved and cannot be edited or deleted.
+                </div>}
+
+                {myReview && myReview?.status !== 'approved' && !isEditingReview && <div className='review_modal_message'>
+                    You have already reviewed this product. Use Edit to update your review.
+                </div>}
+
+                <form onSubmit={handleSubmitReview}>
+                    <div className='review_modal_stars'>
+                        {Array.from({ length: 5 }, (_, index) => {
+                            const star = index + 1
+                            const active = star <= Number(ratingInput || 0)
+                            return (
+                                <button
+                                    key={`modal-rate-${star}`}
+                                    type='button'
+                                    className={active ? 'star_btn active' : 'star_btn'}
+                                    onClick={() => setRatingInput(star)}
+                                    disabled={shouldDisableForm}
+                                >
+                                    <i className='fa fa-star'></i>
+                                </button>
+                            )
+                        })}
+                    </div>
+
+                    <textarea
+                        rows='4'
+                        placeholder='Share your review (optional)'
+                        value={reviewInput}
+                        onChange={(event) => setReviewInput(event.target.value)}
+                        disabled={shouldDisableForm}
+                    ></textarea>
+
+                    <div className='review_modal_actions'>
+                        <button type='submit' disabled={shouldDisableForm}>
+                            {isReviewSubmitting ? 'Saving...' : myReview && isEditingReview ? 'Update Review' : 'Submit Review'}
+                        </button>
+
+                        {myReview && myReview?.status !== 'approved' && !isEditingReview && (
+                            <button
+                                type='button'
+                                className='outline'
+                                onClick={() => setIsEditingReview(true)}
+                            >
+                                Edit
+                            </button>
+                        )}
+
+                        {myReview && isEditingReview && (
+                            <button
+                                type='button'
+                                className='outline'
+                                onClick={() => {
+                                    setIsEditingReview(false)
+                                    setRatingInput(Number(myReview?.rating || 0))
+                                    setReviewInput(String(myReview?.review || ''))
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        )}
+
+                        {canEditOrDelete && (
+                            <button type='button' className='danger' onClick={handleDeleteReview} disabled={isReviewDeleting}>
+                                {isReviewDeleting ? 'Deleting...' : 'Delete'}
+                            </button>
+                        )}
+                    </div>
+                </form>
+            </div>
+        </div>}
 
     </div>)
 }

@@ -1124,6 +1124,67 @@
         padding: 0 8px;
     }
 
+    .details_page .ratings_reviews_section .my_review_card {
+        margin-top: 10px;
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .details_page .ratings_reviews_section .my_review_top h4 {
+        font-size: 14px;
+    }
+
+    .details_page .ratings_reviews_section .status_badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+
+    .details_page .ratings_reviews_section .my_review_card p {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .details_page .ratings_reviews_section .my_review_card small {
+        font-size: 11px;
+    }
+
+    .details_page .ratings_reviews_section .my_review_actions {
+        margin-top: 8px;
+        gap: 8px;
+    }
+
+    .details_page .ratings_reviews_section .my_review_actions button,
+    .details_page .ratings_reviews_section .review_form_fields .outline_btn {
+        font-size: 12px;
+        padding: 7px 10px;
+        border-radius: 7px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_state {
+        margin-top: 8px;
+        font-size: 11px;
+        border-radius: 8px;
+        padding: 7px 8px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details_page .ratings_reviews_section .rating_input_row {
+        gap: 3px;
+    }
+
+    .details_page .ratings_reviews_section .star_pick {
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+    }
+
+    .details_page .ratings_reviews_section .review_loading,
+    .details_page .ratings_reviews_section .review_empty {
+        font-size: 12px;
+    }
+
     .details_page .home_all_products {
         margin-top: 4px;
     }
@@ -1589,6 +1650,10 @@
         color: #878787;
     }
 
+    .user_info .menu_container .menu.active p {
+        color: #130F26;
+    }
+
     .user_info .logout {
         width: -moz-fit-content;
         cursor: pointer;
@@ -1648,6 +1713,71 @@
 
     .user_info .input_right {
         width: unset;
+    }
+
+    .user_reviews_panel .user_reviews_toolbar {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .user_reviews_panel .user_reviews_toolbar select {
+        height: 40px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .user_reviews_panel .user_reviews_empty {
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    .user_reviews_panel .user_review_item {
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .user_reviews_panel .user_review_top h4 {
+        font-size: 14px;
+    }
+
+    .user_reviews_panel .user_review_date {
+        font-size: 10px;
+    }
+
+    .user_reviews_panel .user_review_rating {
+        margin-top: 6px;
+        font-size: 12px;
+    }
+
+    .user_reviews_panel .user_review_text {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .user_reviews_panel .user_review_edit_box .star_pick {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+    }
+
+    .user_reviews_panel .user_review_edit_box textarea {
+        min-height: 84px;
+        font-size: 12px;
+    }
+
+    .user_reviews_panel .user_review_actions {
+        margin-top: 8px;
+        gap: 6px;
+    }
+
+    .user_reviews_panel .user_review_actions button {
+        font-size: 12px;
+        padding: 6px 9px;
+    }
+
+    .user_reviews_panel .user_review_actions small {
+        font-size: 11px;
     }
 
     .mmt24 {
@@ -1786,6 +1916,16 @@
         font-size: 10px;
     }
 
+    .order_details .order_review_button_wrap {
+        margin-top: 8px;
+    }
+
+    .order_details .order_review_button {
+        font-size: 11px;
+        border-radius: 7px;
+        padding: 5px 10px;
+    }
+
     .morder .checkout_address_section .item {
         font-size: 12px;
     }
@@ -1805,6 +1945,62 @@
 
     .order_details .status_grow .left {
         margin-left: 0px;
+    }
+
+    .review_modal_overlay {
+        padding: 12px;
+    }
+
+    .review_modal {
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .review_modal .review_modal_header h3 {
+        font-size: 17px;
+    }
+
+    .review_modal .review_modal_product {
+        margin-top: 8px;
+        font-size: 12px;
+    }
+
+    .review_modal .review_modal_status {
+        margin-top: 6px;
+        font-size: 11px;
+    }
+
+    .review_modal .review_modal_message {
+        margin-top: 8px;
+        font-size: 11px;
+        padding: 7px 8px;
+    }
+
+    .review_modal .review_modal_stars {
+        margin-top: 10px;
+        gap: 4px;
+    }
+
+    .review_modal .review_modal_stars .star_btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .review_modal textarea {
+        margin-top: 8px;
+        min-height: 92px;
+        font-size: 13px;
+        padding: 9px 10px;
+    }
+
+    .review_modal .review_modal_actions {
+        margin-top: 10px;
+        gap: 6px;
+    }
+
+    .review_modal .review_modal_actions button {
+        font-size: 12px;
+        padding: 8px 10px;
     }
 
     .morder .checkout_title span {

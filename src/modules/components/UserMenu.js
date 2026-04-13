@@ -8,7 +8,7 @@ import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { LogoutRequest, UserProfileUpdate } from '../_redux/CommonAction'
-const UserMenu = ({ buyerDetails }) => {
+const UserMenu = ({ buyerDetails, activeTab = 'profile', setActiveTab = () => { } }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const userUpdted = useSelector((state) => state.homeInfo.userUpdted);
@@ -37,7 +37,7 @@ const UserMenu = ({ buyerDetails }) => {
                     </div>
                 </div>
                 <div className='menu_container'>
-                    <div className='cp menu'>
+                    <div className={activeTab === 'profile' ? 'cp menu active' : 'cp menu'} onClick={() => setActiveTab('profile')}>
                         <img src={userIcon} alt='user icon' />
                         <p>User Info</p>
                     </div>
@@ -52,6 +52,10 @@ const UserMenu = ({ buyerDetails }) => {
                     <div className='cp menu mt32'>
                         <img src={wishIcon} alt='user icon' />
                         <p>Wishlist</p>
+                    </div>
+                    <div className={activeTab === 'reviews' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => setActiveTab('reviews')}>
+                        <img src={wishIcon} alt='user icon' />
+                        <p>Rates & Reviews</p>
                     </div>
                 </div>
                 <div
