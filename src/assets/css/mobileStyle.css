@@ -972,6 +972,158 @@
         margin-top: 4px;
     }
 
+    .details_page .details_section_nav {
+        margin-top: 6px;
+        padding: 4px;
+        border-radius: 8px;
+        width: 100%;
+        overflow-x: auto;
+        gap: 4px;
+    }
+
+    .details_page .details_section_nav .nav_btn {
+        font-size: 11px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        flex: 0 0 auto;
+    }
+
+    .details_page .details_section_anchor {
+        scroll-margin-top: 66px;
+    }
+
+    .details_page .ratings_reviews_section {
+        margin-top: 8px;
+        border-radius: 12px;
+        padding: 14px 12px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_section_header h2 {
+        font-size: 22px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_section_header p {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .details_page .ratings_reviews_section .reviews_overview_grid {
+        margin-top: 10px;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_summary_card,
+    .details_page .ratings_reviews_section .reviews_breakdown_card,
+    .details_page .ratings_reviews_section .review_form_card,
+    .details_page .ratings_reviews_section .reviews_list_card {
+        border-radius: 10px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_summary_card {
+        padding: 14px;
+    }
+
+    .details_page .ratings_reviews_section .score_value {
+        font-size: 40px;
+    }
+
+    .details_page .ratings_reviews_section .score_out_of,
+    .details_page .ratings_reviews_section .score_total {
+        font-size: 12px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_breakdown_card {
+        padding: 12px;
+    }
+
+    .details_page .ratings_reviews_section .rating_row {
+        grid-template-columns: 50px auto 40px;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .details_page .ratings_reviews_section .rating_row .label,
+    .details_page .ratings_reviews_section .rating_row .percent {
+        font-size: 11px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_card {
+        padding: 12px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_card h3 {
+        font-size: 18px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_fields {
+        margin-top: 10px;
+        gap: 8px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_fields input,
+    .details_page .ratings_reviews_section .review_form_fields select,
+    .details_page .ratings_reviews_section .review_form_fields textarea {
+        font-size: 13px;
+        padding: 9px 10px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_fields textarea {
+        min-height: 92px;
+    }
+
+    .details_page .ratings_reviews_section .review_form_fields button {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+
+    .details_page .ratings_reviews_section .reviews_list_card {
+        margin-top: 10px;
+        padding: 12px;
+    }
+
+    .details_page .ratings_reviews_section .review_item {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .details_page .ratings_reviews_section .review_head {
+        gap: 8px;
+    }
+
+    .details_page .ratings_reviews_section .reviewer_name {
+        font-size: 13px;
+    }
+
+    .details_page .ratings_reviews_section .review_stars {
+        margin-top: 3px;
+        font-size: 12px;
+    }
+
+    .details_page .ratings_reviews_section .review_date {
+        font-size: 10px;
+    }
+
+    .details_page .ratings_reviews_section .review_text {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.55;
+    }
+
+    .details_page .ratings_reviews_section .review_pagination {
+        margin-top: 10px;
+        gap: 6px;
+    }
+
+    .details_page .ratings_reviews_section .review_pagination .page_btn {
+        min-width: 30px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 7px;
+        padding: 0 8px;
+    }
+
     .details_page .home_all_products {
         margin-top: 4px;
     }
