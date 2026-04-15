@@ -20,9 +20,6 @@ const THUMBNAILS_PER_PAGE = 4;
 const MAX_SELECTABLE_QUANTITY = 5;
 const ORDER_WHATSAPP_NUMBER = '01775299702';
 const ORDER_IMO_NUMBER = '01775299702';
-const ORDER_MESSENGER_THREAD_ID = '248809078314633';
-const ORDER_MESSENGER_LINK = 'https://www.messenger.com/t/248809078314633';
-const ORDER_MESSENGER_MOBILE_LINK = `https://m.me/${ORDER_MESSENGER_THREAD_ID}`;
 
 const asArray = (value) => {
     if (Array.isArray(value)) {
@@ -388,37 +385,34 @@ const ProductDetails = ({ data, isLogin }) => {
         window.open(`https://imo.im/${imoNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
     }
 
-    const openOrderOnMessenger = async () => {
+    const openOrderOnMessenger = () => {
         const orderMessageRaw = getOrderMessage();
         const orderMessage = encodeURIComponent(orderMessageRaw);
-        const separator = ORDER_MESSENGER_LINK.includes('?') ? '&' : '?';
-        const copied = await copyTextToClipboard(orderMessageRaw);
-        const mobileMessengerUrl = `${ORDER_MESSENGER_MOBILE_LINK}?ref=${orderMessage}`;
+        const productDetailsUrl = getProductDetailsUrl();
+        const encodedProductUrl = encodeURIComponent(productDetailsUrl);
+        const messengerAppId = process.env.REACT_APP_FACEBOOK_APP_ID || '291494419107518';
 
+        const messengerSendDialogUrl =
+            `https://www.facebook.com/dialog/send?app_id=${messengerAppId}`
+            + `&link=${encodedProductUrl}`
+            + `&redirect_uri=${encodedProductUrl}`
+            + `&quote=${orderMessage}`;
+
+        // Messenger does not reliably support WhatsApp-style text prefill on mobile.
+        // This uses the official send dialog/deep-link flow for the closest behavior.
         if (isMobileDevice()) {
-            if (copied) {
-                showToast('success', 'Order message copied. Paste it in Messenger.')
-            } else {
-                showToast('success', 'Messenger opened. If the message is not filled, paste it manually.')
-            }
+            const messengerDeepLink = `fb-messenger://share/?link=${encodedProductUrl}&app_id=${messengerAppId}`;
 
-            window.open(
-                mobileMessengerUrl,
-                '_blank',
-                'noopener,noreferrer'
-            );
+            window.location.href = messengerDeepLink;
+
+            setTimeout(() => {
+                window.open(messengerSendDialogUrl, '_blank', 'noopener,noreferrer');
+            }, 450);
+
             return;
         }
 
-        if (copied) {
-            showToast('success', 'Order message copied. Paste it in Messenger.')
-        }
-
-        window.open(
-            `${ORDER_MESSENGER_LINK}${separator}text=${orderMessage}`,
-            '_blank',
-            'noopener,noreferrer'
-        );
+        window.open(messengerSendDialogUrl, '_blank', 'noopener,noreferrer');
     }
 
     const openShareLink = (platform) => {
