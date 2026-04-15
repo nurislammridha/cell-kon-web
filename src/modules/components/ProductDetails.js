@@ -20,7 +20,9 @@ const THUMBNAILS_PER_PAGE = 4;
 const MAX_SELECTABLE_QUANTITY = 5;
 const ORDER_WHATSAPP_NUMBER = '01775299702';
 const ORDER_IMO_NUMBER = '01775299702';
+const ORDER_MESSENGER_THREAD_ID = '248809078314633';
 const ORDER_MESSENGER_LINK = 'https://www.messenger.com/t/248809078314633';
+const ORDER_MESSENGER_MOBILE_LINK = `https://m.me/${ORDER_MESSENGER_THREAD_ID}`;
 
 const asArray = (value) => {
     if (Array.isArray(value)) {
@@ -57,6 +59,41 @@ const toBoolean = (value, fallback = false) => {
 };
 
 const uniqueList = (list = []) => [...new Set(asArray(list).filter(Boolean))];
+
+const isMobileDevice = () => /Android|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent || '');
+
+const copyTextToClipboard = async (text) => {
+    if (!text) {
+        return false;
+    }
+
+    if (navigator?.clipboard?.writeText) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch (error) {
+            // Fall back to a manual copy approach below.
+        }
+    }
+
+    try {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'fixed';
+        textArea.style.top = '-9999px';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        textArea.setSelectionRange(0, text.length);
+        const isCopied = document.execCommand('copy');
+        document.body.removeChild(textArea);
+        return isCopied;
+    } catch (error) {
+        return false;
+    }
+};
 
 const getColorKey = (colorVariant = {}, index = 0) => {
     const colorId = String(colorVariant?.color_id || colorVariant?.colorId || '').trim();
@@ -248,6 +285,7 @@ const ProductDetails = ({ data, isLogin }) => {
     const [isWished, setIsWished] = useState(false)
     const [isWishLoading, setIsWishLoading] = useState(false)
     const [isMobileOrderFabOpen, setIsMobileOrderFabOpen] = useState(true)
+    const [isMainImageLoading, setIsMainImageLoading] = useState(true)
 
     const colorVariants = useMemo(() => normalizeColorVariants(data), [data]);
 
@@ -298,6 +336,7 @@ const ProductDetails = ({ data, isLogin }) => {
     const maxQuantity = isInStock ? Math.min(MAX_SELECTABLE_QUANTITY, availableQuantity) : 0;
     const discountPercent = variantPrice > 0 ? Math.max(0, Math.round(((variantPrice - salePrice) / variantPrice) * 100)) : 0;
     const hasDiscount = variantPrice > salePrice && discountPercent > 0;
+    const selectedMainImage = fullImg || colorImages[0] || data?.productIcon?.url || '';
 
     const totalGalleryPages = Math.max(1, Math.ceil(colorImages.length / THUMBNAILS_PER_PAGE));
     const thumbnailStart = (page - 1) * THUMBNAILS_PER_PAGE;
@@ -333,30 +372,46 @@ const ProductDetails = ({ data, isLogin }) => {
         window.open(`https://wa.me/${whatsappNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
     }
 
-    const openOrderOnImo = () => {
+    const openOrderOnImo = async () => {
         const normalizedNumber = ORDER_IMO_NUMBER.replace(/\D/g, '');
         const imoNumber = normalizedNumber.startsWith('0') ? `+88${normalizedNumber}` : `+${normalizedNumber}`;
         const orderMessageRaw = getOrderMessage();
         const orderMessage = encodeURIComponent(orderMessageRaw);
+        const copied = await copyTextToClipboard(orderMessageRaw);
 
-        if (navigator?.clipboard?.writeText) {
-            navigator.clipboard.writeText(orderMessageRaw)
-                .then(() => showToast('success', 'Order message copied. Paste it in imo.'))
-                .catch(() => null);
+        if (copied) {
+            showToast('success', 'Order message copied. Paste it in imo.')
+        } else if (isMobileDevice()) {
+            showToast('success', 'imo opened. If the message is not filled, paste it manually.')
         }
 
         window.open(`https://imo.im/${imoNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
     }
 
-    const openOrderOnMessenger = () => {
+    const openOrderOnMessenger = async () => {
         const orderMessageRaw = getOrderMessage();
         const orderMessage = encodeURIComponent(orderMessageRaw);
         const separator = ORDER_MESSENGER_LINK.includes('?') ? '&' : '?';
+        const copied = await copyTextToClipboard(orderMessageRaw);
+        const mobileMessengerUrl = `${ORDER_MESSENGER_MOBILE_LINK}?ref=${orderMessage}`;
 
-        if (navigator?.clipboard?.writeText) {
-            navigator.clipboard.writeText(orderMessageRaw)
-                .then(() => showToast('success', 'Order message copied. Paste it in Messenger.'))
-                .catch(() => null);
+        if (isMobileDevice()) {
+            if (copied) {
+                showToast('success', 'Order message copied. Paste it in Messenger.')
+            } else {
+                showToast('success', 'Messenger opened. If the message is not filled, paste it manually.')
+            }
+
+            window.open(
+                mobileMessengerUrl,
+                '_blank',
+                'noopener,noreferrer'
+            );
+            return;
+        }
+
+        if (copied) {
+            showToast('success', 'Order message copied. Paste it in Messenger.')
         }
 
         window.open(
@@ -587,6 +642,10 @@ const ProductDetails = ({ data, isLogin }) => {
     }, [colorImages, fullImg, page, totalGalleryPages])
 
     useEffect(() => {
+        setIsMainImageLoading(Boolean(selectedMainImage))
+    }, [selectedMainImage])
+
+    useEffect(() => {
         fetchWishStatus()
     }, [isLogin, data?._id])
 
@@ -644,7 +703,14 @@ const ProductDetails = ({ data, isLogin }) => {
             <div className='main details_top_left'>
                 <div className='left'>
                     <div className='image'>
-                        <img src={fullImg || pro3} alt='product img' />
+                        {isMainImageLoading && <div className='main_image_loader' aria-hidden='true'></div>}
+                        {selectedMainImage && <img
+                            src={selectedMainImage}
+                            alt='product img'
+                            className={isMainImageLoading ? 'main_image_loading' : ''}
+                            onLoad={() => setIsMainImageLoading(false)}
+                            onError={() => setIsMainImageLoading(false)}
+                        />}
                     </div>
                     <div className='parent_img'>
                         <div className='img'>
