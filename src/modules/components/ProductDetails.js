@@ -20,6 +20,9 @@ const THUMBNAILS_PER_PAGE = 4;
 const MAX_SELECTABLE_QUANTITY = 5;
 const ORDER_WHATSAPP_NUMBER = '01775299702';
 const ORDER_IMO_NUMBER = '01775299702';
+const ORDER_MESSENGER_THREAD_ID = '248809078314633';
+const ORDER_MESSENGER_THREAD_URL = `https://www.messenger.com/t/${ORDER_MESSENGER_THREAD_ID}`;
+const ORDER_MESSENGER_MOBILE_URL = `https://m.me/${ORDER_MESSENGER_THREAD_ID}`;
 
 const asArray = (value) => {
     if (Array.isArray(value)) {
@@ -385,34 +388,33 @@ const ProductDetails = ({ data, isLogin }) => {
         window.open(`https://imo.im/${imoNumber}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
     }
 
-    const openOrderOnMessenger = () => {
+    const openOrderOnMessenger = async () => {
         const orderMessageRaw = getOrderMessage();
         const orderMessage = encodeURIComponent(orderMessageRaw);
-        const productDetailsUrl = getProductDetailsUrl();
-        const encodedProductUrl = encodeURIComponent(productDetailsUrl);
-        const messengerAppId = process.env.REACT_APP_FACEBOOK_APP_ID || '291494419107518';
+        const copied = await copyTextToClipboard(orderMessageRaw);
 
-        const messengerSendDialogUrl =
-            `https://www.facebook.com/dialog/send?app_id=${messengerAppId}`
-            + `&link=${encodedProductUrl}`
-            + `&redirect_uri=${encodedProductUrl}`
-            + `&quote=${orderMessage}`;
-
-        // Messenger does not reliably support WhatsApp-style text prefill on mobile.
-        // This uses the official send dialog/deep-link flow for the closest behavior.
         if (isMobileDevice()) {
-            const messengerDeepLink = `fb-messenger://share/?link=${encodedProductUrl}&app_id=${messengerAppId}`;
+            const messengerThreadDeepLink = `fb-messenger://user-thread/${ORDER_MESSENGER_THREAD_ID}?text=${orderMessage}`;
+            const messengerMobileThreadUrl = `${ORDER_MESSENGER_MOBILE_URL}?text=${orderMessage}`;
 
-            window.location.href = messengerDeepLink;
+            window.location.href = messengerThreadDeepLink;
 
             setTimeout(() => {
-                window.open(messengerSendDialogUrl, '_blank', 'noopener,noreferrer');
+                window.open(messengerMobileThreadUrl, '_blank', 'noopener,noreferrer');
             }, 450);
+
+            if (copied) {
+                showToast('success', 'Messenger opened to Sellkon chat. Message copied for quick paste if needed.')
+            }
 
             return;
         }
 
-        window.open(messengerSendDialogUrl, '_blank', 'noopener,noreferrer');
+        window.open(`${ORDER_MESSENGER_THREAD_URL}?text=${orderMessage}`, '_blank', 'noopener,noreferrer');
+
+        if (copied) {
+            showToast('success', 'Messenger opened to Sellkon chat. Message copied for quick paste if needed.')
+        }
     }
 
     const openShareLink = (platform) => {
