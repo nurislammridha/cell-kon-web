@@ -7,6 +7,63 @@ import moment from 'moment';
 import MobileCommonHeader from '../components/MobileCommonHeader';
 import Axios from 'axios';
 import { showToast } from '../../utils/ToastHelper';
+
+const MAX_REVIEW_IMAGES = 4;
+const MAX_REVIEW_IMAGE_SIZE_BYTES = 2 * 1024 * 1024;
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/nurislammridha/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'nurislam';
+
+const normalizeReviewImages = (value) => {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value
+        .map((item) => {
+            if (typeof item === 'string') {
+                return item.trim();
+            }
+
+            if (item && typeof item === 'object') {
+                return String(item.url || item.secure_url || item.src || '').trim();
+            }
+
+            return '';
+        })
+        .filter(Boolean)
+        .slice(0, MAX_REVIEW_IMAGES);
+};
+
+const toReviewImageSlots = (value) => {
+    const normalized = normalizeReviewImages(value);
+    return Array.from({ length: MAX_REVIEW_IMAGES }, (_, index) => normalized[index] || '');
+};
+
+const fromReviewImageSlots = (slots) => {
+    if (!Array.isArray(slots)) {
+        return [];
+    }
+
+    return slots
+        .map((item) => String(item || '').trim())
+        .filter(Boolean)
+        .slice(0, MAX_REVIEW_IMAGES);
+};
+
+const isSupportedReviewImage = (file) => {
+    const type = String(file?.type || '').toLowerCase();
+    return ['image/jpeg', 'image/jpg', 'image/png'].includes(type);
+};
+
+const uploadReviewImageToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+    const res = await Axios.post(CLOUDINARY_UPLOAD_URL, data);
+    return String(res?.data?.secure_url || res?.data?.url || '').trim();
+};
+
 const OrderDetailsPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -28,6 +85,8 @@ const OrderDetailsPage = () => {
     const [isEditingReview, setIsEditingReview] = useState(false)
     const [ratingInput, setRatingInput] = useState(0)
     const [reviewInput, setReviewInput] = useState('')
+    const [reviewImages, setReviewImages] = useState(() => toReviewImageSlots([]))
+    const [reviewImageUploadingIndex, setReviewImageUploadingIndex] = useState(-1)
 
     const isLogin = localStorage.getItem('isLogin') === 'true'
     const reviewApiBase = `${process.env.REACT_APP_API_URL}review`
@@ -43,6 +102,8 @@ const OrderDetailsPage = () => {
         setIsEditingReview(false)
         setRatingInput(0)
         setReviewInput('')
+        setReviewImages(toReviewImageSlots([]))
+        setReviewImageUploadingIndex(-1)
     }
 
     const closeReviewModal = () => {
@@ -76,9 +137,11 @@ const OrderDetailsPage = () => {
             if (fetchedMyReview) {
                 setRatingInput(Number(fetchedMyReview?.rating || 0))
                 setReviewInput(String(fetchedMyReview?.review || ''))
+                setReviewImages(toReviewImageSlots(fetchedMyReview?.reviewImages))
             } else {
                 setRatingInput(0)
                 setReviewInput('')
+                setReviewImages(toReviewImageSlots([]))
             }
         } catch (error) {
             const message = error?.response?.data?.message || 'Failed to load review information.'
@@ -135,6 +198,7 @@ const OrderDetailsPage = () => {
                 productId,
                 rating: ratingInput,
                 review: reviewInput.trim(),
+                reviewImages: fromReviewImageSlots(reviewImages),
             }
 
             const url = myReview && isEditingReview
@@ -180,6 +244,7 @@ const OrderDetailsPage = () => {
                 setIsEditingReview(false)
                 setRatingInput(0)
                 setReviewInput('')
+                setReviewImages(toReviewImageSlots([]))
                 await refreshOpenModalData()
             }
         } catch (error) {
@@ -190,10 +255,57 @@ const OrderDetailsPage = () => {
         }
     }
 
+    const handleReviewImageSlotUpload = async (event, slotIndex) => {
+        const file = event.target.files?.[0]
+        event.target.value = ''
+
+        if (!file) {
+            return
+        }
+
+        if (!isSupportedReviewImage(file)) {
+            showToast('error', 'Only png, .jpg, .jpeg images are allowed.')
+            return
+        }
+
+        if (Number(file?.size || 0) > MAX_REVIEW_IMAGE_SIZE_BYTES) {
+            showToast('error', 'Image size must be 2MB or less.')
+            return
+        }
+
+        setReviewImageUploadingIndex(slotIndex)
+
+        try {
+            const uploaded = await uploadReviewImageToCloudinary(file)
+            if (!uploaded) {
+                throw new Error('Image upload failed')
+            }
+
+            setReviewImages((prev) => {
+                const next = Array.isArray(prev) ? [...prev] : toReviewImageSlots([])
+                next[slotIndex] = uploaded
+                return next.slice(0, MAX_REVIEW_IMAGES)
+            })
+        } catch (error) {
+            showToast('error', `Image ${slotIndex + 1} upload failed. Please try again.`)
+        } finally {
+            setReviewImageUploadingIndex(-1)
+        }
+    }
+
+    const handleClearReviewImageSlot = (slotIndex) => {
+        setReviewImages((prev) => {
+            const next = Array.isArray(prev) ? [...prev] : toReviewImageSlots([])
+            next[slotIndex] = ''
+            return next.slice(0, MAX_REVIEW_IMAGES)
+        })
+    }
+
     const canEditOrDelete = Boolean(myReview && myReview?.status !== 'approved')
     const shouldDisableForm = isReviewDataLoading
         || isReviewSubmitting
         || isReviewDeleting
+        || reviewImageUploadingIndex !== -1
         || (myReview?.status === 'approved')
         || (myReview && !isEditingReview)
         || (!myReview && eligibility?.canCreate === false)
@@ -406,6 +518,48 @@ const OrderDetailsPage = () => {
                         disabled={shouldDisableForm}
                     ></textarea>
 
+                    <div className='review_modal_image_tools'>
+                        <div className='review_modal_image_hint'>Upload up to {MAX_REVIEW_IMAGES} images (png, .jpg, .jpeg support, max 2MB each)</div>
+                    </div>
+
+                    <div className='review_modal_images_grid'>
+                        {Array.from({ length: MAX_REVIEW_IMAGES }, (_, index) => {
+                            const image = String(reviewImages?.[index] || '').trim()
+                            const isSlotUploading = reviewImageUploadingIndex === index
+
+                            return (
+                                <div className='review_modal_image_item' key={`modal-review-image-slot-${index}`}>
+                                    {image ? (
+                                        <img src={image} alt={`Review upload ${index + 1}`} />
+                                    ) : (
+                                        <div className='review_modal_image_placeholder'>Image {index + 1}</div>
+                                    )}
+
+                                    <label className='review_modal_file_input review_modal_file_input_slot'>
+                                        <input
+                                            type='file'
+                                            accept='image/png,image/jpg,image/jpeg'
+                                            onChange={(event) => handleReviewImageSlotUpload(event, index)}
+                                            disabled={shouldDisableForm || (reviewImageUploadingIndex !== -1 && !isSlotUploading)}
+                                        />
+                                        <span>{isSlotUploading ? 'Uploading...' : image ? 'Change' : 'Upload'}</span>
+                                    </label>
+
+                                    {image && !shouldDisableForm && (
+                                        <button
+                                            type='button'
+                                            className='review_modal_image_remove'
+                                            onClick={() => handleClearReviewImageSlot(index)}
+                                            disabled={reviewImageUploadingIndex !== -1}
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </div>
+                            )
+                        })}
+                    </div>
+
                     <div className='review_modal_actions'>
                         <button type='submit' disabled={shouldDisableForm}>
                             {isReviewSubmitting ? 'Saving...' : myReview && isEditingReview ? 'Update Review' : 'Submit Review'}
@@ -429,6 +583,7 @@ const OrderDetailsPage = () => {
                                     setIsEditingReview(false)
                                     setRatingInput(Number(myReview?.rating || 0))
                                     setReviewInput(String(myReview?.review || ''))
+                                    setReviewImages(toReviewImageSlots(myReview?.reviewImages))
                                 }}
                             >
                                 Cancel

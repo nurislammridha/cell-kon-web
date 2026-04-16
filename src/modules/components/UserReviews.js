@@ -3,10 +3,49 @@ import Axios from 'axios'
 import { showToast } from '../../utils/ToastHelper'
 
 const REVIEWS_PER_PAGE = 10;
+const MAX_REVIEW_IMAGES = 4;
+const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/nurislammridha/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = 'nurislam';
 
 const toNumber = (value, fallback = 0) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const normalizeReviewImages = (value) => {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value
+        .map((item) => {
+            if (typeof item === 'string') {
+                return item.trim();
+            }
+
+            if (item && typeof item === 'object') {
+                return String(item.url || item.secure_url || item.src || '').trim();
+            }
+
+            return '';
+        })
+        .filter(Boolean)
+        .slice(0, MAX_REVIEW_IMAGES);
+};
+
+const isSupportedReviewImage = (file) => {
+    const type = String(file?.type || '').toLowerCase();
+    return ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(type);
+};
+
+const uploadReviewImageToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    data.append('cloud_name ', 'nurislammridha');
+
+    const res = await Axios.post(CLOUDINARY_UPLOAD_URL, data);
+    return String(res?.data?.secure_url || res?.data?.url || '').trim();
 };
 
 const formatReviewDate = (value) => {
@@ -37,8 +76,10 @@ const UserReviews = () => {
     const [editingId, setEditingId] = useState('')
     const [editingRating, setEditingRating] = useState(0)
     const [editingReview, setEditingReview] = useState('')
+    const [editingImages, setEditingImages] = useState([])
     const [isSaving, setIsSaving] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    const [isUploadingImages, setIsUploadingImages] = useState(false)
 
     const reviewApiBase = `${process.env.REACT_APP_API_URL}review`
 
@@ -104,12 +145,55 @@ const UserReviews = () => {
         setEditingId(review?._id || '')
         setEditingRating(Math.max(0, Math.min(5, Math.round(toNumber(review?.rating, 0)))))
         setEditingReview(String(review?.review || ''))
+        setEditingImages(normalizeReviewImages(review?.reviewImages))
     }
 
     const cancelEdit = () => {
         setEditingId('')
         setEditingRating(0)
         setEditingReview('')
+        setEditingImages([])
+    }
+
+    const handleEditReviewImageUpload = async (event) => {
+        const selectedFiles = Array.from(event.target.files || [])
+        event.target.value = ''
+
+        if (selectedFiles.length === 0) {
+            return
+        }
+
+        const slotsLeft = MAX_REVIEW_IMAGES - editingImages.length
+        if (slotsLeft <= 0) {
+            showToast('error', `You can upload maximum ${MAX_REVIEW_IMAGES} images.`)
+            return
+        }
+
+        const filesToUpload = selectedFiles.slice(0, slotsLeft)
+        const hasUnsupported = filesToUpload.some((file) => !isSupportedReviewImage(file))
+        if (hasUnsupported) {
+            showToast('error', 'Only JPG, JPEG, PNG, and WEBP images are allowed.')
+            return
+        }
+
+        if (selectedFiles.length > slotsLeft) {
+            showToast('error', `Only ${slotsLeft} more image(s) can be added.`)
+        }
+
+        setIsUploadingImages(true)
+
+        try {
+            const uploaded = await Promise.all(filesToUpload.map((file) => uploadReviewImageToCloudinary(file)))
+            setEditingImages((prev) => [...new Set([...prev, ...uploaded.filter(Boolean)])].slice(0, MAX_REVIEW_IMAGES))
+        } catch (error) {
+            showToast('error', 'Failed to upload one or more images. Please try again.')
+        } finally {
+            setIsUploadingImages(false)
+        }
+    }
+
+    const removeEditImage = (indexToRemove) => {
+        setEditingImages((prev) => prev.filter((_, index) => index !== indexToRemove))
     }
 
     const handleUpdateReview = async (review) => {
@@ -133,6 +217,7 @@ const UserReviews = () => {
             const payload = {
                 rating: editingRating,
                 review: editingReview.trim(),
+                reviewImages: editingImages,
             }
 
             const res = await Axios.put(`${reviewApiBase}/${review._id}`, payload)
@@ -238,7 +323,7 @@ const UserReviews = () => {
                                                     type='button'
                                                     className={active ? 'star_pick active' : 'star_pick'}
                                                     onClick={() => setEditingRating(star)}
-                                                    disabled={isSaving}
+                                                    disabled={isSaving || isUploadingImages}
                                                 >
                                                     <i className='fa fa-star'></i>
                                                 </button>
@@ -249,8 +334,50 @@ const UserReviews = () => {
                                         rows='4'
                                         value={editingReview}
                                         onChange={(event) => setEditingReview(event.target.value)}
-                                        disabled={isSaving}
+                                        disabled={isSaving || isUploadingImages}
                                     ></textarea>
+
+                                    <div className='user_review_edit_images'>
+                                        <label className='user_review_file_input'>
+                                            <input
+                                                type='file'
+                                                accept='image/jpeg,image/jpg,image/png,image/webp'
+                                                multiple
+                                                onChange={handleEditReviewImageUpload}
+                                                disabled={isSaving || isUploadingImages || editingImages.length >= MAX_REVIEW_IMAGES}
+                                            />
+                                            <span>{isUploadingImages ? 'Uploading...' : 'Upload Images'}</span>
+                                        </label>
+                                        <small>Maximum {MAX_REVIEW_IMAGES} images</small>
+
+                                        {editingImages.length > 0 && (
+                                            <div className='user_review_image_actions'>
+                                                {editingImages.map((image, index) => (
+                                                    <div key={`edit-review-image-${review?._id}-${index}`} className='user_review_image'>
+                                                        <img src={image} alt={`Review edit ${index + 1}`} />
+                                                        <button
+                                                            type='button'
+                                                            className='user_review_image_remove'
+                                                            onClick={() => removeEditImage(index)}
+                                                            disabled={isSaving || isUploadingImages}
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {!isEditing && normalizeReviewImages(review?.reviewImages).length > 0 && (
+                                <div className='user_review_image_actions'>
+                                    {normalizeReviewImages(review?.reviewImages).map((image, index) => (
+                                        <div key={`saved-review-image-${review?._id}-${index}`} className='user_review_image'>
+                                            <img src={image} alt={`Review image ${index + 1}`} />
+                                        </div>
+                                    ))}
                                 </div>
                             )}
 
@@ -260,10 +387,10 @@ const UserReviews = () => {
                                 )}
                                 {!isApproved && isEditing && (
                                     <>
-                                        <button type='button' onClick={() => handleUpdateReview(review)} disabled={isSaving}>
-                                            {isSaving ? 'Saving...' : 'Update'}
+                                        <button type='button' onClick={() => handleUpdateReview(review)} disabled={isSaving || isUploadingImages}>
+                                            {isUploadingImages ? 'Uploading...' : isSaving ? 'Saving...' : 'Update'}
                                         </button>
-                                        <button type='button' className='outline' onClick={cancelEdit} disabled={isSaving}>Cancel</button>
+                                        <button type='button' className='outline' onClick={cancelEdit} disabled={isSaving || isUploadingImages}>Cancel</button>
                                     </>
                                 )}
                                 {!isApproved && (
@@ -271,7 +398,7 @@ const UserReviews = () => {
                                         type='button'
                                         className='danger'
                                         onClick={() => handleDeleteReview(review?._id)}
-                                        disabled={isDeleting || isSaving}
+                                        disabled={isDeleting || isSaving || isUploadingImages}
                                     >
                                         {isDeleting ? 'Deleting...' : 'Delete'}
                                     </button>

@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { showToast } from '../../utils/ToastHelper'
 
 const REVIEWS_PER_PAGE = 10;
 const DEFAULT_BREAKDOWN = [5, 4, 3, 2, 1].map((star) => ({ star, count: 0, percent: 0 }));
@@ -9,6 +7,27 @@ const DEFAULT_BREAKDOWN = [5, 4, 3, 2, 1].map((star) => ({ star, count: 0, perce
 const toNumber = (value, fallback = 0) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const normalizeReviewImages = (value) => {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value
+        .map((item) => {
+            if (typeof item === 'string') {
+                return item.trim();
+            }
+
+            if (item && typeof item === 'object') {
+                return String(item.url || item.secure_url || item.src || '').trim();
+            }
+
+            return '';
+        })
+        .filter(Boolean)
+        .slice(0, 4);
 };
 
 const formatReviewDate = (value) => {
@@ -29,7 +48,6 @@ const formatReviewDate = (value) => {
 };
 
 const RatingsReviewsSection = ({ data, isLogin = false }) => {
-    const navigate = useNavigate();
     const productId = data?._id;
 
     const [reviewPage, setReviewPage] = useState(1);
@@ -39,14 +57,7 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
     const [isReviewsLoading, setIsReviewsLoading] = useState(false);
 
     const [myReview, setMyReview] = useState(null);
-    const [eligibility, setEligibility] = useState({ canCreate: false, message: '' });
     const [isMyDataLoading, setIsMyDataLoading] = useState(false);
-
-    const [ratingInput, setRatingInput] = useState(0);
-    const [reviewInput, setReviewInput] = useState('');
-    const [isEditingMyReview, setIsEditingMyReview] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isDeleting, setIsDeleting] = useState(false);
 
     const reviewApiBase = `${process.env.REACT_APP_API_URL}review`;
 
@@ -79,34 +90,16 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
     const fetchMyReviewData = useCallback(async () => {
         if (!isLogin || !productId) {
             setMyReview(null);
-            setEligibility({ canCreate: false, message: '' });
             return;
         }
 
         setIsMyDataLoading(true);
 
         try {
-            const [myReviewRes, eligibilityRes] = await Promise.all([
-                Axios.get(`${reviewApiBase}/product/${productId}/mine`),
-                Axios.get(`${reviewApiBase}/eligibility/${productId}`),
-            ]);
-
-            const nextMyReview = myReviewRes?.data?.result || null;
-            const eligibilityResult = eligibilityRes?.data?.result || { canCreate: false, message: '' };
-
-            setMyReview(nextMyReview);
-            setEligibility(eligibilityResult);
-
-            if (nextMyReview) {
-                setRatingInput(Math.max(0, Math.min(5, Math.round(toNumber(nextMyReview?.rating, 0)))));
-                setReviewInput(String(nextMyReview?.review || ''));
-            } else {
-                setRatingInput(0);
-                setReviewInput('');
-            }
+            const myReviewRes = await Axios.get(`${reviewApiBase}/product/${productId}/mine`);
+            setMyReview(myReviewRes?.data?.result || null);
         } catch (error) {
             setMyReview(null);
-            setEligibility({ canCreate: false, message: '' });
         } finally {
             setIsMyDataLoading(false);
         }
@@ -114,7 +107,6 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
 
     useEffect(() => {
         setReviewPage(1);
-        setIsEditingMyReview(false);
     }, [productId]);
 
     useEffect(() => {
@@ -152,132 +144,6 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
         ));
     };
 
-    const isApprovedReview = myReview?.status === 'approved';
-    const canEditOrDelete = Boolean(myReview && !isApprovedReview);
-    const shouldDisableForm = !isLogin
-        || isSubmitting
-        || isDeleting
-        || isMyDataLoading
-        || isApprovedReview
-        || (Boolean(myReview) && !isEditingMyReview)
-        || (!myReview && eligibility?.canCreate === false);
-
-    const openLogin = () => {
-        localStorage.setItem('redirect_details', productId || '');
-        localStorage.setItem('redirect_url', 'product_details');
-        navigate('/login');
-    };
-
-    const handleStartEdit = () => {
-        if (!myReview) {
-            return;
-        }
-
-        setRatingInput(Math.max(0, Math.min(5, Math.round(toNumber(myReview?.rating, 0)))));
-        setReviewInput(String(myReview?.review || ''));
-        setIsEditingMyReview(true);
-    };
-
-    const handleCancelEdit = () => {
-        if (myReview) {
-            setRatingInput(Math.max(0, Math.min(5, Math.round(toNumber(myReview?.rating, 0)))));
-            setReviewInput(String(myReview?.review || ''));
-        } else {
-            setRatingInput(0);
-            setReviewInput('');
-        }
-
-        setIsEditingMyReview(false);
-    };
-
-    const handleSubmitReview = async (event) => {
-        event.preventDefault();
-
-        if (!isLogin) {
-            showToast('error', 'Please login to submit a review.');
-            openLogin();
-            return;
-        }
-
-        if (!productId) {
-            showToast('error', 'Product information is missing.');
-            return;
-        }
-
-        if (!ratingInput && reviewInput.trim().length > 0) {
-            showToast('error', 'Please provide a rating along with your review.');
-            return;
-        }
-
-        if (!ratingInput) {
-            showToast('error', 'Please provide a rating.');
-            return;
-        }
-
-        const payload = {
-            productId,
-            rating: ratingInput,
-            review: reviewInput.trim(),
-        };
-
-        setIsSubmitting(true);
-
-        try {
-            const url = myReview && isEditingMyReview
-                ? `${reviewApiBase}/${myReview?._id}`
-                : `${reviewApiBase}`;
-
-            const request = myReview && isEditingMyReview
-                ? Axios.put(url, payload)
-                : Axios.post(url, payload);
-
-            const res = await request;
-
-            if (res?.data?.status) {
-                showToast('success', res?.data?.message || 'Review submitted successfully.');
-                setIsEditingMyReview(false);
-                await Promise.all([fetchReviews(reviewPage), fetchMyReviewData()]);
-            }
-        } catch (error) {
-            const message = error?.response?.data?.message || 'Failed to submit review.';
-            showToast('error', message);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleDeleteReview = async () => {
-        if (!myReview?._id || !canEditOrDelete) {
-            return;
-        }
-
-        const confirmed = window.confirm('Are you sure you want to delete your review?');
-        if (!confirmed) {
-            return;
-        }
-
-        setIsDeleting(true);
-
-        try {
-            const res = await Axios.delete(`${reviewApiBase}/${myReview._id}`);
-
-            if (res?.data?.status) {
-                showToast('success', res?.data?.message || 'Review deleted successfully.');
-                setIsEditingMyReview(false);
-                setRatingInput(0);
-                setReviewInput('');
-
-                await Promise.all([fetchReviews(1), fetchMyReviewData()]);
-                setReviewPage(1);
-            }
-        } catch (error) {
-            const message = error?.response?.data?.message || 'Failed to delete review.';
-            showToast('error', message);
-        } finally {
-            setIsDeleting(false);
-        }
-    };
-
     const totalReviewPages = Math.max(1, Number(pagination?.totalPage || 1));
     const reviewPaginationItems = Array.from({ length: totalReviewPages }, (_, index) => index + 1);
 
@@ -288,20 +154,19 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
                 <p>See what customers are saying before making your purchase.</p>
             </div>
 
-            {myReview && <div className='my_review_card'>
+            {isLogin && myReview && <div className='my_review_card'>
                 <div className='my_review_top'>
                     <h4>Your Review</h4>
                     <span className={`status_badge ${myReview?.status || 'disapproved'}`}>{String(myReview?.status || 'disapproved')}</span>
                 </div>
                 <div className='my_review_rating'>{renderStars(myReview?.rating, 'my-review')}</div>
                 <p>{myReview?.review || 'You rated this product without a written review.'}</p>
-                {canEditOrDelete && <div className='my_review_actions'>
-                    <button type='button' onClick={handleStartEdit}>Edit</button>
-                    <button type='button' className='danger' onClick={handleDeleteReview} disabled={isDeleting}>
-                        {isDeleting ? 'Deleting...' : 'Delete'}
-                    </button>
+                {normalizeReviewImages(myReview?.reviewImages).length > 0 && <div className='my_review_images'>
+                    {normalizeReviewImages(myReview?.reviewImages).map((image, index) => (
+                        <img key={`my-review-image-${index}`} src={image} alt={`Your review ${index + 1}`} className='my_review_image' />
+                    ))}
                 </div>}
-                {isApprovedReview && <small>Approved reviews are locked from editing or deleting.</small>}
+                {isMyDataLoading && <small>Refreshing your review...</small>}
             </div>}
 
             <div className='reviews_overview_grid'>
@@ -325,59 +190,6 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
                         </div>
                     ))}
                 </div>
-
-                <form className='review_form_card' onSubmit={handleSubmitReview}>
-                    <h3>{myReview && isEditingMyReview ? 'Update Your Review' : 'Write a Review'}</h3>
-
-                    {!isLogin && <div className='review_form_state'>Please login to submit a review.
-                        <button type='button' className='outline_btn' onClick={openLogin}>Login</button>
-                    </div>}
-
-                    {isLogin && !myReview && eligibility?.canCreate === false && <div className='review_form_state warning'>{eligibility?.message || 'You are not eligible to review this product yet.'}</div>}
-
-                    {isLogin && myReview && !isEditingMyReview && !isApprovedReview && (
-                        <div className='review_form_state'>You have already reviewed this product. Click Edit to update.</div>
-                    )}
-
-                    {isLogin && isApprovedReview && <div className='review_form_state warning'>Your review is approved and cannot be modified.</div>}
-
-                    <div className='review_form_fields'>
-                        <div className='rating_input_row'>
-                            {Array.from({ length: 5 }, (_, index) => {
-                                const star = index + 1;
-                                const active = star <= ratingInput;
-                                return (
-                                    <button
-                                        key={`rate-${star}`}
-                                        type='button'
-                                        className={active ? 'star_pick active' : 'star_pick'}
-                                        disabled={shouldDisableForm}
-                                        onClick={() => setRatingInput(star)}
-                                    >
-                                        <i className='fa fa-star'></i>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        <textarea
-                            rows='4'
-                            placeholder='Share your review about this product (optional)'
-                            value={reviewInput}
-                            disabled={shouldDisableForm}
-                            onChange={(event) => setReviewInput(event.target.value)}
-                        ></textarea>
-
-                        <button type='submit' disabled={shouldDisableForm}>
-                            {isSubmitting ? 'Saving...' : myReview && isEditingMyReview ? 'Update Review' : 'Submit Review'}
-                        </button>
-
-                        {myReview && isEditingMyReview && (
-                            <button type='button' className='outline_btn' onClick={handleCancelEdit} disabled={isSubmitting}>
-                                Cancel
-                            </button>
-                        )}
-                    </div>
-                </form>
             </div>
 
             <div className='reviews_list_card'>
@@ -397,6 +209,18 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
                             <div className='review_date'>{formatReviewDate(item?.createdAt || item?.date)}</div>
                         </div>
                         <p className='review_text'>{item?.review || item?.comment || 'Rated this product.'}</p>
+                        {normalizeReviewImages(item?.reviewImages).length > 0 && (
+                            <div className='review_images_grid'>
+                                {normalizeReviewImages(item?.reviewImages).map((image, imageIndex) => (
+                                    <img
+                                        key={`review-image-${reviewPage}-${index}-${imageIndex}`}
+                                        src={image}
+                                        alt={`Review ${index + 1} image ${imageIndex + 1}`}
+                                        className='review_image_item'
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
