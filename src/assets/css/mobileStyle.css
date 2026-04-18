@@ -1749,8 +1749,17 @@
     }
 
     .user_info .user_select .address-select__indicators {
-        height: 38px;
+        height: 100%;
         padding-right: 8px;
+    }
+
+    .user_info .user_select .address-select__dropdown-indicator {
+        display: flex;
+        align-items: center;
+    }
+
+    .user_info .user_select .address-select__indicator-separator {
+        display: none !important;
     }
 
     .user_reviews_panel .user_reviews_toolbar {

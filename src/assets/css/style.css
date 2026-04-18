@@ -3598,6 +3598,7 @@ body {
     border: 1px solid #959595;
     border-radius: 5px;
     box-shadow: none;
+    overflow: hidden;
 }
 
 .user_info .user_select .address-select__control:hover,
@@ -3622,15 +3623,19 @@ body {
 }
 
 .user_info .user_select .address-select__indicators {
+    display: flex;
+    align-items: center;
     height: 46px;
     padding-right: 10px;
 }
 
 .user_info .user_select .address-select__indicator-separator {
-    display: none;
+    display: none !important;
 }
 
 .user_info .user_select .address-select__dropdown-indicator {
+    display: flex;
+    align-items: center;
     padding: 0;
 }
 

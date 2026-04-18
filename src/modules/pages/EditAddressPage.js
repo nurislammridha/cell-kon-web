@@ -6,9 +6,27 @@ import { locationOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseUpdateAddress, GetUpdateAddressInput, SetAddressUpdateInput, UpdateBuyerAddress } from '../_redux/CommonAction'
 
+const hideSelectKeyboard = () => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    const activeElement = document.activeElement;
+    if (activeElement && typeof activeElement.blur === 'function') {
+        activeElement.blur();
+    }
+}
+
 const addressSelectCommonProps = {
     isSearchable: false,
     classNamePrefix: 'address-select',
+    openMenuOnFocus: false,
+    blurInputOnSelect: true,
+    onMenuOpen: hideSelectKeyboard,
+    onMenuClose: hideSelectKeyboard,
+    components: {
+        IndicatorSeparator: () => null,
+    },
 }
 
 function EditAddressPage() {
