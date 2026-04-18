@@ -5,6 +5,25 @@ import { district, division, nearestArea, union, upazilla } from '../../assets/f
 import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { CreateUser, FalseAddressCreated, GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
+
+const hideSelectKeyboard = () => {
+    if (typeof document === 'undefined') return
+    const activeElement = document.activeElement
+    if (activeElement && typeof activeElement.blur === 'function') activeElement.blur()
+}
+
+const addressSelectCommonProps = {
+    isSearchable: false,
+    classNamePrefix: 'address-select',
+    openMenuOnFocus: false,
+    blurInputOnSelect: true,
+    onMenuOpen: hideSelectKeyboard,
+    onMenuClose: hideSelectKeyboard,
+    components: {
+        IndicatorSeparator: () => null,
+    },
+}
+
 function CreateUserPage() {
     const { state } = useLocation()
     const { phone } = state || {}
@@ -46,7 +65,7 @@ function CreateUserPage() {
     useEffect(() => {
         if (isAddressCreated) {
             navigate('/checkout', { state })
-            FalseAddressCreated()
+            dispatch(FalseAddressCreated())
         }
     }, [isAddressCreated])
     console.log('phone', phone)
@@ -61,7 +80,7 @@ function CreateUserPage() {
                             <p className='clr959595 fs16 fm'>Phone Number<span style={{ color: "red" }}>*</span></p>
                             <input
                                 disabled
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter phone number'
                                 name='phone_number'
@@ -72,7 +91,7 @@ function CreateUserPage() {
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Full Name<span style={{ color: "red" }}>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter full name'
                                 name='full_name'
@@ -107,6 +126,7 @@ function CreateUserPage() {
                             <p className='clr959595 fs16 fm'>Division<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={locationOption(division())}
                                     name='division'
                                     value={{ label: addressInput.division }}
@@ -116,6 +136,7 @@ function CreateUserPage() {
                                         handleChange("district", "")
                                         handleChange("upazilla", "")
                                         handleChange("union", "")
+                                        handleChange("unionId", "")
                                     }}
                                 />
                             </div>
@@ -125,8 +146,8 @@ function CreateUserPage() {
                             <p className='clr959595 fs16 fm'>District<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={districts}
-                                    // options={[]}
                                     name='district'
                                     value={{ label: addressInput.district }}
                                     onChange={(e) => {
@@ -134,6 +155,7 @@ function CreateUserPage() {
                                         handleChange("districtId", e.value)
                                         handleChange("upazilla", "")
                                         handleChange("union", "")
+                                        handleChange("unionId", "")
                                     }}
                                 />
                             </div>
@@ -142,6 +164,7 @@ function CreateUserPage() {
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={upazillas}
                                     name='upazilla'
                                     value={{ label: addressInput.upazilla }}
@@ -149,6 +172,7 @@ function CreateUserPage() {
                                         handleChange("upazilla", e.label)
                                         handleChange("upazillaId", e.value)
                                         handleChange("union", "")
+                                        handleChange("unionId", "")
                                     }}
                                 />
                             </div>
@@ -162,6 +186,7 @@ function CreateUserPage() {
                                 <p className='clr959595 fs16 fm'>Union<span style={{ color: "red" }}>*</span></p>
                                 <div className='user_select mt12'>
                                     <Select
+                                        {...addressSelectCommonProps}
                                         options={unions}
                                         name='union'
                                         value={{ label: addressInput.union }}
@@ -173,10 +198,11 @@ function CreateUserPage() {
                                 </div>
                             </div>
                         )}
-                        <div className={!addressInput.isMetropolitan && "mt24"}>
+                        <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={nearest}
                                     name='nearest_area'
                                     value={{ label: addressInput.nearestArea }}
@@ -203,8 +229,7 @@ function CreateUserPage() {
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Address direction or notes<span></span></p>
                             <textarea
-                                style={{ width: '100%', height: 80, padding: 15 }}
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='Address direction or notes'
                                 name='details_address'
@@ -226,9 +251,8 @@ function CreateUserPage() {
                             />
                         </div> */}
                         <div
-                            className='mt40 save_changes cp'
+                            className='mt50 save_changes cp'
                             onClick={() => isAddressLoading ? {} : handleSubmit()}
-                        // onClick={() => navigate('/user-address')}
                         >
                             <a href>{isAddressLoading ? "Adding" : "Submit"}</a>
                         </div>

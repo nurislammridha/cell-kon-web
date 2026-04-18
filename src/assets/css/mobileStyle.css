@@ -1479,6 +1479,7 @@
     .checkout_address_section {
         padding: 10px 15px;
         border-radius: 0px;
+        margin-bottom: 5px;
         /* width: calc(100vw - 27px); */
     }
 
@@ -1552,7 +1553,7 @@
     .cart_checkout {
         font-size: 16px;
         border-radius: 5px;
-        height: 35px;
+        height: 48px;
         margin-top: 20px;
     }
 
@@ -2382,18 +2383,43 @@
         height: 100%;
         border-radius: 4px;
     }
+    .place{
+        padding-top: 24px;
+        padding-bottom: 120px; /* reserve space for fixed button */
+        box-sizing: border-box;
+    }
+
+    .place-inner img{
+        width: 180px;
+        max-width: 70%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .place-inner{
+        padding-bottom: 10px;
+    }
+
+    .place-inner .txt{
+        margin-top: 12px;
+    }
+
     .place .btn{
         background-color: #000;
         color: #FFF;
         height: 48px;
-        font-size: 16;
+        font-size: 16px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 5px;
         position: fixed;
         bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         width: 95%;
+        max-width: 420px;
         cursor: pointer;
     }
 }
