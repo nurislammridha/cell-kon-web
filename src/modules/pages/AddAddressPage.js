@@ -209,7 +209,7 @@ function AddAddressPage() {
                             />
                         </div> */}
                         <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>House/Holding?Plot, Road/Para, Block/Avenue<span>*</span></p>
+                            <p className='clr959595 fs16 fm'>House/Holding, Plot, Road/Para, Block/Avenue<span>*</span></p>
                             <textarea
                                 className='mt6'
                                 placeholder='house/holding, plot, road/para, block/Avenue'
