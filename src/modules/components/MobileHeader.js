@@ -2,7 +2,6 @@ import React from 'react'
 import searchIcon from '../../assets/images/icons/search.png'
 import logoMobile from '../../assets/images/other/logoMobile.png'
 import sellBlack from '../../assets/images/icons/sellkonBlack.png'
-import notificationIcon from '../../assets/images/icons/notification111.png'
 import arrowLeft from '../../assets/images/icons/arrow_left.png'
 import shareIcon from '../../assets/images/icons/share_icon.png'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -121,7 +120,7 @@ const MobileHeader = ({ search, setSearch }) => {
                     src={searchIcon} alt='icon' />}
                 <div>
                     {isShowShareIcon && <img src={shareIcon} alt='icon' />}
-                    {isShowNotification && <img src={notificationIcon} alt='icon' />}
+                    {isShowNotification && null}
                     {/* <label>1</label> */}
                 </div>
             </div>

@@ -79,7 +79,7 @@ function AddAddressPage() {
                         <div>
                             <p className='clr959595 fs16 fm'>Full Name<span>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter full name'
                                 name='full_name'
@@ -90,7 +90,7 @@ function AddAddressPage() {
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Phone Number<span>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter phone number'
                                 name='phone_number'
@@ -122,7 +122,7 @@ function AddAddressPage() {
                         </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Division<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={locationOption(division())}
@@ -142,7 +142,7 @@ function AddAddressPage() {
 
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>District<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={districts}
@@ -164,7 +164,7 @@ function AddAddressPage() {
                     <div className='input_right'>
                         <div className='mmt24'>
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={upazillas}
@@ -182,7 +182,7 @@ function AddAddressPage() {
 
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={nearest}
@@ -198,7 +198,7 @@ function AddAddressPage() {
                         {/* <div>
                             <p className='clr959595 fs16 fm'>Nearest Area<span>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter nearest area'
                                 name='enter nearest area'
@@ -210,9 +210,8 @@ function AddAddressPage() {
                         </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>House/Holding?Plot, Road/Para, Block/Avenue<span>*</span></p>
-                            <input
-                                className='mt12'
-                                type='text'
+                            <textarea
+                                className='mt6'
                                 placeholder='house/holding, plot, road/para, block/Avenue'
                                 name='details_address'
                                 value={addressInput.detailsAddress}

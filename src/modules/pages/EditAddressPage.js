@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { useNavigate, useParams } from 'react-router-dom'
-import { district, division, upazilla } from '../../assets/function/locationService'
-import { locationOption } from '../../assets/function/globalFunction'
+import { district, division, nearestArea, upazilla } from '../../assets/function/locationService'
+import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseUpdateAddress, GetUpdateAddressInput, SetAddressUpdateInput, UpdateBuyerAddress } from '../_redux/CommonAction'
 
@@ -38,6 +38,7 @@ function EditAddressPage() {
     const isAddressUpdated = useSelector((state) => state.homeInfo.isAddressUpdated);
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
+    const [nearest, setNearest] = useState([])
     const handleChange = (name, value) => {
         dispatch(GetUpdateAddressInput(name, value))
     }
@@ -50,6 +51,9 @@ function EditAddressPage() {
         }
         if (addressInput.district.length > 0) {
             setUpazillas(locationOption(upazilla(addressInput.districtId)))
+        }
+        if (addressInput.upazilla.length > 0) {
+            setNearest(nearestAreaOption(nearestArea(addressInput.upazillaId)))
         }
 
     }, [addressInput])
@@ -76,7 +80,7 @@ function EditAddressPage() {
                         <div>
                             <p className='clr959595 fs16 fm'>Full Name<span>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter full name'
                                 name='full_name'
@@ -87,7 +91,7 @@ function EditAddressPage() {
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Phone Number<span>*</span></p>
                             <input
-                                className='mt12'
+                                className='mt6'
                                 type='text'
                                 placeholder='enter phone number'
                                 name='phone_number'
@@ -119,7 +123,7 @@ function EditAddressPage() {
                         </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Division<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={locationOption(division())}
@@ -130,6 +134,8 @@ function EditAddressPage() {
                                         handleChange("divisionId", e.value)
                                         handleChange("district", "")
                                         handleChange("upazilla", "")
+                                        handleChange("nearestArea", "")
+                                        handleChange("nearestAreaId", "")
                                         handleChange("union", "")
                                         handleChange("unionId", "")
                                     }}
@@ -139,7 +145,7 @@ function EditAddressPage() {
 
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>District<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={districts}
@@ -150,6 +156,8 @@ function EditAddressPage() {
                                         handleChange("district", e.label)
                                         handleChange("districtId", e.value)
                                         handleChange("upazilla", "")
+                                        handleChange("nearestArea", "")
+                                        handleChange("nearestAreaId", "")
                                         handleChange("union", "")
                                         handleChange("unionId", "")
                                     }}
@@ -161,7 +169,7 @@ function EditAddressPage() {
                     <div className='input_right'>
                         <div className='mmt24'>
                             <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
-                            <div className='user_select mt12'>
+                            <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
                                     options={upazillas}
@@ -170,6 +178,8 @@ function EditAddressPage() {
                                     onChange={(e) => {
                                         handleChange("upazilla", e.label)
                                         handleChange("upazillaId", e.value)
+                                        handleChange("nearestArea", "")
+                                        handleChange("nearestAreaId", "")
                                         handleChange("union", "")
                                         handleChange("unionId", "")
                                     }}
@@ -178,10 +188,25 @@ function EditAddressPage() {
                         </div>
 
                         <div className='mt24'>
+                            <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
+                            <div className='user_select mt6'>
+                                <Select
+                                    {...addressSelectCommonProps}
+                                    options={nearest}
+                                    name='nearest_area'
+                                    value={{ label: addressInput.nearestArea }}
+                                    onChange={(e) => {
+                                        handleChange("nearestArea", e.label)
+                                        handleChange("nearestAreaId", e.value)
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className='mt24'>
                             <p className='clr959595 fs16 fm'>House/Holding?Plot, Road/Para, Block/Avenue<span>*</span></p>
-                            <input
-                                className='mt12'
-                                type='text'
+                            <textarea
+                                className='mt6'
                                 placeholder='house/holding, plot, road/para, block/Avenue'
                                 name='details_address'
                                 value={addressInput.detailsAddress}

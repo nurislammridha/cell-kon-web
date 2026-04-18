@@ -107,6 +107,7 @@ body {
     margin-top: 12px;
 }
 
+
 .mt13 {
     margin-top: 13px;
 }
@@ -245,8 +246,11 @@ body {
 }
 
 .clr959595 {
-    color: #959595 !important;
+    color: #252525 !important;
 }
+/* .clr959595 {
+    color: #959595 !important;
+} */
 
 .blur {
     opacity: 0.3 !important;
@@ -3584,6 +3588,24 @@ body {
 }
 
 .user_info input:focus {
+    outline: none;
+    border: 1px solid #FF9E28;
+}
+
+.add_address textarea {
+    width: 100%;
+    min-height: 128px;
+    font-size: 16px;
+    line-height: 1.45;
+    font-family: inherit;
+    padding: 14px 24px;
+    border-radius: 5px;
+    border: 1px solid #959595;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.add_address textarea:focus {
     outline: none;
     border: 1px solid #FF9E28;
 }

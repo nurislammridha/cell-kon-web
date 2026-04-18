@@ -114,8 +114,8 @@
     }
 
     .mobile_header_container .sell_icon .search_icon {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
     }
 
     .mobile_header_container .sm_icon {
@@ -1726,7 +1726,7 @@
 
     .user_info .save_changes {
         margin-top: 30px;
-        height: 40px;
+        height: 48px;
         font-size: 16px;
     }
 
@@ -1736,6 +1736,13 @@
 
     .user_info .input_right {
         width: unset;
+    }
+
+    .add_address textarea {
+        min-height: 104px;
+        font-size: 14px;
+        line-height: 1.45;
+        padding: 10px 14px;
     }
 
     .user_info .user_select .address-select__control {
