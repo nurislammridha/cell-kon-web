@@ -39,7 +39,7 @@ const ProductDetailsSeller = ({ data, sellerId = "" }) => {
                 </div>
                 <div className='seller_info'>
                     <img src={deliveryIcon} />
-                    <p>&#2547; 50 (100 Outside Area)</p>
+                    <p>&#2547; 60 (120 Outside Dhaka)</p>
                 </div>
                 <a onClick={() => navigate(`/shop/${sellerId}`)}>
                     Visit Store

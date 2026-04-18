@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import userLogo from "../../assets/images/icons/userIcon.png"
-import userIcon from "../../assets/images/icons/user.png"
-import orderIcon from "../../assets/images/icons/order.png"
-import addressIcon from "../../assets/images/icons/address.png"
-import wishIcon from "../../assets/images/icons/wishg.png"
 import { useLocation, useNavigate } from 'react-router-dom'
-import { district, division, nearestArea, union, upazilla } from '../../assets/function/locationService'
+import { district, division, nearestArea, upazilla } from '../../assets/function/locationService'
 import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseAddressCreated, GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
-import MobileCommonHeader from '../components/MobileCommonHeader'
+
+const addressSelectCommonProps = {
+    isSearchable: false,
+    classNamePrefix: 'address-select',
+}
+
 function AddAddressPage() {
     const location = useLocation()
     const navigate = useNavigate()
@@ -20,7 +20,6 @@ function AddAddressPage() {
     const isAddressLoading = useSelector((state) => state.homeInfo.isAddressLoading);
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
-    const [unions, setUnions] = useState([])
     const [nearest, setNearest] = useState([])
     const handleChange = (name, value) => {
         dispatch(GetAddressInput(name, value))
@@ -36,7 +35,6 @@ function AddAddressPage() {
             setUpazillas(locationOption(upazilla(addressInput.districtId)))
         }
         if (addressInput.upazilla.length > 0) {
-            setUnions(locationOption(union(addressInput.upazillaId)))
             setNearest(nearestAreaOption(nearestArea(addressInput.upazillaId)))
         }
 
@@ -50,7 +48,7 @@ function AddAddressPage() {
             dispatch(FalseAddressCreated())
         }
     }, [isAddressCreated])
-    console.log('location?.state?.isFromChackout', location?.state?.isFromCheckout)
+
     return (<div className='madd_address'>
         {/* <div className='muser_inf0'>
             <MobileCommonHeader />
@@ -82,7 +80,7 @@ function AddAddressPage() {
                                 onChange={(e) => handleChange("buyerPhone", e.target.value)}
                             />
                         </div>
-                        <div className='radio_btn mt24'>
+                        {/* <div className='radio_btn mt24'>
                             <div>
                                 <input
                                     className='radio'
@@ -103,11 +101,12 @@ function AddAddressPage() {
                                 />
                                 <span>Outside City</span>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Division<span>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={locationOption(division())}
                                     name='division'
                                     value={{ label: addressInput.division }}
@@ -117,6 +116,7 @@ function AddAddressPage() {
                                         handleChange("district", "")
                                         handleChange("upazilla", "")
                                         handleChange("union", "")
+                                        handleChange("unionId", "")
                                     }}
                                 />
                             </div>
@@ -126,6 +126,7 @@ function AddAddressPage() {
                             <p className='clr959595 fs16 fm'>District<span>*</span></p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={districts}
                                     // options={[]}
                                     name='district'
@@ -135,21 +136,7 @@ function AddAddressPage() {
                                         handleChange("districtId", e.value)
                                         handleChange("upazilla", "")
                                         handleChange("union", "")
-                                    }}
-                                />
-                            </div>
-                        </div>
-                        <div className='mmt24'>
-                            <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
-                            <div className='user_select mt12'>
-                                <Select
-                                    options={upazillas}
-                                    name='upazilla'
-                                    value={{ label: addressInput.upazilla }}
-                                    onChange={(e) => {
-                                        handleChange("upazilla", e.label)
-                                        handleChange("upazillaId", e.value)
-                                        handleChange("union", "")
+                                        handleChange("unionId", "")
                                     }}
                                 />
                             </div>
@@ -157,27 +144,29 @@ function AddAddressPage() {
 
                     </div>
                     <div className='input_right'>
-
-                        {!addressInput.isMetropolitan && (
-                            <div className=''>
-                                <p className='clr959595 fs16 fm'>Union<span>*</span></p>
-                                <div className='user_select mt12'>
-                                    <Select
-                                        options={unions}
-                                        name='union'
-                                        value={{ label: addressInput.union }}
-                                        onChange={(e) => {
-                                            handleChange("union", e.label)
-                                            handleChange("unionId", e.value)
-                                        }}
-                                    />
-                                </div>
+                        <div className='mmt24'>
+                            <p className='clr959595 fs16 fm'>Sub District (Upazila)<span>*</span></p>
+                            <div className='user_select mt12'>
+                                <Select
+                                    {...addressSelectCommonProps}
+                                    options={upazillas}
+                                    name='upazilla'
+                                    value={{ label: addressInput.upazilla }}
+                                    onChange={(e) => {
+                                        handleChange("upazilla", e.label)
+                                        handleChange("upazillaId", e.value)
+                                        handleChange("union", "")
+                                        handleChange("unionId", "")
+                                    }}
+                                />
                             </div>
-                        )}
-                        <div className={!addressInput.isMetropolitan && "mt24"}>
+                        </div>
+
+                        <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Area (Nearest area)</p>
                             <div className='user_select mt12'>
                                 <Select
+                                    {...addressSelectCommonProps}
                                     options={nearest}
                                     name='nearest_area'
                                     value={{ label: addressInput.nearestArea }}
@@ -214,19 +203,8 @@ function AddAddressPage() {
                                 }}
                             />
                         </div>
-                        <div className='mt24'>
-                            <p className='clr959595 fs16 fm'>Postal Code</p>
-                            <input
-                                className='mt12'
-                                type='text'
-                                placeholder='enter postal code'
-                                name='postal_code'
-                                value={addressInput.postalCode}
-                                onChange={(e) => handleChange("postalCode", e.target.value)}
-                            />
-                        </div>
                         <div
-                            className='mt40 save_changes cp'
+                            className='mt50 save_changes cp'
                             onClick={() => isAddressLoading ? {} : handleSubmit()}
                         // onClick={() => navigate('/user-address')}
                         >

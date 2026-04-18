@@ -460,9 +460,6 @@ export const SubmitBuyerAddress = (data) => (dispatch) => {
   } else if (upazilla.length === 0) {
     showToast("error", "Please select a upazilla!")
     return 0
-  } else if (!isMetropolitan && union.length === 0) {
-    showToast("error", "Please select a union!")
-    return 0
   }
   // else if (nearestArea.length === 0) {
   //   showToast("error", "Nearest area should n't be empty!")
@@ -570,9 +567,6 @@ export const UpdateBuyerAddress = (data, addressId) => (dispatch) => {
     return 0
   } else if (upazilla.length === 0) {
     showToast("error", "Please select a upazilla!")
-    return 0
-  } else if (!isMetropolitan && union.length === 0) {
-    showToast("error", "Please select a union!")
     return 0
   }
   // else if (nearestArea.length === 0) {

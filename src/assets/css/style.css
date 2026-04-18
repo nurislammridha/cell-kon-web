@@ -3592,6 +3592,52 @@ body {
     height: 48px !important;
 }
 
+.user_info .user_select .address-select__control {
+    min-height: 48px;
+    height: 48px;
+    border: 1px solid #959595;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.user_info .user_select .address-select__control:hover,
+.user_info .user_select .address-select__control--is-focused {
+    border-color: #FF9E28;
+    box-shadow: none;
+}
+
+.user_info .user_select .address-select__value-container {
+    height: 46px;
+    padding: 0 8px 0 24px;
+}
+
+.user_info .user_select .address-select__single-value,
+.user_info .user_select .address-select__placeholder {
+    margin: 0;
+}
+
+.user_info .user_select .address-select__input-container {
+    margin: 0;
+    padding: 0;
+}
+
+.user_info .user_select .address-select__indicators {
+    height: 46px;
+    padding-right: 10px;
+}
+
+.user_info .user_select .address-select__indicator-separator {
+    display: none;
+}
+
+.user_info .user_select .address-select__dropdown-indicator {
+    padding: 0;
+}
+
+.user_info .user_select .address-select__menu {
+    z-index: 30;
+}
+
 .user_info .save_changes {
     width: 100%;
     height: 56px;
@@ -3915,15 +3961,31 @@ body {
 }
 
 .add_address .right {
-    width: 1176px;
+    width: 100%;
+    max-width: 1176px;
+}
+
+.add_address .user_input {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 0;
+    align-items: start;
 }
 
 .add_address .input_left {
-    width: 534px;
+    width: 100%;
 }
 
 .add_address .input_right {
-    width: 534px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+    .add_address .user_input {
+        grid-template-columns: 1fr;
+        row-gap: 0;
+    }
 }
 
 .add_address .radio_btn {

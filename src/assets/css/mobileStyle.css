@@ -1738,6 +1738,21 @@
         width: unset;
     }
 
+    .user_info .user_select .address-select__control {
+        min-height: 40px;
+        height: 40px;
+    }
+
+    .user_info .user_select .address-select__value-container {
+        height: 38px;
+        padding-left: 14px;
+    }
+
+    .user_info .user_select .address-select__indicators {
+        height: 38px;
+        padding-right: 8px;
+    }
+
     .user_reviews_panel .user_reviews_toolbar {
         grid-template-columns: 1fr;
         gap: 8px;

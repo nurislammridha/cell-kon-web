@@ -81,7 +81,7 @@ function CreateUserPage() {
                             />
                         </div>
 
-                        <div className='radio_btn mt24'>
+                        {/* <div className='radio_btn mt24'>
                             <div>
                                 <input
                                     className='radio'
@@ -102,7 +102,7 @@ function CreateUserPage() {
                                 />
                                 <span>Outside City</span>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='mt24'>
                             <p className='clr959595 fs16 fm'>Division<span style={{ color: "red" }}>*</span></p>
                             <div className='user_select mt12'>

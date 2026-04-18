@@ -55,30 +55,53 @@ const ProductDetailsPage = ({ isLogin }) => {
             return undefined;
         }
 
+        let rafId = null;
+
         const syncRightColumnHeight = () => {
             if (window.innerWidth <= 900) {
-                setRightColumnMaxHeight(null);
+                setRightColumnMaxHeight((prev) => (prev === null ? prev : null));
                 return;
             }
 
             const leftHeight = leftColumnRef.current?.offsetHeight || 0;
-            setRightColumnMaxHeight(leftHeight > 0 ? leftHeight : null);
+            const nextHeight = leftHeight > 0 ? leftHeight : null;
+            setRightColumnMaxHeight((prev) => (prev === nextHeight ? prev : nextHeight));
         };
 
-        syncRightColumnHeight();
+        const scheduleHeightSync = () => {
+            if (typeof window.requestAnimationFrame !== 'function') {
+                syncRightColumnHeight();
+                return;
+            }
+
+            if (rafId !== null) {
+                window.cancelAnimationFrame(rafId);
+            }
+
+            rafId = window.requestAnimationFrame(() => {
+                rafId = null;
+                syncRightColumnHeight();
+            });
+        };
+
+        scheduleHeightSync();
 
         let resizeObserver;
         if (typeof ResizeObserver !== 'undefined' && leftColumnRef.current) {
-            resizeObserver = new ResizeObserver(syncRightColumnHeight);
+            resizeObserver = new ResizeObserver(scheduleHeightSync);
             resizeObserver.observe(leftColumnRef.current);
         }
 
-        window.addEventListener('resize', syncRightColumnHeight);
+        window.addEventListener('resize', scheduleHeightSync);
 
         return () => {
-            window.removeEventListener('resize', syncRightColumnHeight);
+            window.removeEventListener('resize', scheduleHeightSync);
             if (resizeObserver) {
                 resizeObserver.disconnect();
+            }
+
+            if (rafId !== null && typeof window.cancelAnimationFrame === 'function') {
+                window.cancelAnimationFrame(rafId);
             }
         };
     }, [productDetails, isLogin]);
