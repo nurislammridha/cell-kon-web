@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { district, division, nearestArea, union, upazilla } from '../../assets/function/locationService'
 import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { CreateUser, FalseAddressCreated, GetAddressInput, SubmitBuyerAddress } from '../_redux/CommonAction'
+import { getDistricts, getDivisions, getNearestAreas, getUnions, getUpazillas } from '../../services/locationService'
 
 const hideSelectKeyboard = () => {
     if (typeof document === 'undefined') return
@@ -32,6 +32,7 @@ function CreateUserPage() {
     const addressInput = useSelector((state) => state.homeInfo.addressInput);
     const isAddressCreated = useSelector((state) => state.homeInfo.isAddressCreated);
     const isAddressLoading = useSelector((state) => state.homeInfo.isAddressLoading);
+    const [divisions, setDivisions] = useState([])
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
     const [unions, setUnions] = useState([])
@@ -43,19 +44,102 @@ function CreateUserPage() {
         dispatch(CreateUser(addressInput))
     }
     useEffect(() => {
-        if (addressInput.division.length > 0) {
-            setDistricts(locationOption(district(addressInput.divisionId)))
+        let isMounted = true
+        getDivisions()
+            .then((result) => {
+                if (isMounted) {
+                    setDivisions(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setDivisions([])
+                }
+            })
+
+        return () => {
+            isMounted = false
         }
-        if (addressInput.district.length > 0) {
-            setUpazillas(locationOption(upazilla(addressInput.districtId)))
-        }
-        if (addressInput.upazilla.length > 0) {
-            setUnions(locationOption(union(addressInput.upazillaId)))
-            setNearest(nearestAreaOption(nearestArea(addressInput.upazillaId)))
+    }, [])
+
+    useEffect(() => {
+        if (!(addressInput.division?.length > 0 && addressInput.divisionId)) {
+            setDistricts([])
+            return
         }
 
+        let isMounted = true
+        getDistricts(addressInput.divisionId)
+            .then((result) => {
+                if (isMounted) {
+                    setDistricts(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setDistricts([])
+                }
+            })
 
-    }, [addressInput])
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.division, addressInput.divisionId])
+
+    useEffect(() => {
+        if (!(addressInput.district?.length > 0 && addressInput.districtId)) {
+            setUpazillas([])
+            return
+        }
+
+        let isMounted = true
+        getUpazillas(addressInput.districtId)
+            .then((result) => {
+                if (isMounted) {
+                    setUpazillas(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setUpazillas([])
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.district, addressInput.districtId])
+
+    useEffect(() => {
+        if (!(addressInput.upazilla?.length > 0 && addressInput.upazillaId)) {
+            setUnions([])
+            setNearest([])
+            return
+        }
+
+        let isMounted = true
+
+        Promise.all([
+            getUnions(addressInput.upazillaId),
+            getNearestAreas(addressInput.upazillaId),
+        ])
+            .then(([unionResult, nearestResult]) => {
+                if (isMounted) {
+                    setUnions(locationOption(unionResult))
+                    setNearest(nearestAreaOption(nearestResult))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setUnions([])
+                    setNearest([])
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.upazilla, addressInput.upazillaId])
 
     useEffect(() => {
         if (phone) {
@@ -127,7 +211,7 @@ function CreateUserPage() {
                             <div className='user_select mt12'>
                                 <Select
                                     {...addressSelectCommonProps}
-                                    options={locationOption(division())}
+                                    options={divisions}
                                     name='division'
                                     value={{ label: addressInput.division }}
                                     onChange={(e) => {

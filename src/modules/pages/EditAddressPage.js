@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { useNavigate, useParams } from 'react-router-dom'
-import { district, division, nearestArea, upazilla } from '../../assets/function/locationService'
 import { locationOption, nearestAreaOption } from '../../assets/function/globalFunction'
 import { useDispatch, useSelector } from 'react-redux'
 import { FalseUpdateAddress, GetUpdateAddressInput, SetAddressUpdateInput, UpdateBuyerAddress } from '../_redux/CommonAction'
+import { getDistricts, getDivisions, getNearestAreas, getUpazillas } from '../../services/locationService'
 
 const hideSelectKeyboard = () => {
     if (typeof document === 'undefined') {
@@ -36,6 +36,7 @@ function EditAddressPage() {
     const addressInput = useSelector((state) => state.homeInfo.updateAddressInput);
     const isAddressLoading = useSelector((state) => state.homeInfo.isUpdateAddressLoading);
     const isAddressUpdated = useSelector((state) => state.homeInfo.isAddressUpdated);
+    const [divisions, setDivisions] = useState([])
     const [districts, setDistricts] = useState([])
     const [upazillas, setUpazillas] = useState([])
     const [nearest, setNearest] = useState([])
@@ -46,17 +47,95 @@ function EditAddressPage() {
         dispatch(UpdateBuyerAddress(addressInput, id))
     }
     useEffect(() => {
-        if (addressInput.division.length > 0) {
-            setDistricts(locationOption(district(addressInput.divisionId)))
+        let isMounted = true
+        getDivisions()
+            .then((result) => {
+                if (isMounted) {
+                    setDivisions(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setDivisions([])
+                }
+            })
+
+        return () => {
+            isMounted = false
         }
-        if (addressInput.district.length > 0) {
-            setUpazillas(locationOption(upazilla(addressInput.districtId)))
-        }
-        if (addressInput.upazilla.length > 0) {
-            setNearest(nearestAreaOption(nearestArea(addressInput.upazillaId)))
+    }, [])
+
+    useEffect(() => {
+        if (!(addressInput.division?.length > 0 && addressInput.divisionId)) {
+            setDistricts([])
+            return
         }
 
-    }, [addressInput])
+        let isMounted = true
+        getDistricts(addressInput.divisionId)
+            .then((result) => {
+                if (isMounted) {
+                    setDistricts(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setDistricts([])
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.division, addressInput.divisionId])
+
+    useEffect(() => {
+        if (!(addressInput.district?.length > 0 && addressInput.districtId)) {
+            setUpazillas([])
+            return
+        }
+
+        let isMounted = true
+        getUpazillas(addressInput.districtId)
+            .then((result) => {
+                if (isMounted) {
+                    setUpazillas(locationOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setUpazillas([])
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.district, addressInput.districtId])
+
+    useEffect(() => {
+        if (!(addressInput.upazilla?.length > 0 && addressInput.upazillaId)) {
+            setNearest([])
+            return
+        }
+
+        let isMounted = true
+        getNearestAreas(addressInput.upazillaId)
+            .then((result) => {
+                if (isMounted) {
+                    setNearest(nearestAreaOption(result))
+                }
+            })
+            .catch(() => {
+                if (isMounted) {
+                    setNearest([])
+                }
+            })
+
+        return () => {
+            isMounted = false
+        }
+    }, [addressInput.upazilla, addressInput.upazillaId])
     useEffect(() => {
         dispatch(SetAddressUpdateInput(id))
     }, [id])
@@ -126,7 +205,7 @@ function EditAddressPage() {
                             <div className='user_select mt6'>
                                 <Select
                                     {...addressSelectCommonProps}
-                                    options={locationOption(division())}
+                                    options={divisions}
                                     name='division'
                                     value={{ label: addressInput.division }}
                                     onChange={(e) => {
