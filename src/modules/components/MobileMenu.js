@@ -8,23 +8,23 @@ const MobileMenu = () => {
     const navigate = useNavigate()
     return (
         <div className='mobile_menu_container'>
-            <div className='item'>
-                <img src={categoryIcon} />
+            <div className='item cp' onClick={() => navigate('/all-products')}>
+                <img src={categoryIcon} alt='categories' />
                 <div>Categories</div>
             </div>
-            <div className='item'>
-                <img src={campaignIcon} />
+            <div className='item cp' onClick={() => navigate('/')}>
+                <img src={campaignIcon} alt='campaigns' />
                 <div>Campaigns</div>
             </div>
             <div
                 className='item cp'
                 onClick={() => navigate('/order-list')}
             >
-                <img src={orderIcon} />
+                <img src={orderIcon} alt='orders' />
                 <div>Order</div>
             </div>
-            <div className='item'>
-                <img src={wishListIcon} />
+            <div className='item cp' onClick={() => navigate('/wishlist')}>
+                <img src={wishListIcon} alt='wishlist' />
                 <div>Wishlist</div>
             </div>
         </div>

@@ -61,6 +61,8 @@ const UserUpdate = ({ buyerDetails }) => {
                             <p className='clr959595 fs16 fm'>Gender</p>
                             <div className='user_select mt12'>
                                 <Select
+                                    classNamePrefix='address-select'
+                                    isSearchable={false}
                                     options={[{ label: "Male", value: 1 }, { label: "Female", value: 2 }]}
                                     name="buyerGender"
                                     value={{ label: userInput.buyerGender }}
@@ -72,18 +74,24 @@ const UserUpdate = ({ buyerDetails }) => {
                             <p className='clr959595 fs16 fm'>Birth day</p>
                             <div className='birth_select mt12'>
                                 <Select
+                                    classNamePrefix='address-select'
+                                    isSearchable={false}
                                     options={getDays()}
                                     name='birthDays'
                                     value={{ label: userInput.birthDays }}
                                     onChange={(e) => handleChange("birthDays", e.label)}
                                 />
                                 <Select
+                                    classNamePrefix='address-select'
+                                    isSearchable={false}
                                     options={getMonth()}
                                     name='birthMonth'
                                     value={{ label: userInput.birthMonth }}
                                     onChange={(e) => handleChange("birthMonth", e.label)}
                                 />
                                 <Select
+                                    classNamePrefix='address-select'
+                                    isSearchable={false}
                                     options={getYear()}
                                     name='birthYear'
                                     value={{ label: userInput.birthYear }}

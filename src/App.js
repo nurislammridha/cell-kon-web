@@ -39,6 +39,7 @@ import CategoryProductsPage from './modules/pages/CategoryProductsPage';
 import CreateUserPage from './modules/pages/CreateUserPgae';
 import PhonePage from './modules/pages/PhonePage';
 import PlaceOrder from './modules/pages/PlaceOrder';
+import WishlistPage from './modules/pages/WishlistPage';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false)
@@ -76,7 +77,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/email-otp" element={<EmailOtpPage />} />
               <Route path="/user-info" element={<UserInfoPage isLogin={isLogin} />} />
-              <Route path="/user-address" element={<UserAddressPage />} />
+              <Route path="/user-address" element={<UserAddressPage isLogin={isLogin} />} />
+              <Route path="/wishlist" element={<WishlistPage isLogin={isLogin} />} />
               <Route path="/add-address" element={<AddAddressPage />} />
               <Route path="/create-user" element={<CreateUserPage />} />
               <Route path="/phone" element={<PhonePage />} />

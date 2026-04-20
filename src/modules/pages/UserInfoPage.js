@@ -1,30 +1,45 @@
 import React, { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import UserMenu from '../components/UserMenu'
 import UserUpdate from '../components/UserUpdate'
 import UserReviews from '../components/UserReviews'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetBuyerDetailsByBuyerId, SetUserInput } from '../_redux/CommonAction'
-import MobileCommonHeader from '../components/MobileCommonHeader'
 function UserInfoPage({ isLogin }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
     const buyerDetails = useSelector((state) => state.homeInfo.buyerDetails);
     const [activeTab, setActiveTab] = useState('profile')
+
     useEffect(() => {
+        if (!isLogin) {
+            return
+        }
         dispatch(GetBuyerDetailsByBuyerId())
-    }, [])
+    }, [dispatch, isLogin])
+
     useEffect(() => {
         if (!isLogin) {
             navigate('/')
         }
-    }, [isLogin])
+    }, [isLogin, navigate])
     useEffect(() => {
         if (buyerDetails) {
             dispatch(SetUserInput(buyerDetails))
         }
-    }, [buyerDetails])
+    }, [buyerDetails, dispatch])
+
+    useEffect(() => {
+        const tab = new URLSearchParams(location.search).get('tab')
+        if (tab === 'reviews') {
+            setActiveTab('reviews')
+            return
+        }
+        setActiveTab('profile')
+    }, [location.search])
+
     return (<>
         {/* <div className='muser_inf0'>
             <MobileCommonHeader />

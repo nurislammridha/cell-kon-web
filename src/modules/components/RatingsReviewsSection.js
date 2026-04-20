@@ -147,113 +147,113 @@ const RatingsReviewsSection = ({ data, isLogin = false }) => {
     const totalReviewPages = Math.max(1, Number(pagination?.totalPage || 1));
     const reviewPaginationItems = Array.from({ length: totalReviewPages }, (_, index) => index + 1);
 
-    return (<></>
-        // <div className='ratings_reviews_section'>
-        //     <div className='reviews_section_header'>
-        //         <h2>Customer Reviews</h2>
-        //         <p>See what customers are saying before making your purchase.</p>
-        //     </div>
+    return (
+        <div className='ratings_reviews_section'>
+            <div className='reviews_section_header'>
+                <h2>Customer Reviews</h2>
+                <p>See what customers are saying before making your purchase.</p>
+            </div>
 
-        //     {isLogin && myReview && <div className='my_review_card'>
-        //         <div className='my_review_top'>
-        //             <h4>Your Review</h4>
-        //             <span className={`status_badge ${myReview?.status || 'disapproved'}`}>{String(myReview?.status || 'disapproved')}</span>
-        //         </div>
-        //         <div className='my_review_rating'>{renderStars(myReview?.rating, 'my-review')}</div>
-        //         <p>{myReview?.review || 'You rated this product without a written review.'}</p>
-        //         {normalizeReviewImages(myReview?.reviewImages).length > 0 && <div className='my_review_images'>
-        //             {normalizeReviewImages(myReview?.reviewImages).map((image, index) => (
-        //                 <img key={`my-review-image-${index}`} src={image} alt={`Your review ${index + 1}`} className='my_review_image' />
-        //             ))}
-        //         </div>}
-        //         {isMyDataLoading && <small>Refreshing your review...</small>}
-        //     </div>}
+            {isLogin && myReview && <div className='my_review_card'>
+                <div className='my_review_top'>
+                    <h4>Your Review</h4>
+                    <span className={`status_badge ${myReview?.status || 'disapproved'}`}>{String(myReview?.status || 'disapproved')}</span>
+                </div>
+                <div className='my_review_rating'>{renderStars(myReview?.rating, 'my-review')}</div>
+                <p>{myReview?.review || 'You rated this product without a written review.'}</p>
+                {normalizeReviewImages(myReview?.reviewImages).length > 0 && <div className='my_review_images'>
+                    {normalizeReviewImages(myReview?.reviewImages).map((image, index) => (
+                        <img key={`my-review-image-${index}`} src={image} alt={`Your review ${index + 1}`} className='my_review_image' />
+                    ))}
+                </div>}
+                {isMyDataLoading && <small>Refreshing your review...</small>}
+            </div>}
 
-        //     <div className='reviews_overview_grid'>
-        //         <div className='reviews_summary_card'>
-        //             <div className='score_value'>{toNumber(summary?.averageRating, 0).toFixed(1)}</div>
-        //             <div className='score_out_of'>Out of 5.0</div>
-        //             <div className='score_stars'>
-        //                 {renderStars(summary?.averageRating, 'summary')}
-        //             </div>
-        //             <div className='score_total'>{Number(summary?.totalReviews || 0)} reviews</div>
-        //         </div>
+            <div className='reviews_overview_grid'>
+                <div className='reviews_summary_card'>
+                    <div className='score_value'>{toNumber(summary?.averageRating, 0).toFixed(1)}</div>
+                    <div className='score_out_of'>Out of 5.0</div>
+                    <div className='score_stars'>
+                        {renderStars(summary?.averageRating, 'summary')}
+                    </div>
+                    <div className='score_total'>{Number(summary?.totalReviews || 0)} reviews</div>
+                </div>
 
-        //         <div className='reviews_breakdown_card'>
-        //             {normalizedBreakdown.map((item) => (
-        //                 <div className='rating_row' key={`rating-${item.star}`}>
-        //                     <div className='label'>{item.star} Star</div>
-        //                     <div className='bar_track'>
-        //                         <div className='bar_fill' style={{ width: `${item.percent}%` }}></div>
-        //                     </div>
-        //                     <div className='percent'>{item.percent}%</div>
-        //                 </div>
-        //             ))}
-        //         </div>
-        //     </div>
+                <div className='reviews_breakdown_card'>
+                    {normalizedBreakdown.map((item) => (
+                        <div className='rating_row' key={`rating-${item.star}`}>
+                            <div className='label'>{item.star} Star</div>
+                            <div className='bar_track'>
+                                <div className='bar_fill' style={{ width: `${item.percent}%` }}></div>
+                            </div>
+                            <div className='percent'>{item.percent}%</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
-        //     <div className='reviews_list_card'>
-        //         {isReviewsLoading && <div className='review_loading'>Loading reviews...</div>}
+            <div className='reviews_list_card'>
+                {isReviewsLoading && <div className='review_loading'>Loading reviews...</div>}
 
-        //         {!isReviewsLoading && reviews.length === 0 && (
-        //             <div className='review_empty'>No approved reviews yet. Be the first to rate this product.</div>
-        //         )}
+                {!isReviewsLoading && reviews.length === 0 && (
+                    <div className='review_empty'>No approved reviews yet. Be the first to rate this product.</div>
+                )}
 
-        //         {!isReviewsLoading && reviews.map((item, index) => (
-        //             <div className='review_item' key={`review-item-${reviewPage}-${index}`}>
-        //                 <div className='review_head'>
-        //                     <div>
-        //                         <div className='reviewer_name'>{item?.buyerName || item?.userName || `Customer ${index + 1}`}</div>
-        //                         <div className='review_stars'>{renderStars(item?.rating, `row-${reviewPage}-${index}`)}</div>
-        //                     </div>
-        //                     <div className='review_date'>{formatReviewDate(item?.createdAt || item?.date)}</div>
-        //                 </div>
-        //                 <p className='review_text'>{item?.review || item?.comment || 'Rated this product.'}</p>
-        //                 {normalizeReviewImages(item?.reviewImages).length > 0 && (
-        //                     <div className='review_images_grid'>
-        //                         {normalizeReviewImages(item?.reviewImages).map((image, imageIndex) => (
-        //                             <img
-        //                                 key={`review-image-${reviewPage}-${index}-${imageIndex}`}
-        //                                 src={image}
-        //                                 alt={`Review ${index + 1} image ${imageIndex + 1}`}
-        //                                 className='review_image_item'
-        //                             />
-        //                         ))}
-        //                     </div>
-        //                 )}
-        //             </div>
-        //         ))}
-        //     </div>
+                {!isReviewsLoading && reviews.map((item, index) => (
+                    <div className='review_item' key={`review-item-${reviewPage}-${index}`}>
+                        <div className='review_head'>
+                            <div>
+                                <div className='reviewer_name'>{item?.buyerName || item?.userName || `Customer ${index + 1}`}</div>
+                                <div className='review_stars'>{renderStars(item?.rating, `row-${reviewPage}-${index}`)}</div>
+                            </div>
+                            <div className='review_date'>{formatReviewDate(item?.createdAt || item?.date)}</div>
+                        </div>
+                        <p className='review_text'>{item?.review || item?.comment || 'Rated this product.'}</p>
+                        {normalizeReviewImages(item?.reviewImages).length > 0 && (
+                            <div className='review_images_grid'>
+                                {normalizeReviewImages(item?.reviewImages).map((image, imageIndex) => (
+                                    <img
+                                        key={`review-image-${reviewPage}-${index}-${imageIndex}`}
+                                        src={image}
+                                        alt={`Review ${index + 1} image ${imageIndex + 1}`}
+                                        className='review_image_item'
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
 
-        //     <div className='review_pagination'>
-        //         <button
-        //             type='button'
-        //             className='page_btn'
-        //             disabled={reviewPage === 1}
-        //             onClick={() => reviewPage > 1 ? setReviewPage(reviewPage - 1) : {}}
-        //         >
-        //             Prev
-        //         </button>
-        //         {reviewPaginationItems.map((item) => (
-        //             <button
-        //                 type='button'
-        //                 key={`review-page-${item}`}
-        //                 className={reviewPage === item ? 'page_btn active' : 'page_btn'}
-        //                 onClick={() => setReviewPage(item)}
-        //             >
-        //                 {item}
-        //             </button>
-        //         ))}
-        //         <button
-        //             type='button'
-        //             className='page_btn'
-        //             disabled={reviewPage === totalReviewPages}
-        //             onClick={() => reviewPage < totalReviewPages ? setReviewPage(reviewPage + 1) : {}}
-        //         >
-        //             Next
-        //         </button>
-        //     </div>
-        // </div>
+            <div className='review_pagination'>
+                <button
+                    type='button'
+                    className='page_btn'
+                    disabled={reviewPage === 1}
+                    onClick={() => reviewPage > 1 ? setReviewPage(reviewPage - 1) : {}}
+                >
+                    Prev
+                </button>
+                {reviewPaginationItems.map((item) => (
+                    <button
+                        type='button'
+                        key={`review-page-${item}`}
+                        className={reviewPage === item ? 'page_btn active' : 'page_btn'}
+                        onClick={() => setReviewPage(item)}
+                    >
+                        {item}
+                    </button>
+                ))}
+                <button
+                    type='button'
+                    className='page_btn'
+                    disabled={reviewPage === totalReviewPages}
+                    onClick={() => reviewPage < totalReviewPages ? setReviewPage(reviewPage + 1) : {}}
+                >
+                    Next
+                </button>
+            </div>
+        </div>
     );
 };
 
