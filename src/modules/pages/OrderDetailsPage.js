@@ -72,7 +72,7 @@ const OrderDetailsPage = () => {
     const orderDetails = useSelector((state) => state.homeInfo.orderDetails);
     const { _id, deliveryAddressInfo, createdAt, confirmedAt, deliveredAt, pickedAt,
         processedAt, shippedAt, cancelAt, productInfo, isCancel, isConfirm, isCreated, isDelivered, isFullPaid, isPicked,
-        isProcessing, isShipped, subTotal, shippingFee, orderId } = orderDetails || {}
+        isProcessing, isShipped, subTotal, shippingFee, orderId, orderStatus } = orderDetails || {}
     const { buyerName, buyerPhone, detailsAddress, district, division, upazilla, union } = deliveryAddressInfo || {}
 
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
@@ -157,6 +157,12 @@ const OrderDetailsPage = () => {
         if (!isLogin) {
             showToast('error', 'Please login to submit a review.')
             navigate('/login')
+            return
+        }
+
+        const delivered = Boolean(isDelivered) || String(orderStatus || '').toLowerCase() === 'delivered'
+        if (!delivered) {
+            showToast('error', 'Review is available after delivery.')
             return
         }
 
@@ -301,6 +307,7 @@ const OrderDetailsPage = () => {
         })
     }
 
+    const isOrderDelivered = Boolean(isDelivered) || String(orderStatus || '').toLowerCase() === 'delivered'
     const canEditOrDelete = Boolean(myReview && myReview?.status !== 'approved')
     const shouldDisableForm = isReviewDataLoading
         || isReviewSubmitting
@@ -308,7 +315,7 @@ const OrderDetailsPage = () => {
         || reviewImageUploadingIndex !== -1
         || (myReview?.status === 'approved')
         || (myReview && !isEditingReview)
-        || (!myReview && eligibility?.canCreate === false)
+        || (!myReview && !isOrderDelivered)
     useEffect(() => {
         dispatch(GetOrderById(id))
     }, [id])
@@ -411,7 +418,7 @@ const OrderDetailsPage = () => {
                                         <span>&#2547;{item.sellPrice}X{item.quantity}</span>
                                         <span>Size: {item.sizeName}</span>
                                     </div>
-                                    <div className='order_review_button_wrap'>
+                                    {isOrderDelivered && <div className='order_review_button_wrap'>
                                         <button
                                             type='button'
                                             className='order_review_button'
@@ -419,7 +426,7 @@ const OrderDetailsPage = () => {
                                         >
                                             Reviews
                                         </button>
-                                    </div>
+                                    </div>}
 
                                 </div>
                             </div>
@@ -477,10 +484,6 @@ const OrderDetailsPage = () => {
 
                 {myReview && <div className='review_modal_status'>
                     Status: <span className={`status_${myReview?.status}`}>{String(myReview?.status || 'disapproved')}</span>
-                </div>}
-
-                {!myReview && eligibility?.canCreate === false && <div className='review_modal_message warning'>
-                    {eligibility?.message || 'You are not eligible to review this product yet.'}
                 </div>}
 
                 {myReview && myReview?.status === 'approved' && <div className='review_modal_message warning'>

@@ -6,6 +6,7 @@ import userIcon from "../../assets/images/icons/user.png"
 import orderIcon from "../../assets/images/icons/order.png"
 import addressIcon from "../../assets/images/icons/address.png"
 import wishIcon from "../../assets/images/icons/wishg.png"
+import reviewsIcon from "../../assets/images/icons/reviews.png"
 import { useDispatch, useSelector } from 'react-redux'
 import { LogoutRequest, UserProfileUpdate } from '../_redux/CommonAction'
 const UserMenu = ({ buyerDetails, activeTab = 'profile', setActiveTab = null }) => {
@@ -109,14 +110,14 @@ const UserMenu = ({ buyerDetails, activeTab = 'profile', setActiveTab = null }) 
                             <img src={addressIcon} alt='user icon' />
                             <p>Address</p>
                         </div>
-                        <div className={activeTab === 'wishlist' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => handleMenuSelect('wishlist')}>
+                        {/* <div className={activeTab === 'wishlist' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => handleMenuSelect('wishlist')}>
                             <img src={wishIcon} alt='user icon' />
                             <p>Wishlist</p>
                         </div>
                         <div className={activeTab === 'reviews' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => handleMenuSelect('reviews')}>
-                            <img src={wishIcon} alt='user icon' />
+                            <img src={reviewsIcon} alt='user icon' />
                             <p>Reviews</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div
