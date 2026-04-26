@@ -29,6 +29,8 @@ const Shops = ({ arr = [] }) => {
                                 <img
                                     src={item?.shopLogo?.url}
                                     alt="product"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <div className='product_name'>

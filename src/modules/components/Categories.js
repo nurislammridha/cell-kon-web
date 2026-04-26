@@ -21,6 +21,8 @@ const Categories = ({ arr = [] }) => {
                                 <img
                                     src={item?.categoryImg?.url}
                                     alt="product"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <div className='product_name'>

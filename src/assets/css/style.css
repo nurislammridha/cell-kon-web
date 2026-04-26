@@ -554,6 +554,35 @@ body {
     /* box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 1); */
 }
 
+.hero_slider {
+    position: relative;
+}
+
+.hero_slider_nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.hero_slider_prev {
+    left: 14px;
+}
+
+.hero_slider_next {
+    right: 14px;
+}
+
 /* //after edit home page */
 
 .hero_parent {

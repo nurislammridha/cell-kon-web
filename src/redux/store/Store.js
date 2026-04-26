@@ -9,7 +9,11 @@ const middlewares = [thunkMiddleware];
 const middlewareEnhancer = applyMiddleware(...middlewares);
 
 const enhancers = [middlewareEnhancer];
-const composedEnhancers = composeWithDevTools(...enhancers);
+const composeEnhancers =
+    process.env.NODE_ENV === "development"
+        ? composeWithDevTools
+        : (...args) => args[0];
+const composedEnhancers = composeEnhancers(...enhancers);
 
 export default function Store(previousState) {
     const store = createStore(

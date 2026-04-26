@@ -208,6 +208,10 @@
         display: block;
     }
 
+    .hero_slider_nav {
+        display: none;
+    }
+
     .hero_main .owl-theme .owl-dots {
         bottom: 5px;
         display: flex;

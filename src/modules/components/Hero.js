@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import demo from '../../assets/images/icons/home11.png' //1176 443
 import slide1 from '../../assets/images/other/slide1.png' //1176 443
 import slide2 from '../../assets/images/other/slide2.png' //1176 443
@@ -17,15 +17,16 @@ import rightArrow from '../../assets/images/icons/right_arrow.png'
 // import TVHomeAppliances from '../../assets/images/icons/cat/HomeAppliancesTV.png'
 // import ElectronicAccessories from '../../assets/images/icons/cat/Electronic Accessories.png'
 // import SportsOutdoors from '../../assets/images/icons/cat/SportsOutdoors.png'
-import OwlCarousel from "react-owl-carousel";
 import { flatToNestedArr } from 'src/services/GlobalFunction'
 import { useNavigate } from 'react-router-dom'
 const Hero = ({ arr, categories = [], subSubCategories = [], loading }) => {
     const navigate = useNavigate()
+    const slides = useMemo(() => [slide1, slide2, slide3, slide4, slide1, slide2, slide3, slide4], [])
     const list = flatToNestedArr(arr, categories) || []
     const [subList, setSubList] = useState([])
     const [subSubList, setSubSubList] = useState([])
     const [hover, setHover] = useState(-1)
+    const [activeSlide, setActiveSlide] = useState(0)
     const subSubMap = useMemo(() => {
         const map = new Map()
         if (Array.isArray(subSubCategories)) {
@@ -48,6 +49,21 @@ const Hero = ({ arr, categories = [], subSubCategories = [], loading }) => {
             return icon.url || ""
         }
         return ""
+    }
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setActiveSlide((prev) => (prev + 1) % slides.length)
+        }, 3500)
+
+        return () => clearInterval(timer)
+    }, [slides.length])
+
+    const goToNextSlide = () => {
+        setActiveSlide((prev) => (prev + 1) % slides.length)
+    }
+
+    const goToPreviousSlide = () => {
+        setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length)
     }
     // console.log('listtttt', list)
     // console.log('subList', subList)
@@ -72,6 +88,8 @@ const Hero = ({ arr, categories = [], subSubCategories = [], loading }) => {
                                     <img
                                         src={getIconUrl(hover === index ? item.categoryHoverIcon : item.categoryIcon) || getIconUrl(item.categoryIcon) || demo}
                                         alt={item?.categoryName || "Category"}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div>{item?.categoryName}</div>
                                 </div>
@@ -126,35 +144,21 @@ const Hero = ({ arr, categories = [], subSubCategories = [], loading }) => {
         </div>
         <div className='hero_main_banner'>
             <div className='hero_main'>
-                <OwlCarousel
-                    className="owl-theme"
-                    loop
-                    margin={10}
-                    items={1}
-                    autoplay={true}
-                    nav
-                    autoplayHoverPause={true}
-                >
-                    {
-                        [slide1, slide2, slide3, slide4, slide1, slide2, slide3, slide4].map((item) => {
-                            return (
-                                <>
-
-                                    <div class="item hero_carousel">
-                                        <img src={item} className="img-fluid" alt="" />
-                                    </div>
-
-                                </>
-
-                            )
-                        })
-                    }
-
-                </OwlCarousel>
+                <div className="hero_slider">
+                    <div className="item hero_carousel">
+                        <img src={slides[activeSlide]} className="img-fluid" alt="Promotional banner" />
+                    </div>
+                    <button type="button" className="hero_slider_nav hero_slider_prev" onClick={goToPreviousSlide} aria-label="Previous slide">
+                        <i className='fas fa-chevron-left'></i>
+                    </button>
+                    <button type="button" className="hero_slider_nav hero_slider_next" onClick={goToNextSlide} aria-label="Next slide">
+                        <i className='fas fa-chevron-right'></i>
+                    </button>
+                </div>
             </div>
             <div className='hero_sub_banner'>
-                <div className='left'><img src={ts} /></div>
-                <div className='right'><img src={ts} /></div>
+                <div className='left'><img src={ts} loading="lazy" decoding="async" /></div>
+                <div className='right'><img src={ts} loading="lazy" decoding="async" /></div>
             </div>
         </div>
     </div>)

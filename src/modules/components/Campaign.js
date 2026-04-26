@@ -46,6 +46,8 @@ const Campaign = ({ arr = [], loading }) => {
                                 <img
                                     src={item?.productIcon?.url}
                                     alt="product"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <div className='product_name'>
