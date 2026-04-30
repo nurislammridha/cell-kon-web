@@ -113,11 +113,11 @@ const UserMenu = ({ buyerDetails, activeTab = 'profile', setActiveTab = null }) 
                         {/* <div className={activeTab === 'wishlist' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => handleMenuSelect('wishlist')}>
                             <img src={wishIcon} alt='user icon' />
                             <p>Wishlist</p>
-                        </div>
+                        </div> */}
                         <div className={activeTab === 'reviews' ? 'cp menu mt32 active' : 'cp menu mt32'} onClick={() => handleMenuSelect('reviews')}>
                             <img src={reviewsIcon} alt='user icon' />
                             <p>Reviews</p>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
                 <div
