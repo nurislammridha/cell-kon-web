@@ -111,7 +111,8 @@ const Header = ({ isLogin, search, setSearch }) => {
                     </div>
                 </div>
             </div>
-            <div className='header_bottom_container'>
+
+            {/* <div className='header_bottom_container'>
                 <div className='w-1176'>
                     <div className='header_bottom'>
                         <div
@@ -141,13 +142,13 @@ const Header = ({ isLogin, search, setSearch }) => {
                             <img className='top_icon' src={campaignIcon} />
                             <label className='ml-8 cp'>Campaigns</label>
                         </div>
-                        {/* <div className='menu_icon'>
-                        <img className='top_icon' src={campaignIcon} />
-                        <label className='ml-8 cp'>Campaigns</label>
-                    </div> */}
+                        <div className='menu_icon'>
+                            <img className='top_icon' src={campaignIcon} />
+                            <label className='ml-8 cp'>Campaigns</label>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
         <MobileHeader search={search} setSearch={setSearch} />
     </>)
